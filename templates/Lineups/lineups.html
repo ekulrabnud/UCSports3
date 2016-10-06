@@ -1,0 +1,26 @@
+<h3  id="printHeading"> </h3>
+<form  id="lineups_form" action="/addLineup" method="post">
+    <table role="table" class="table table-bordered table-condensed  ">
+        <tr>
+            <th>Provider</th>
+            <th>Type</th>
+            <th>Lineup Name</th>
+            <th>Lineup ID</th>  
+        </tr>
+        {% for i in lineups %}
+
+         <tr>
+            <td><strong>{{i['providerName']}}</strong></td>
+            <td><strong>{{i['lineupType']}}</strong></td>
+            <td><strong>{{i['lineupName']}}</strong></td>
+            <td><strong>{{i['lineupID']}}</strong></td>
+            <td><input type="checkbox" name="test" value="false"></td>
+        </tr>
+              
+        {% endfor %}
+    </table>
+     <input type="submit" class="btn btn-primary" value="Submit">
+</form>
+
+          
+ 

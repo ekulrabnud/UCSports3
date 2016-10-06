@@ -1,0 +1,24 @@
+
+
+<table id="channelGuideTable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Channel</th>
+            <th>Name</th>
+            <th>Station ID</th>
+            <th>LineupID</th>           
+        </tr>
+    </thead>
+        {% for i in channels %}
+        <tr id="{{i['id']}}">
+            <td class="uctvNo edit channelGuide" >   {{ i['uctvNo'] }}   </td>
+            <td class="channelName edit channelGuide" >  {{ i['channelName'] }}    </td>
+            <td> {{i['stationID']}} </td>
+            <td> {{i['lineupID']}} </td>
+        </tr>
+        {% endfor %}
+</table>
+
+
+
+

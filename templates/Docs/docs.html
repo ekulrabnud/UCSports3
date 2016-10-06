@@ -1,0 +1,65 @@
+<h1>Documentation</h1>
+<h2>Overview</h2>
+<p>UCTV sports scheduler automates and enhances communication of live sporting events carried on United Center in-house tv. It is a webapp that provides the functionality needed to achieve the above. TV listing data is provided from an API serviced by
+<a href="https://developer.tvmedia.ca/">TV Media</a>. This is a subscription service which is invoiced on monthly basis to United Center.
+ Data is downloaded from the API and is entered into a local database. It can then be requested and formated for email distribution, PDF and infocaster display on UCTV channel guide.</p>
+
+
+
+<h2>Software Design</h2>
+<p>UCTV Sports Scheduler has 4 elements</>
+	<ul>
+		<li>Python webserver Flask Framework [Runs on Luke's local computer in UC at 172.22.....</li>
+		<li>Sqlite database [Runs on same computer as webserver]</li>
+		<li>Infocaster displaying sports schedule data on UCTV channel 1.1</li>
+		<li>TV Media API [offiste data provider]</li>
+	</ul>
+
+<h2>Operation</h2>
+<p>Application has 4 tabs</p>
+	<ul>
+		<li><h4>Channel Guide</h4></li>
+		This a static display of our inhouse channel guide. No functionality. Any edits to this must be performed indirectly on database by a qualified technician.
+		<li><h4>Live Sports Schedule</h4></li>
+		Displays live sports schedule. Defaults to "today start 1:00am stop 11:00pm". User can pick any date and time frame 7 days in the future.<br>
+		<button class="btn btn-primary btn-sm">Submit</button> Click to filter schedule by date and times selected.<br>
+		<button class="btn btn-success btn-sm">Email</button> Click to open a email window formated as basic html that mirrors currently displayed sports schedule. See <a href="#emailProduction">Email Production</a> for more info. A prompt indicates success or failure. <br>
+		<button class="btn btn-success btn-sm">PDF</button>This formats a PDF doc that mirrors currently displayed sports schedule and exports it to 
+		\\ARNFPUDM01\Arena Share\Technical Operations\brady\UC Sports Menu. Any games with the word "Chicago" are highlighted. A prompt indicates success or failure<br>
+
+		<button class="btn btn-primary btn-sm">Infocast</button> This will update/change the text file <b>(located at\\ARNFPUDM01\Arena Share\Technical Operations\Luke\uctv\uctvSportstxt.txt)</b> that feeds the channel guide infocaster. 
+		The text file created will mirror displayed sports schedule.A prompt confirms "success" or "fail". Note "success" only indicates that the text file was created it does not verify that the infocaster is working and has seen the updated data. Visually verify by tuning to channel guide at 1.1. It usually takes a minute or 2 to see new data.<br>
+		
+
+		
+		<button class="btn btn-warning btn-sm ">Edit</button> Click this in order to edit current schedule i.e change channel name/numbers or remove event from schedule.<br>
+		<button class="btn btn-warning btn-sm">Add</button> Click this to add an event that does not exist in database. This is useful if editors at TVMedia screw up which has happened from time to time.<br>
+		<button class="btn btn-warning btn-sm">Save</button> Click this to save any edits.Any events selected for deletion in "x" column will be deleted.<br>
+		<button class="btn btn-danger btn-sm">Reload Data</button> Click this to request 7 days of data from API and completely reload database. If you have made any updates they will be lost. The purpose is to allow a user to pull updated data from the API during sporting tournaments since team names are often not determined when the initial schedule is produced.<br>
+		<li><h4>Channel Lineup</h4></li>
+		Static display of all the channels that we can currently add to our lineup whether they be Comcast or Bell Satellite. Editing functionality not implemented yet
+		<li><h4>Sports Lineup</h4></li>
+		Static display of channels that pull data for live sports. At some point will combine this with Channel Lineup for better functionality.
+		
+		<li><h4>Documentation</h4></li>
+		Really no need to explain this.
+
+	</ul>
+<h2>Sports Schedule Production workflow</h2>
+<h3>Ishare PDF </h3>
+Click "PDF" button in Live Sprts Schedule Tab which will produce pdf of visible schedule. Log into Ishare and follow link to "UCTV Guide". Click on "Document Library". Delete any old schedules if needed. Upload new schedule from '\\ARNFPUDM01\Arena Share\Technical Operations\brady\UC Sports Menu. (note this location is subject to change)
+
+<h3 id="emailProduction">Email Production</h3>
+
+"Reply all" to last sports schedule email. Click email button on app. This will open a window with contents of email. Select ALL. COPY and PASTE into outlook. Copy link address of Ishare pdf schedule and paste to text attibutes of "Ishare PDF". Change date in subject of heading. Change "From" box to "Technology" Highlight home games in yellow if needed. 
+
+
+
+
+
+
+
+
+
+
+    

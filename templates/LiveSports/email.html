@@ -1,0 +1,72 @@
+<html>
+<head>
+	<title>Email</title>
+<style>
+
+table, th,td{
+	border: 1px solid black;
+	 border-collapse: collapse;
+	 font-family: Arial;
+	 font-size: 10pt;
+}
+
+@media only screen an (max-width: 480px;){
+
+table, th,td{
+    border: 1px solid black;
+     border-collapse: collapse;
+     font-family: Arial;
+     font-size: 6pt;
+}
+
+
+})
+
+</style>
+</head>
+
+<body>
+	<h2>UCTV Sports Schedule {{date}}</h2>
+			<body style="font-family:Arial;">
+			<h5>Live coverage of in-house sporting events can also be found on the following channels:<br>
+			Scoreboard HD (3.1) SD (4) and HomeTV SD (5)<br><br>
+
+      <mark>United Center game highlighted in yellow</mark><br>
+			
+            Ishare PDF</h5>
+
+<table >
+    <tr>
+      <th></th>
+      <th>Time</th>
+            <th>Channel</th>
+            <th>HD</th>
+            <th>SD</th> 
+    </tr>
+        {% for sport in sportslist|groupby('sport') %}
+            <th align="left" style="background-color:#7AABEB;">{{sport.grouper}}</th>
+            {% for i in sport.list %}
+            {% if 'Chicago' in i['event']%}
+          <tr>
+                <td> <strong>{{i['event']}}</strong></td>
+                <td><strong>{{i['starttime']}}&nbsp;&nbsp;&nbsp;</strong></td>
+                <td><strong>{{i['channelName']}}</strong> </td>
+                <td><strong>{{i['HDNo']}}</strong></td>
+                <td><strong>{{i['SDNo']}}</strong></td>
+          </tr>
+            {% else %}
+            <tr>
+                <td>{{i['event']}}</td>
+                <td >{{i['startTime'] }}&nbsp;&nbsp;&nbsp;</td>
+                <td>{{i['channelName']}}</td>
+                <td>{{i['HDNo']}}</td>
+                <td>{{i['SDNo']}}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+         {% endfor %}
+</table>
+
+</body>
+
+</html>

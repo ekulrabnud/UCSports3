@@ -1,0 +1,36 @@
+{% extends "master.html" %}
+{% block navbar %}
+  <div class="container bg-primary">
+    <nav class="navbar navbar-dark" >
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">UCTV</a>
+        </div>
+        <ul class="nav navbar-nav" >
+          <li><a data-toggle="pill" class="active " href="#guide">Guide</a></li>
+          <li><a data-toggle="pill" href="#liveSports">LiveSports</a></li>
+          <li><a data-toggle="pill" href="#crestronLiveSports">Crestron LiveSports</a></li>
+          <li><a data-toggle="pill" href="#lineups">Lineups</a></li>
+          <li><a data-toggle="pill" href="#docs">Docs</a></li>
+        </ul>
+      </div>
+    </nav>
+
+  </div>
+{% endblock %}
+
+{% block page_content %}
+
+  <div class="container" id="mainContent">
+   
+    <div class="tab-content">
+ 
+      <div class="tab-pane active" id="guide"></div>
+      <div class="tab-pane" id="liveSports"></div>
+      <div class="tab-pane" id="crestronLiveSports"></div>
+      <div class="tab-pane" id="lineups"></div>
+      <div class="tab-pane" id="docs"></div>
+      
+    </div>
+  </div>
+{% endblock %}

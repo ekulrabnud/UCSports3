@@ -1,0 +1,132 @@
+/* Colors
+
+#2C4590 dark bl
+#7A95E7 background
+#123FC6 blue
+
+ */
+
+/*body{
+	background-color:#D7DFF0;
+}*/
+
+/*#liveSportsControlPanel{
+border-radius: 10px;
+
+}
+*/
+/*.navbar{
+	background-color:#264AB7;
+	color:#FFFFFF;
+	border-radius:5px;
+	height:75px !important;
+}
+
+a {
+	color:#FFFFFF;
+}
+*/
+
+/*body{
+	background-color:blue;
+}*/
+a {
+	color:white;
+	font-size:large;
+}
+
+li:hover{
+	color:red;
+	background-color:#FCC;
+}
+
+#mainContent{
+	padding-top:20px;
+
+}
+
+
+/*.sportsTable{
+	background-color: #FFFFFF;
+	border-radius: 10px;
+	border:1px solid black!important;	
+}*/
+
+.guideTable th{
+	background-color:#A9C5EC;
+	
+}
+
+.thSports{
+	background-color:#87BC5E!important;
+
+}
+
+#liveSportsTable {
+	border:2px solid black!important;
+	border-radius: 10px;
+}
+
+#crestronLiveSportsTable {
+	border:2px solid black!important;
+	border-radius: 10px;
+}
+
+/*a:hover {
+	background-color:#D7DFF0 !important;
+	cursor:pointer;
+}*/
+
+/*.nav a{
+	color:#252626 !important;
+	background-color:#A9C5EC !important;
+}
+*/
+/*#guide{
+	margin-top:10px;
+	border-style:solid;
+	border-color:#264AB7;
+	border-radius: 5px;
+	border-width:medium;
+	background-color: #FFFFFF;
+}*/
+
+#index{
+	border-style:solid;
+	border-color:#264AB7;
+	border-radius: 10px;
+	border-width:medium;
+}
+
+#info{
+	margin-left:20px;
+}
+
+
+#printHeading{
+	display: none;
+
+}
+
+#channelLineup,#sportsLineup{
+	margin-top:10px;
+	border-style:solid;
+	border-color:#264AB7;
+	border-radius: 5px;
+	border-width:medium;
+	background-color: #FFFFFF;
+}
+
+#datePicker,#startTimePicker,#endTimePicker{
+	width:150px;
+}
+
+
+
+
+
+
+
+
+
+

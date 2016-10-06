@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{% block title %}<title>####</title>{% endblock %}
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet"  media="all" href="{{ url_for('static', filename='bower-components/bootstrap/dist/css/bootstrap.css')}}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bower-components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')}}"/>
+   <link rel="stylesheet" href="{{ url_for('static', filename='bower-components/datatables.net-bs/css/dataTables.bootstrap.min.css' )}}"/>
+
+    <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='mystyle.css' )}}"/> 	
+    <link rel="stylesheet" type="text/css" media="print" href="{{ url_for('static', filename='print.css')}}"/> 	
+
+</head>
+<body>
+
+
+
+{% block navbar %}
+
+ {% endblock %}
+
+
+
+{% block page_content %}
+
+{% endblock %}
+<!-- Latest compiled and minified JavaScript -->
+
+<script type="text/javascript" src="{{ url_for('static', filename='bower-components/jquery/dist/jquery.min.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='bower-components/moment/min/moment.min.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='bower-components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='bower-components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='bower-components/moment/min/moment.min.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='validator.js') }}"></script>
+<script type="text/javascript"  src="{{ url_for('static', filename='bower-components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+
+<!-- <script type="text/javascript"  src="{{ url_for('static', filename='bower-components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+ -->
+<!-- <script type="text/javascript"  src="{{ url_for('static', filename='bower-components/datatables-select/js/dataTables.select.js') }}"></script> -->
+
+<!-- <script type="text/javascript"  src="{{ url_for('static', filename='bower-components/jeditable/js/jquery.jeditable.js') }}"></script> -->
+
+
+<script type="text/javascript" src=" {{ url_for('static', filename='js.js') }} "></script>
+
+
+</body>
+
+</html>
+
+
+
+

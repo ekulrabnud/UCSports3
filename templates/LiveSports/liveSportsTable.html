@@ -1,0 +1,52 @@
+
+
+ {% if name %}
+ 
+
+ <h1>{{"error"}}</h1>
+ 
+
+ {% else %}
+<h3  id="pdfHeading" > </h3>
+
+    <table role="table" class="table table-bordered table-condensed liveSportsTable ">
+        <tr>
+            <th></th>
+            <th>Time</th>
+            <th>Channel</th>
+            <th>HD</th>
+            <th>SD</th>
+        </tr>
+        {% for sport in sportslist|groupby('sport') %}
+            <th class="thSports">{{sport.grouper}}</th>
+            {% for i in sport.list %}
+                {% if 'Chicago' in i['event']%}
+                    <tr class="pdf">
+                        <td class='event edit'><strong>{{ i['event'] }}</strong></td>
+                        <td class='startTime edit'><strong>{{ i['startTime'] }} </strong></td>
+                        <td class="channelName edit"><strong>{{ i['channelName'] }}</strong> </td>
+                        <td class="HD edit"><strong>{{ i['HDNo'] }}</td>
+                        <td class="SD edit"><strong>{{ i['SDNO'] }}</strong></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class='event edit'>{{ i['event'] }}</td>
+                        <td class='startTime edit'>{{ i['startTime'] }} </td>
+                        <td class="channelName edit">{{ i['channelName'] }} </td>
+                        <td class="HD edit">{{ i['HDNo'] }}</td>
+                        <td class="SD edit">{{ i['SDNo'] }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </table>
+
+{% endif %}
+
+
+
+
+
+
+
+

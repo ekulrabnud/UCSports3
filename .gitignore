@@ -1,0 +1,14 @@
+bower-components
+
+config.py
+
+*.exe
+venv/
+.project
+*.pyc
+*.pyo
+*~
+
+*.sublime-workspace
+*.sublime-project
+

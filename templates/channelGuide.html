@@ -1,0 +1,24 @@
+
+
+ 
+<table class="table table-bordered table-condensed guideTable ">
+    <tr>
+        <th>Channel</th>
+        <th>Name</th>
+        <th>Station ID</th>
+        <th>LineupID</th>
+        <!-- <th>StationID</th> -->
+    </tr>
+ 
+    {% for i in channels %}
+    <tr>
+        <td>   {{ i['uctvNo'] }}   </td>
+        <td>  {{ i['name'] }}    </td>
+        <td> {{i['stationID']}} </td>
+        <td> {{i['lineupID']}} </td>
+
+        <!--<td>  {{ i['stationID'] }}    </td> -->
+    </tr>
+    {% endfor %}
+</table>
+

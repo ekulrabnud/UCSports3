@@ -1,0 +1,35 @@
+
+
+
+
+    <table role="table" class="table table-bordered table-condensed sportsTable ">
+        <tr>
+            <th >Sport</th>
+            <th>Event</th>
+            <th>Date</th>   
+            <th width="50">Start</th>
+            <th>Duration</th>
+            <th>Stop</th>
+            <th>Channel</th>
+            <th >HD</th>
+         
+        </tr>
+                {% for i in liveSports %}
+       
+                  
+                    <tr class="pdf">
+                        <td>{{ i['sport'] }}</td>
+                        <td>{{ i['event'] }}</td>
+                        <td >{{ i['date'] }}</td>
+                        <td>{{ i['startTime'] }} </td>
+                        <td>{{ i['duration'] }} </td>
+                         <td>{{ i['stopTime'] }} </td>
+                        <td>{{ i['channelName'] }} </td>
+                        <td>{{ i['HDNo'] }}</td>
+                       
+                    </tr>
+                {% endfor %}
+  
+       
+    </table>
+

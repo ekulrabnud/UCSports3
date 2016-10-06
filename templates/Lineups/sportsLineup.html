@@ -1,0 +1,75 @@
+
+
+<table role="table" class="table table-bordered table-condensed  ">
+                 <form class="form-inline hidden-print" style="margin-top:10px;margin-left:20px;margin-right:10px;margin-bottom:10px;" id="sportsForm">
+                  <div class="form-group ">
+                    <label class="control-label">Date</label>
+                    <div class="input-group date " id='datePicker'>
+                      <input type='text' class="form-control" id="date" name="date" />
+                      <span class="input-group-addon"><span></span>
+                       <span class="glyphicon-calendar glyphicon"></span>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label class="control-label">Start</label>
+                    <div class='input-group date'  id='startTimePicker'>
+                      <input type='text' class="form-control "  id="start" name="start" />
+                      <span class="input-group-addon"><span ></span>
+                       <span class="glyphicon-time glyphicon"></span>
+
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label class="control-label">End</label>
+                    <div class='input-group date'id='endTimePicker'>
+                      <input type='text' class="form-control " id="stop" name="stop"/>
+                      <span class="input-group-addon"><span ></span>
+                       <span class="glyphicon-time glyphicon"></span>
+                    </div>
+                  </div>
+                  <div class="form-group hidden-print ">
+                    <button class="btn btn-primary" type="button" id="submit">Submit</button>
+                    <button class="btn btn-success " type="button" id="email">Email</button>
+                    <button class="btn btn-success " type="button" id="pdf">PDF</button>
+                    <button class="btn btn-info" type="button" id="infocast">Infocast</button>
+                    <button class="btn btn-warning btn-sm" type="button" id="edit2">Edit</button>
+                    <button class="btn btn-warning btn-sm" type="button" id="add">Add</button>
+                    <button class="btn btn-warning btn-sm" type="button" id="save">Save</button>
+                    <button class="btn btn-danger btn-sm" type="button"  id="reloadSports">Reload Data</button>
+                    <button class="btn btn-danger btn-sm" type="button"  id="crestron_btn">Crestron</button>
+                  </div>
+                </form>
+
+    <tr>
+       
+        
+       <th>id</th>
+        <th>chName</th>
+        <th>lineupID</th>
+        <th>hdStationID</th>
+         <th>uctvHDNo</th>
+         <th>uctvSDNo</th>
+       
+        <th>origHDChNo</th>
+        
+        <!-- <th>StationID</th> -->
+    </tr>
+    {% for i in sportsLineup %}
+    <tr>
+       
+        <td>{{i['id']}}</td>
+        <td>  {{ i['chName'] }}    </td>
+        <td> {{i['lineupID']}}</td>
+        <td>  {{ i['hdStationID'] }}    </td>
+        <td>  {{ i['uctvHDNo'] }}    </td>
+          <td>  {{ i['uctvSDNo'] }}    </td>
+        <td>  {{ i['origHDChNo'] }}    </td>
+      
+    
+
+        <!--<td>  {{ i['stationID'] }}    </td> -->
+    </tr>
+    {% endfor %}
+</table>
+
+

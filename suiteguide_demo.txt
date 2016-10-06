@@ -1,0 +1,74 @@
+A&E,48
+ABC,7.1
+ABC Family ,44
+AMC ,50
+Antenna,9.2
+BET ,45
+Big Ten Network ,58.1
+Bloomberg,30
+Buzzr,50.4
+CBS,2.1
+CBS Sports Network  ,53.2
+CLTV ,14
+CNBC,28
+CNN ,53.1
+Comcast Sportsnet ,60.1
+Comcast Sportsnet Plus ,54.1
+Comedy Central ,43
+Cozi,5.1
+Create,11.3
+Discovery Channel ,37
+E! ,40
+ESPN ,60.2
+ESPN U ,55.1
+ESPN2 ,61.1
+Food Network ,49
+FOX ,32.1
+Fox News,32
+Fox Sports 1,25 .1
+FX Networks ,41
+Golf Channel USA ,58.3
+History Channel ,36
+HLN,27
+Laff,7.3
+Live Well,7.2
+Livwell,7.2
+MLB Network ,59.1
+Movies,50.2
+MSNBC,29
+NBA TV USA HD,18.1
+NBC ,5.1
+NBC Sports Network ,57.1
+NFL Network ,57.2
+NHL Network USA HD,19.1
+Scoreboard ,3.1
+SPIKE USA ,46
+Suites Info,97.1
+Syfy ,47
+TBS,58.2
+The Weather Channel,31
+THIS ,9.3
+TLC,38
+TNT ,61.2
+Travel Channel ,49.1
+TV Land,42
+UMN,98.1
+USA Network ,59.2
+VH1,39
+WCIU ,26.1
+Bounce,26.5
+H&H,26.4
+MeTV ,26.3
+UTOO,26.2
+WGN ,9.1
+WPWR,50.1
+WTTW,11.1
+WYCC,11.2
+,
+,
+,
+,
+,
+,
+,
+,

@@ -1,0 +1,5 @@
+Remote Desktop - arndbutl02
+Start - MS SQL Server 2008 R2
+user = sandbox
+pass = pdb4sbox$
+

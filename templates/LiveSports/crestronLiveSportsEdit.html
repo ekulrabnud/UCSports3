@@ -1,0 +1,40 @@
+
+<form  role="form" data-toggle="validator" id="crestron_live_sports_form">
+
+    <table role="table" class="table table-bordered table-condensed sportsTable ">
+        <tr>
+            <th>Sport</th>
+            <th>Event</th>
+            <th>Date</th>
+            <th>Start</th>
+            <th>Duration</th>
+            <th>Stop</th>
+            <th>Channel</th>
+            <th>HD</th>
+         
+                {% for i in liveSports %}
+       
+                  
+                    <tr class="pdf">
+                        <td ><input  size="10" type="text" name="{{i['id']}}" value="{{ i['sport'] }}" required></td>
+                        <td ><input  size="40" type="text" name="{{i['id']}}" value="{{ i['event'] }}" required></td>
+                        <td ><input size="10" type="text" name="{{i['id']}}" value="{{ i['date'] }}" required></td>
+                        <td><input  size="10" type="text" name="{{i['id']}}" value="{{ i['startTime'] }}" required> </td>
+                        <td><input  size="5" type="text" name="{{i['id']}}" value="{{ i['duration'] }}" required></td>
+                        <td><input  size="10" type="text" name="{{i['id']}}" value="{{ i['stopTime'] }}"></strong></td>
+                        <td><input  type="text" name="{{i['id']}}" value="{{ i['channelName'] }}"></strong></td>
+                        <td><input  size="5" type="text" name="{{i['id']}}" value="{{ i['HDNo'] }}"></strong></td>
+
+                      
+                       <td class="pdf_no_show"><input type="checkbox" name="delete" value="{{i['id']}}"></td> 
+                    </tr>
+                {% endfor %}
+  
+       
+    </table>
+          
+
+</form>
+
+
+

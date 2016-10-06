@@ -1,0 +1,102 @@
+
+
+
+
+           <!-- Live Sports Schedule Pane -->
+      
+
+              <div class="container">
+                <form class="form-inline hidden-print controls" style="margin-top:10px;margin-left:20px;margin-right:10px;margin-bottom:10px;" id="liveSportsCalForm">
+                  <div class="form-group ">
+                    <label class="control-label">Date</label>
+                    <div class="input-group date " id='datePicker'>
+                      <input type='text' class="form-control" id="date" name="date" />
+                      <span class="input-group-addon"><span></span>
+                       <span class="glyphicon-calendar glyphicon"></span>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label class="control-label">Start</label>
+                    <div class='input-group date'  id='startTimePicker'>
+                      <input type='text' class="form-control "  id="start" name="start" />
+                      <span class="input-group-addon"><span ></span>
+                       <span class="glyphicon-time glyphicon"></span>
+
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label class="control-label">End</label>
+                    <div class='input-group date'id='endTimePicker'>
+                      <input type='text' class="form-control " id="stop" name="stop"/>
+                      <span class="input-group-addon"><span ></span>
+                       <span class="glyphicon-time glyphicon"></span>
+                    </div>
+                  </div>
+              
+                    <button class="btn btn-primary" type="button" id="submit">Submit</button>
+                    <button class="btn btn-success " type="button" id="email">Email</button>
+                    <button class="btn btn-success " type="button" id="pdf">PDF</button>
+                    <button class="btn btn-info" type="button" id="infocast">Infocast</button>
+                    <button class="btn btn-warning btn-sm" type="button" id="edit">Edit</button>
+                    <button class="btn btn-warning btn-sm" type="button" id="add">Add</button>
+                    <button class="btn btn-warning btn-sm" type="button" id="save">Save</button>
+                    <button class="btn btn-danger btn-sm" type="button"  id="reloadSports">Reload Data</button>
+               
+                
+                </form>
+                </div>
+
+<div id="liveSportsTable">{% include 'LiveSports/liveSportsTable.html' %}</div>
+
+
+  <!-- Modal Winddow for Adding new event to database -->
+    <div class="modal fade" id="edit_schedule_popup">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Add Live Sporting Event</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form"  role="form" data-toggle="validator" id="add_event">
+              <div class="form-group">
+                <label for="sport">Sport</label>
+                <input type="text" class="form-control" name ="sport" id="sport" placeholder="Sport" required>
+                <div class="help-block with-errors" ></div>
+              </div>
+              <div class="form-group">
+                <label  for="event">Event</label>
+                <input type="text" class="form-control" name ="event" id="event" placeholder="Event" required>
+                <div class="help-block with-errors" ></div>
+              </div>
+              <div class="form-group">
+                <label  for="event">Channel</label>
+                <input type="text" class="form-control" name ="channel" id="channel" placeholder="channel" required>
+                <div class="help-block with-errors" ></div>
+              </div>
+              <div class="form-group">
+                <label  for="startTime">Start Time</label>
+                <input type="text" pattern="^([0][1-9]|[1][0-2]):[0-5][0-9]\s(AM|PM)"class="form-control" name ="time" id="startTime" data-error="Time format must match this 00:00 AM/PM" placeholder="00:00 AM/PM" required >
+                <div class="help-block with-errors" ></div>
+              </div>
+              <div class="form-group">
+                <label  for="hd">HD</label>
+                <input type="text" class="form-control" pattern="^\d+\.\d+" name ="hd" id="hd" placeholder="HD" data-error="PCIP format e.g 56.1">
+                <div class="help-block with-errors" ></div>
+              </div>
+              <div class="form-group">
+                <label  for="sd">SD</label>
+                <input type="number" class="form-control" name ="sd" id="sd" placeholder="SD" >
+              </div>
+            </form>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="add_event_btn">Add</button>
+          </div>
+          </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+
+          <!-- End Modal Winddow for Adding new event to database -->

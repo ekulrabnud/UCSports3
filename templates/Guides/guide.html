@@ -1,0 +1,137 @@
+{% extends "master.html" %}
+
+
+{% block navbar %}
+<nav class="navbar navbar-fixed-top">
+        
+      
+         <!--<div  id="logo">
+            <a href="/">
+                <img style="max-width:150px;" src="{{ url_for('static', filename="images/tv.png") }}"> 
+            </a>UCTVS
+        </div>-->
+
+       
+        
+
+        <div class="container">
+
+       <!-- <div class="navbar-header navbar-left">
+          <a href="/">
+                        <img style="max-width:300px;" src="{{ url_for('static', filename="images/tv.png") }}"> 
+                    </a><br>
+                 
+        </div>-->
+
+
+
+        <form  action="{{ url_for('guide') }}" method=post class="navbar-right form-horizontal col-md-4 " id="dateForm">
+            <p><strong>Sports Listings for UCTV:</strong></p>
+               <div class="form-group">
+                    <label class="control-label col-sm-2 ">Date</label>
+                    <div class="input-group date col-sm-10" id='datePicker'>
+                        <input type='text' class="form-control input-sm" id="date" name="date" />
+                        <span class="input-group-addon"><span></span>
+                    </div> 
+                 </div>
+          
+          
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Start </label>
+                    <div class='input-group date col-sm- ' id='startTimePicker'>
+                        <input type='text' class="form-control input-sm" id="start" name="start" />
+                        <span class="input-group-addon"><span ></span>
+                    </div>
+                </div>
+                 
+  
+                <div class="form-group">    
+                    <label class="control-label col-sm-2">End</label>
+                    <div class='input-group date col-sm- ' id='endTimePicker'>
+                        <input type='text' class="form-control input-sm" id="stop" name="stop"/>
+                        <span class="input-group-addon"><span ></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12 col-sm-offset-2">
+                    <button type="submit" class="btn btn-default btn-danger">Submit</button>
+                    </div>
+                </div>
+           
+        </form>
+
+
+        
+    
+ </div>
+
+</nav>
+
+
+
+
+{% endblock %}
+
+
+
+
+{% block page_content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3" id="channels">
+            <table class="table table-bordered table-condensed ">
+                <tr>
+                    <th>Channel</th>
+                    <th>Name</th>
+                    <!-- <th>StationID</th> -->
+                </tr>
+            {% for i in channels %}
+                <tr>
+                    <td>   {{ i['uctvNo'] }}   </td>
+                    <td>  {{ i['name'] }}    </td>
+                    <!--<td>  {{ i['stationID'] }}    </td> -->
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+
+        <div class="col-md-9" id="sports">
+        <table role="table" class="table table-bordered ">
+        <tr>
+            <th></th>
+            <th>Time</th>
+            <th>Channel</th>
+            <th>HD</th>
+            <th>SD</th> 
+        </tr>
+        {% for sport in sportslist|groupby('sport') %}
+            <th style="background-color: #B9E8A6" >{{sport.grouper}}</th>
+            {% for i in sport.list %}
+            {% if 'Chicago' in i['event']%}
+            <tr>
+                <td> <strong> {{i['event']}} </strong></td>
+                <td><strong>  {{i['time']}}  </strong></td>
+                <td><strong>  {{i['name']}}  </strong> </td>
+                <td><strong>  {{i['HD']}}  </strong></td>
+                <td><strong>  {{i['SD']}}  </strong></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td> {{i['event']}}</td>
+                <td> {{i['time']}}</td>
+                <td> {{i['name']}}  </td>
+                <td> {{i['HD']}} </td>
+                <td> {{i['SD']}} </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+         {% endfor %}
+    </table>
+                    
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

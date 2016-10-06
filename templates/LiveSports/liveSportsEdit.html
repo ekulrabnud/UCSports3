@@ -1,0 +1,43 @@
+
+<h3  id="printHeading"> hello</h3>
+<form  role="form" data-toggle="validator" id="liveSportsForm">
+<table role="table" class="table table-bordered table-condensed sportsTable ">
+    <tr>
+    
+      <th class="striped"></th>
+      <th>startTime</th>
+            <th>Channel</th>
+            <th>HD</th>
+            <th>SD</th> 
+            <td class="pdf_no_show">X</td>
+    </tr>
+        {% for sport in sportslist|groupby('sport') %}
+            <th class="thSports">{{sport.grouper}}</th>
+            {% for i in sport.list %}
+            {% if 'Chicago' in i['event']%}
+          <tr class="pdf">
+                
+                <td ><strong><input size="40" type="text" name="{{ i['id'] }}" value="{{ i['event'] }}" required></strong></td>
+                <td><strong><input size="8" type="text" name="{{ i['id'] }}" value="{{ i['startTime'] }}" required> </strong></td>
+                <td><strong><input size="20" type="text" name="{{ i['id'] }}" value="{{ i['channelName'] }}" required></strong> </td>
+                <td><strong><input  size="10" size="10" type="number" name="{{ i['id'] }}" value="{{ i['HDNo'] }}"></td>
+                <td><strong><input  size="10" type="number" name="{{ i['id'] }}" value="{{ i['SDNo'] }}"></strong></td>
+                <td class="pdf_no_show"><input type="checkbox" name="delete" value="{{ i['id'] }}"></td>
+          </tr>
+            {% else %}
+            <tr>
+
+              <td ><input size="40" type="text" name="{{ i['id'] }}" value="{{ i['event'] }}" required></td>
+                <td><input size="8" type="text" name="{{ i['id'] }}" value="{{ i['startTime'] }}" required> </td>
+                <td><input size="20" type="text" name="{{ i['id'] }}" value="{{ i['channelName'] }}" required> </td>
+                <td><input size="10" type="number" name="{{ i['id'] }}" value="{{ i['HDNo'] }}"></td>
+                <td><input size="10" type="number" name="{{ i['id'] }}" value="{{ i['SDNo'] }}"></td>
+                <td class="pdf_no_show"><input type="checkbox" name="delete" value="{{ i['id'] }}"></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+         {% endfor %}
+</table>
+</form>
+          
+ 

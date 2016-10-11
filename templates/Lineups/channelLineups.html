@@ -1,36 +1,61 @@
 
-<table role="table" class="table table-bordered table-condensed channelLineupTable ">
-    <tr>
-       
-        
-       <th>Used</th>
-        <th>Original No</th>
-        <th>Callsign</th>
-        <th>Name</th>
-         <th>StationID</th>
-         <th>LineupID</th>
-       
-        <th>LogoFileName</th>
-         <th>uctvNo</th>
-        <!-- <th>StationID</th> -->
-    </tr>
-    {% for i in channelLineup %}
-    <tr>
-       
-        <td><input type="checkbox" name="{{i['id']}}"></td>
-        <td>  {{ i['channelNumber'] }}    </td>
-        <td> {{i['callsign']}}</td>
-        <td>  {{ i['name'] }}    </td>
-        <td>  {{ i['stationID'] }}    </td>
-          <td>  {{ i['lineupID'] }}    </td>
-        <td>  {{ i['logoFileName'] }}    </td>
-        <td> <input type="text" name="{{ i['uctvNo'] }}" value="{{i['uctvNo']}}"></td>
-        
-    
 
-        <!--<td>  {{ i['stationID'] }}    </td> -->
-    </tr>
-    {% endfor %}
-</table>
+<!-- Crestron Live Sports Schedule Pane -->
+<div class="container">
+<div role="tabpanel" class="tab-pane controls" id="sports">
+  <form class="form-inline hidden-print" style="margin-top:10px;margin-left:20px;margin-right:10px;margin-bottom:10px;padding-bottom:20px;" id="sportsForm">
+
+    <div class="form-group hidden-print pull-right">
+      <button class="btn btn-warning btn-sm " type="button" id="addLineup" >Add Lineup</button>
+      <button class="btn btn-warning btn-sm" type="button" id="removeLineup" >Remove Lineup</button>
+       <button class="btn btn-danger btn-sm" type="button" id="editLineups">Edit</button>
+      <button class="btn btn-info btn-sm" type="button" id="saveLineups">Save</button>
+    </div>
+  </form>
+  </div>
+
+
+
+</div>
+<div id="crestronLiveSportsTable">{% include 'Lineups/channelLineupsTable.html' %}</div>
+
+
+  <!-- Modal Winddow for Adding new event to database -->
+    <div class="modal fade" id="addLineupModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Find Lineups</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form"  role="form" data-toggle="validator" id="find">
+              <div class="form-group">
+                <label for="sport">Zipcode</label>
+                <input type="text" class="form-control" name="zipcode" id="sport" placeholder="zipcode" required>
+                <div class="help-block with-errors" ></div>
+              </div>
+                <button type="submit" class="btn btn-primary" id="submitZipcode">Submit</button>
+            </form>
+            
+          </div>
+          <div class="modal-footer">
+      
+          
+          </div>
+          </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+  
+
+
+
+
+
+
+
+
+
+
 
 

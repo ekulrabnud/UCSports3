@@ -73,7 +73,6 @@ def liveSports():
 
 		sportslist = utils.getLiveSports(DATETODAY,START,STOP,g.db)
 	
-		
 		return render_template('LiveSports/liveSports.html',sportslist=sportslist,request=request)
 
 	#submit new date time range for query
@@ -133,7 +132,7 @@ def save():
 def crestronLiveSports():
 	
 	liveSports = utils.getCrestronLiveSports(g.db)
-	event = utils.check_for_event(DATETODAY,g.db);
+	event = utils.check_for_event(th.date_today(),g.db);
 	print DATETODAY,event
 
 	return render_template('LiveSports/crestronLiveSports.html',liveSports=liveSports,event=event)
@@ -202,7 +201,6 @@ def crestronLiveSportsUpdate():
 		return jsonify(error=1,message="Error!! %s" % e.args[0]) 
 
 	return render_template('LiveSports/crestronLiveSportsTable.html',liveSports=liveSports,event="test")
-
 
 
 # Channel Lineup**********************************************************************************************
@@ -344,17 +342,14 @@ def pdf():
 
 	return "Successfully created %s" % out_pdf
 
-@app.route('/addLineup',methods=['POST'])
+@app.route('/findLineup',methods=['POST'])
 def addLineup():
-
-
 
 		zipcode = request.form['zipcode']
 		
 		lineups = api.lineups(zipcode)
 		
-
-		return render_template('lineups.html',lineups=lineups)
+		return render_template('Lineups/availableLineups.html',lineups=lineups)
 
 
 

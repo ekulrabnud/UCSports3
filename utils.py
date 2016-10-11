@@ -13,7 +13,6 @@ DATETODAY = th.date_today()
 
 def update_crestron_live_sports_db(c):
 	
-
 	event = check_for_event(DATETODAY,cursor)
 
 	liveSports = getLiveSports(DATETODAY,START,STOP,cursor)
@@ -39,8 +38,6 @@ def update_crestron_live_sports_db(c):
 	conn.commit()
 
 def make_crestron_live_sports_file(c):
-
-	
 
 	query = c.execute('''SELECT * FROM crestronLiveSports''')
 	
@@ -74,8 +71,6 @@ def make_crestron_live_sports_file(c):
 # 						print event
 # 						break
 # >>>>>>> 9fd1f1cd6b44a2987e45bc1b6bc3edfdc760c4de
-
-
 			event  = r'<FONT size=""30"" face=""Crestron Sans Pro"" color=""#ffffff"">'+event+'</FONT>'
 			line = [i['sport'],event,i['date'],i['startTime'],i['duration'],i['stopTime'],i['channelName'],i['HDNo'],'\n']
 			newline = ','.join(str(i) for i in line)

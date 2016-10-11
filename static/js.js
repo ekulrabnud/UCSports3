@@ -98,6 +98,8 @@ $(document).ready(function() {
     $.get("/liveSports", function(data) {
 
         $("#liveSports").html(data);
+
+        $("#save").prop('disabled',true);
     
         cellEdit();
 
@@ -193,8 +195,9 @@ $(document).ready(function() {
         $('#edit').click(function() {
         
             $.get('/editLiveSports',function(data){
-            
+                
                 $('#liveSportsTable').empty().html(data);
+                $("#save").prop('disabled',false);
             })
         });  
 
@@ -225,11 +228,10 @@ $(document).ready(function() {
            
                 errorCheck(data);
                 $("#liveSportsTable").empty().append(data);
+                 $("#save").prop('disabled',true);
                 $("#printHeading").html("UCTV Sports Schedule for " + $('#datePicker').find("input").val())
             });
         }); 
-
-
 
         $("#reloadSports").click(function(){
            
@@ -287,13 +289,22 @@ $(document).ready(function() {
 
         });
 
-
-
     });
 /**************************************************************************************/
 
     $.get("/lineups", function(data) {
         $("#lineups").html(data);
+
+        $('#addLineup').click(function() {
+          
+            $("#addLineupModal").modal('show');
+
+            $("#submitZipcode").click(function(){
+                console.log('submit')
+            })
+
+
+        });
     });
  /**************************************************************************************/
    

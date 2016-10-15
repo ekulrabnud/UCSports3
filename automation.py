@@ -33,11 +33,11 @@ def do_it_early(start_time):
 		
 		sds.get_sport_listings(start,stop)
 		print "Got Api Listings"
-		misft.make_text_file(TODAY,start_time,DAY_STOP)
+		misft.make_text_file(th.date_today(),start_time,DAY_STOP)
 		print "Updated Infocaster File"
-		utils.update_crestron_live_sports_db(cursor)
+		utils.update_crestron_live_sports_db(conn)
 		print "Updated Crestron db"
-		utils.make_crestron_live_sports_file(cursor)
+		utils.make_crestron_live_sports_file(conn)
 		print "Updated Crestron TXT file"
 
 	except Exception as e:
@@ -45,7 +45,7 @@ def do_it_early(start_time):
 
 def do_it_late(start_time):
 	try:
-		misft.make_text_file(TODAY,start_time,DAY_STOP)
+		misft.make_text_file(th.date_today(),start_time,DAY_STOP)
 	except:
 		print "do_it_late failed"
 

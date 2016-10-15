@@ -41,6 +41,7 @@ def page_not_found(error):
 # Index  ******************************************************************************************************
 @app.route('/')
 def index():
+	
 	return render_template('index.html')
 
 
@@ -82,19 +83,18 @@ def liveSports():
 		start = th.convert_time_string(request.form['start'])
 		stop = th.convert_time_string(request.form['stop']) 
 		sportslist = utils.getLiveSports(date,start,stop,g.db)
+
+
 		
 		return render_template('LiveSports/liveSportsTable.html',sportslist=sportslist,request=request)
 
 @app.route('/editLiveSports',methods=['GET','POST'])
 def edit():
 	
-	if request.method == 'GET':
 
-		sportslist = utils.getLiveSportsWithId(DATETODAY,START,STOP,g.db)
+
+	sportslist = utils.getLiveSportsWithId(DATETODAY,START,STOP,g.db)
 	
-		render_template('LiveSports/liveSportsEdit.html',sportslist=sportslist)
-
-
 	return render_template('LiveSports/liveSportsEdit.html',sportslist=sportslist)
 
 @app.route('/saveLiveSportsEdit',methods=['POST'])
@@ -119,7 +119,9 @@ def save():
 		
 			sportslist = utils.getLiveSports(DATETODAY,START,STOP,g.db	)
 
-			return render_template('LiveSports/liveSportsTable.html',sportslist=sportslist)
+		
+			response = render_template('LiveSports/liveSportsTable.html',sportslist=sportslist)
+			return jsonify(html=response,error=0,message="Live Sports Updated");
 
 		except sqlite3.Error,e:
 
@@ -142,6 +144,7 @@ def editCrestronLiveSports():
 
 	if request.method == 'GET':
 
+	
 		liveSports = utils.getCrestronLiveSports(g.db)
 
 		return render_template('LiveSports/crestronLiveSportsEdit.html',liveSports=liveSports,event='test')
@@ -176,11 +179,11 @@ def editCrestronLiveSports():
 
 	liveSports = utils.getCrestronLiveSports(g.db)
 
-	return render_template('LiveSports/crestronLiveSportsTable.html',liveSports=liveSports,event='test')
+	return render_template('LiveSports/crestronLiveSportsTable.html',liveSports=liveSports)
 		
 @app.route('/crestronLiveSportsReload')
 def reload():
-
+	print g.db
 	utils.update_crestron_live_sports_db(g.db)
 
 	liveSports = utils.getCrestronLiveSports(g.db)
@@ -351,7 +354,10 @@ def addLineup():
 		
 		return render_template('Lineups/availableLineups.html',lineups=lineups)
 
+@app.route('/sandbox')
+def sandbox():
 
+	return render_template('sandbox/sandbox.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5005)

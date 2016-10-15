@@ -38,6 +38,8 @@ remove2 = [2.0,
 97.0,
 99.0]
 
+addBack =  ['NHL Centre Ice HD 1']
+
 
 query = c.execute('''SELECT id,channelNumber,callsign,channelName,uctvNo,stationID,lineupID 
 							   FROM uctvLineups 
@@ -48,13 +50,14 @@ query = c.execute('''SELECT id,channelNumber,callsign,channelName,uctvNo,station
 result = [dict(row) for row in query.fetchall()]
 
 
-with open(config.CRESTRON_GUIDE_FILE,'w') as file:
+with open('testGuideMaker.txt','w') as file:
 
 	for i in result:
 		#strip whitespace
 		channelName = i['channelName'].strip()
+	
 		#ignore channels in remove 1/2
-		if any(channel in channelName for channel in remove1) or i['uctvNo'] in remove2:
+		if channelName not in addBack and  any(channel in channelName for channel in remove1)  or i['uctvNo'] in remove2:
 			continue
 		
 		#handle ampersands for html which todate is only an issue with A&E 

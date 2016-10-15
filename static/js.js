@@ -225,15 +225,16 @@ $(document).ready(function() {
         $('#save').click(function() {
           
             $.post('/saveLiveSportsEdit',$('#liveSportsForm').serialize(),function(data){
-           
                 errorCheck(data);
-                $("#liveSportsTable").empty().append(data);
-                 $("#save").prop('disabled',true);
+
+                $("#liveSportsTable").empty().append(data['html']);
+               
+                $("#save").prop('disabled',true);
                 $("#printHeading").html("UCTV Sports Schedule for " + $('#datePicker').find("input").val())
             });
         }); 
 
-        $("#reloadSports").click(function(){
+        $("#reload").click(function(){
            
             bootstrap_alert_success("Updating.........please wait!");
      
@@ -266,7 +267,7 @@ $(document).ready(function() {
         $("#save_crestron_live_sports").click(function(){
          
             $.post('/editCrestronLiveSports',$('#crestron_live_sports_form').serialize(),function(data){
-
+                console.log(data['error']);
                 errorCheck(data);
                 $("#crestronLiveSportsTable").empty().html(data);
                 $("#save_crestron_live_sports").prop('disabled',true);
@@ -276,6 +277,11 @@ $(document).ready(function() {
         $("#reload_crestron_live_sports").click(function(){
             console.log('reload_click');
 
+            $.get('/crestronLiveSportsReload',function(data){
+
+                console.log(data);
+            });
+
 
         });
 
@@ -283,7 +289,7 @@ $(document).ready(function() {
             console.log('update');
            
             $.get('/crestronLiveSportsUpdate',function(data){
-
+                    console.log(data);
                     errorCheck(data);  
             });
 

@@ -25,8 +25,8 @@ def get_sport_listings(start,stop):
 		#Get all the sports station ids. Note NHL and NBA packages dropped at end of regular season so these channels are ommitted by
 		#ignoring ids < 45 for NHL and < 33 for NHL and NBA
 
-		comcast = c.execute('''SELECT hdstationID from uctvLineupsSport where lineupId = "41614D" and id not between 33 and 43;''')
-		# comcast = c.execute('''SELECT hdstationID from uctvLineupsSport where lineupId = "41614D" ;''')
+		# comcast = c.execute('''SELECT hdstationID from uctvLineupsSport where lineupId = "41614D" and id not between 33 and 43;''')
+		comcast = c.execute('''SELECT hdstationID from uctvLineupsSport where lineupId = "41614D" ;''')
 		
 		#comcast = c.execute('''SELECT hdstationID from uctvLineupsSport where lineupId = "41614D";''')
 		comcast = ','.join([ (str(i[0])) for i in comcast.fetchall()])

@@ -11,14 +11,14 @@ STOP = config.DEFAULT_STOP
 DATETODAY = th.date_today()
 
 
-def update_crestron_live_sports_db(c):
+def update_crestron_live_sports_db(db):
 	
-	event = check_for_event(DATETODAY,cursor)
+	event = check_for_event(DATETODAY,db)
 
-	liveSports = getLiveSports(DATETODAY,START,STOP,cursor)
+	liveSports = getLiveSports(DATETODAY,START,STOP,db)
 	sortedLiveSports = sort_live_sports(liveSports,DATETODAY,event[0])
 
-	cursor.execute('''DELETE FROM crestronLiveSports''')
+	db.execute('''DELETE FROM crestronLiveSports''')
 	for i in sortedLiveSports:
 
 		channelName = i['channelName']
@@ -33,13 +33,13 @@ def update_crestron_live_sports_db(c):
 		
 		# print channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event
 
-		cursor.execute('''INSERT INTO crestronLiveSports (channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event)
+		db.execute('''INSERT INTO crestronLiveSports (channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event)
 					values (?,?,?,?,?,?,?,?,?)''',(channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event))
-	conn.commit()
+	db.commit()
 
-def make_crestron_live_sports_file(c):
+def make_crestron_live_sports_file(db):
 
-	query = c.execute('''SELECT * FROM crestronLiveSports''')
+	query = db.execute('''SELECT * FROM crestronLiveSports''')
 	
 	liveSports = [dict(row) for row in query.fetchall()]
 	
@@ -50,27 +50,7 @@ def make_crestron_live_sports_file(c):
 			del i['SDNo']
 			
 			event = i['event'].encode('utf8')
-# <<<<<<< HEAD
-# 			# print len(event)
-# 			# if len(event) > 30:
-# 			# 	print "too long"
-# 			# 	print event[:30]
-# 			# 	for x in enumerate(reversed(event)):
-# 			# 		if x[1] == ' ':
-# 			# 			event = event[:-x[0]]
-# 			# 			print event
-# 			# 			break
-# =======
-# 			print len(event)
-# 			if len(event) > 30:
-# 				print "too long"
-# 				print event[:30]
-# 				for x in enumerate(reversed(event)):
-# 					if x[1] == ' ':
-# 						event = event[:-x[0]]
-# 						print event
-# 						break
-# >>>>>>> 9fd1f1cd6b44a2987e45bc1b6bc3edfdc760c4de
+
 			event  = r'<FONT size=""30"" face=""Crestron Sans Pro"" color=""#ffffff"">'+event+'</FONT>'
 			line = [i['sport'],event,i['date'],i['startTime'],i['duration'],i['stopTime'],i['channelName'],i['HDNo'],'\n']
 			newline = ','.join(str(i) for i in line)

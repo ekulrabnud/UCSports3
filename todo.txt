@@ -1,7 +1,11 @@
-disable save on live sports page
+
 fix 'underfined' popup on save livesports edit
 fix 'add live event add'
 fix 'underfined' popup on save crestron  edit
+
+fix crestron sports so that only events within certain timeframe are pulled into to the lineups
+fix do not include NHL/NBA packages in crestron sports lineups 
+fix do not include sd channels in crestron events
 
 
 

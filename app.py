@@ -150,26 +150,28 @@ def editCrestronLiveSports():
 		return render_template('LiveSports/crestronLiveSportsEdit.html',liveSports=liveSports,event='test')
 
 	try:
-		
-	 	for id, row in request.form.iterlists():
 
-	 		if len(row) > 3:
-		 		row.append(id)
-		 		print id
+		#hack to get delete thing working
+		for id,row in request.form.iterlists():
+			if id == 'delete':
+				continue
 		
-		 		g.db.execute('''UPDATE crestronLiveSports 
-		 				SET sport=?,
-		 					event=?,
-		 					date=?,
-		 					startTime=?,
-		 					duration=?,
-		 					stopTime=?,
-		 					channelName=?,
-		 					HDNo=?
-		 					WHERE id = ?''',row)
+	 		row.append(id)
+	 	
+	 		g.db.execute('''UPDATE crestronLiveSports 
+	 				SET sport=?,
+	 					event=?,
+	 					date=?,
+	 					startTime=?,
+	 					duration=?,
+	 					stopTime=?,
+	 					channelName=?,
+	 					HDNo=?
+	 					WHERE id = ?''',row)
 
 
 	 	deletions = [(int(i),) for i in request.form.getlist('delete')]
+	 	print request.form.getlist('delete')
 		g.db.executemany('''DELETE from crestronliveSports where id = ?''',deletions)
 		g.db.commit()
 
@@ -211,10 +213,20 @@ def crestronLiveSportsUpdate():
 def channelLineup():
 
 	if request.method == 'GET':
-		query= g.db.execute('''select * from uctvLineups''')
-		channelLineup = [dict(id=row[0], lineupID=row[1], channelNumber=row[2], callsign=row[3], name=row[4],stationID=row[5],logoFileName=row[6],uctvNo=row[7]) for row in query.fetchall() ]
-		return render_template('Lineups/channelLineups.html',channelLineup=channelLineup)
+		query= g.db.execute('''select * from uctvLineups ''')
+		channelLineups = [dict(row) for row in query.fetchall()]
+		return render_template('Lineups/channelLineups.html',channelLineups=channelLineups)
 
+	for id, row in request.form.iterlists():
+		print id,row
+	# print request
+
+	query= g.db.execute('''select * from uctvLineups ''')
+	channelLineups = [dict(row) for row in query.fetchall()]
+	return render_template('Lineups/channelLineups.html',channelLineups=channelLineups)
+
+
+	
 # Sports Lineup **********************************************************************************************
 @app.route('/sportsLineup',methods=['GET','POST'])
 def sportsLineup():

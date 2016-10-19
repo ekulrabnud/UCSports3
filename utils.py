@@ -19,8 +19,8 @@ def update_crestron_live_sports_db(db):
 	sortedLiveSports = sort_live_sports(liveSports,DATETODAY,event[0])
 
 	db.execute('''DELETE FROM crestronLiveSports''')
-	for i in sortedLiveSports:
 
+	for i in sortedLiveSports:
 		channelName = i['channelName']
 		HDNo = i['HDNo']
 		SDNo = i['SDNo']
@@ -59,7 +59,7 @@ def make_crestron_live_sports_file(db):
 
 def getChannels(db):
 
-	query = db.execute('''SELECT id,channelNumber,callsign,channelName,uctvNo,stationID,lineupID 
+	query = db.execute('''SELECT id,channelNumber,callsign,channelName,uctvNo,stationID,lineupID
 						   FROM uctvLineups 
 						   WHERE uctvNo != ?
 						   ORDER BY uctvNo''',('None',))
@@ -155,7 +155,6 @@ def sort_live_sports(sportslist,date,event=None):
 			# print uc_sport
 
 			uc_other_sport = [i for i in sportslist if i['sport'] != sport and team not in i['event']]
-
 			# print uc_other_sport
 
 			uc_team = sorted(uc_team,key=lambda x:x['startTime'])

@@ -267,7 +267,7 @@ $(document).ready(function() {
         $("#save_crestron_live_sports").click(function(){
          
             $.post('/editCrestronLiveSports',$('#crestron_live_sports_form').serialize(),function(data){
-                console.log(data['error']);
+               
                 errorCheck(data);
                 $("#crestronLiveSportsTable").empty().html(data);
                 $("#save_crestron_live_sports").prop('disabled',true);
@@ -279,7 +279,7 @@ $(document).ready(function() {
 
             $.get('/crestronLiveSportsReload',function(data){
 
-                console.log(data);
+                 $("#crestronLiveSportsTable").empty().html(data);
             });
 
 
@@ -308,9 +308,14 @@ $(document).ready(function() {
             $("#submitZipcode").click(function(){
                 console.log('submit')
             })
-
-
         });
+
+        $('#save_lineups').click(function(){
+            console.log('save clicked');
+            $.post('/lineups',$("#channelLineupsTable").serialize(),function(data){
+                console.log(data);
+            })
+        })
     });
  /**************************************************************************************/
    

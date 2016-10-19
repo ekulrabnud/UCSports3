@@ -1,8 +1,11 @@
-<table role="table" class="table table-bordered table-condensed channelLineupTable ">
+
+
+<form>
+<table role="table" class="table table-bordered table-condensed channelLineupTable" id="channelLineupsTable">
   <tr>
     
     
-    <th>Used</th>
+    
     <th>Original No</th>
     <th>Callsign</th>
     <th>Name</th>
@@ -11,23 +14,35 @@
     
     <th>LogoFileName</th>
     <th>uctvNo</th>
+    <th>Crestron</th>
     <!-- <th>StationID</th> -->
   </tr>
-  {% for i in channelLineup %}
+  {% for i in channelLineups %}
     <tr>
       
-      <td><input type="checkbox" name="{{i['id']}}"></td>
+      
       <td>  {{ i['channelNumber'] }}    </td>
       <td> {{i['callsign']}}</td>
-      <td>  {{ i['name'] }}    </td>
+      <td>  {{ i['channelName'] }}    </td>
       <td>  {{ i['stationID'] }}    </td>
       <td>  {{ i['lineupID'] }}    </td>
       <td>  {{ i['logoFileName'] }}    </td>
-      <td> <input type="text" name="{{ i['uctvNo'] }}" value="{{i['uctvNo']}}"></td>
+      <td contenteditable="true"> {{ i['uctvNo']}}</td>
+      <!--     <td> <input type="text" name="{{ i['uctvNo'] }}" value="{{i['uctvNo']}}"></td> -->
+      {% if i['crestron'] == 1  %}
+        <td><input type="checkbox" checked name="crestron" id="{{i['id']}}"></td> 
+      {% else %}
+        <td><input type="checkbox"  name="crestron" id="{{i['id']}}"></td> 
+ 
+      {% endif %}
+     
+      
+
+     
       
       
       <!--<td>  {{ i['stationID'] }}    </td> -->
     </tr>
   {% endfor %}
-</table>
+</table></form>
 

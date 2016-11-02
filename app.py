@@ -217,9 +217,14 @@ def channelLineup():
 		channelLineups = [dict(row) for row in query.fetchall()]
 		return render_template('Lineups/channelLineups.html',channelLineups=channelLineups)
 
-	for id, row in request.form.iterlists():
-		print id,row
-	# print request
+	if request.method == 'POST':
+		print 'post request received'
+		
+
+	for i in request.form.getlist('edits[]'):
+		print "line"
+		print i
+		
 
 	query= g.db.execute('''select * from uctvLineups ''')
 	channelLineups = [dict(row) for row in query.fetchall()]

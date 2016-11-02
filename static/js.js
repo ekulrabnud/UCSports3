@@ -297,24 +297,121 @@ $(document).ready(function() {
 
     });
 /**************************************************************************************/
+// var lineupedits = [];
+
+function tableEdit(table){
+
+    let origValue;
+    let edits = [];
+
+    cell = table.find('td');
+    checkbox = table.find('input[type="checkbox"]')
+
+    $("#save_lineups").on('click',function(){
+        save();
+    })
+
+    let save = function(){
+
+        params = {"edits":edits}
+
+
+        $.post('/lineups',params,function(data){
+
+        edits = [];
+           
+        })
+    }
+
+    cell.on('click',function(){
+        if($(this).attr("contentEditable")){
+           origValue = $(this).text();
+        }  
+    })
+
+    checkbox.on('change',function(){
+
+      
+
+        let checkbox;
+        let id = $(this).parent().parent().attr('id')
+        let col = "crestron";
+      
+        if ($(this).is(":checked")){
+            checkbox = 1;
+            edits.push(`{"id":${id},"col":${col},"val":${checkbox}}`)
+
+            console.log('checked')
+        }
+        else{checkbox = 0;
+             edits.push(`{"id":${id},"col":${col},"val":${checkbox}}`)
+            console.log('not checked')}
+         
+    })
+
+    cell.on('blur',function(){
+
+        let value = $(this).text();
+        let id = $(this).parent().attr('id')
+        let col = $(this).attr('class')
+
+        if (value === origValue){
+            console.log(value + ' has not changed')
+        }
+        else{
+
+            edits.push(`{"id":${id},"col":${col},"val":${value}}`)
+            console.log(edits)
+        }
+
+    
+    })
+
+
+
+
+
+
+}
+
+
 
     $.get("/lineups", function(data) {
-        $("#lineups").html(data);
 
-        $('#addLineup').click(function() {
-          
-            $("#addLineupModal").modal('show');
+                $("#lineups").html(data);
 
-            $("#submitZipcode").click(function(){
-                console.log('submit')
-            })
-        });
+                var lineupsTable = $("#channelLineupsTable");
+                
+                $("#channelLineupsTable").DataTable({
+                    'paging': false
+                });
 
-        $('#save_lineups').click(function(){
-            console.log('save clicked');
-            $.post('/lineups',$("#channelLineupsTable").serialize(),function(data){
-                console.log(data);
-            })
+
+                tableEdit($("#channelLineupsTable"));
+
+
+                $('#addLineup').click(function() {
+
+                    $("#addLineupModal").modal('show');
+
+                    $("#submitZipcode").click(function() {
+                        console.log('submit')
+                    })
+                });
+
+
+     
+
+
+        $('#test_lineups').click(function(){
+
+
+            // $("#channelLineupsTable").find('tr').each(function(){
+            //     var row = $(this);
+            //     if (row.find('input[type="checkbox"]').is(':checked')){
+            //         console.log(row.find('td')[5]);
+            //     }
+            // })
         })
     });
  /**************************************************************************************/

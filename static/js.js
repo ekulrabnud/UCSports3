@@ -312,9 +312,9 @@ function tableEdit(table){
     })
 
     let save = function(){
+        console.log(edits)
 
         params = {"edits":edits}
-
 
         $.post('/lineups',params,function(data){
 
@@ -339,12 +339,14 @@ function tableEdit(table){
       
         if ($(this).is(":checked")){
             checkbox = 1;
-            edits.push(`{"id":${id},"col":${col},"val":${checkbox}}`)
+            row = {id:id,col:col,value:checkbox}
+            edits.push(JSON.stringify(row))
 
             console.log('checked')
         }
         else{checkbox = 0;
-             edits.push(`{"id":${id},"col":${col},"val":${checkbox}}`)
+            row = {id:id,col:col,value:checkbox}
+            edits.push(JSON.stringify(row))
             console.log('not checked')}
          
     })
@@ -355,13 +357,16 @@ function tableEdit(table){
         let id = $(this).parent().attr('id')
         let col = $(this).attr('class')
 
+        row = {id:id,col:col,value:value}
+
         if (value === origValue){
             console.log(value + ' has not changed')
         }
         else{
 
-            edits.push(`{"id":${id},"col":${col},"val":${value}}`)
-            console.log(edits)
+
+            edits.push(JSON.stringify(row));
+            console.log(row)
         }
 
     

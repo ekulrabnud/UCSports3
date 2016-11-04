@@ -6,6 +6,7 @@ import sevenDaySchedule as sds
 import make_infocastertxt_sports_for_today as misft
 import pdfkit
 import utils
+import json
 
 from tvMediaApi_dev import TvMedia
 
@@ -213,7 +214,7 @@ def crestronLiveSportsUpdate():
 def channelLineup():
 
 	if request.method == 'GET':
-		query= g.db.execute('''select * from uctvLineups ''')
+		query= g.db.execute('''SELECT * from uctvLineups ''')
 		channelLineups = [dict(row) for row in query.fetchall()]
 		return render_template('Lineups/channelLineups.html',channelLineups=channelLineups)
 
@@ -222,8 +223,16 @@ def channelLineup():
 		
 
 	for i in request.form.getlist('edits[]'):
-		print "line"
-		print i
+		row = json.loads(i)
+		col = row['col']
+		val = row['value']
+		id = row['id']
+		g.db.execute('UPDATE uctvlineups SET ' + col + ' = ? WHERE id = ?',(val,id))
+	g.db.commit()
+		
+
+	
+		
 		
 
 	query= g.db.execute('''select * from uctvLineups ''')

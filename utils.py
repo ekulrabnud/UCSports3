@@ -31,7 +31,7 @@ def update_crestron_live_sports_db(db):
 		stopTime = th.addTime(startTime,duration)
 		event = i['event']
 		
-		# print channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event
+		
 
 		db.execute('''INSERT INTO crestronLiveSports (channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event)
 					values (?,?,?,?,?,?,?,?,?)''',(channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event))
@@ -126,7 +126,6 @@ def check_for_event(date,db):
 		return ("No Event","00:00")
 
 def sort_live_sports(sportslist,date,event=None):
-
 
 	if event:
 			

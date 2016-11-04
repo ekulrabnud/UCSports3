@@ -98,8 +98,8 @@ def get_sport_listings(start,stop):
 		# c.execute('''SELECT max(thedate) from liveSports;''')
 		# maxDate = c.fetchone()
 		# Insert any new data into sports schedule
-		c.execute('''INSERT INTO liveSports (channelName,HDNo,SDNo,date,startTime,duration,sport,event)
-						 SELECT DISTINCT channelName,HDNo,SDNo,thedate,time,duration,sport,event 
+		c.execute('''INSERT INTO liveSports (channelName,stationId,HDNo,SDNo,date,startTime,duration,sport,event)
+						 SELECT DISTINCT channelName,sports.stationID,HDNo,SDNo,thedate,time,duration,sport,event 
 						 from uctvLineupsSport
 						 INNER JOIN sports
 						 ON uctvLineupsSport.hdStationID = sports.stationID;''')

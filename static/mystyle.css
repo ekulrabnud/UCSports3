@@ -46,12 +46,6 @@ li:hover{
 }
 
 
-/*.sportsTable{
-	background-color: #FFFFFF;
-	border-radius: 10px;
-	border:1px solid black!important;	
-}*/
-
 .guideTable th{
 	background-color:#A9C5EC;
 	
@@ -72,24 +66,6 @@ li:hover{
 	border-radius: 10px;
 }
 
-/*a:hover {
-	background-color:#D7DFF0 !important;
-	cursor:pointer;
-}*/
-
-/*.nav a{
-	color:#252626 !important;
-	background-color:#A9C5EC !important;
-}
-*/
-/*#guide{
-	margin-top:10px;
-	border-style:solid;
-	border-color:#264AB7;
-	border-radius: 5px;
-	border-width:medium;
-	background-color: #FFFFFF;
-}*/
 
 #index{
 	border-style:solid;
@@ -105,7 +81,6 @@ li:hover{
 
 #printHeading{
 	display: none;
-
 }
 
 #channelLineup,#sportsLineup{

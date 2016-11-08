@@ -218,9 +218,6 @@ def channelLineup():
 		channelLineups = [dict(row) for row in query.fetchall()]
 		return render_template('Lineups/channelLineups.html',channelLineups=channelLineups)
 
-	if request.method == 'POST':
-		print 'post request received'
-		
 
 	for i in request.form.getlist('edits[]'):
 		row = json.loads(i)

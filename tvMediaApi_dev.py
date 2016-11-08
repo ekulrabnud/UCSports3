@@ -33,7 +33,7 @@ class TvMedia(object):
             params = {}
 
         url = self.base_url + url
-        print url
+     
 
         params['api_key'] = self.api_key
 
@@ -44,16 +44,16 @@ class TvMedia(object):
 
         
      
-        if self.trace_out:
-            print url,params
+        # if self.trace_out:
+        #     print url,params
 
         r = requests.request(method,url,params=params)
 
-        if self.trace_out:
-            print  ('http status',r.status_code)
-            print (method,r.url)
+        # if self.trace_out:
+        #     print  ('http status',r.status_code)
+        #     print (method,r.url)
            
-          
+        print r.headers
         try:
             r.raise_for_status()
         except:
@@ -94,7 +94,7 @@ class TvMedia(object):
     def lineup_details(self,lineupID,userid=None):
 
         url = 'lineups/%s' % lineupID
-        print url
+      
         return self._get(url)
 
     def lineup_listings(self,lineupID,
@@ -115,7 +115,8 @@ class TvMedia(object):
         params = locals()
         params.pop('self')
         params.pop('lineupID')
-
+        params.pop('url')
+        print url,params
         return self._get(url,params)
 
     def station_details(self,stationID):

@@ -5,7 +5,7 @@ import config
 conn = sqlite3.connect('uctvDb')
 conn.row_factory = sqlite3.Row
 cursor = conn.cursor()
-
+ 
 START = config.DEFAULT_START
 STOP = config.DEFAULT_STOP
 DATETODAY = th.date_today()
@@ -14,7 +14,6 @@ DATETODAY = th.date_today()
 def update_crestron_live_sports_db(db):
 	
 	event = check_for_event(DATETODAY,db)
-
 	liveSports = getLiveSports(DATETODAY,START,STOP,db)
 	sortedLiveSports = sort_live_sports(liveSports,DATETODAY,event[0])
 

@@ -84,28 +84,30 @@ def getLiveSportsWithId(date,start,stop,db):
 
 def getLiveSports(date,start,stop,db):
 
-	sdchannels=['NHL Centre Ice 10','NBA League Pass 10']
+	# sdchannels=['NHL Centre Ice 10','NBA League Pass 10']
 
-	query = db.execute('''SELECT DISTINCT channelName,cast(HDNo as text),cast(SDNo as text),date,startTime,duration,sport,event
-							 from liveSports 
-							 where date = ?
-							 and startTime between ? and ?''',(date,start,stop))
+	query = db.execute('''  SELECT DISTINCT uctvLineups.channelName,uctvLineups.uctvNo,date,startTime,duration,sport,event,HD
+							FROM liveSports 
+							INNER JOIN uctvLineups
+							ON livesports.stationID = uctvLineups.stationID
+							WHERE date = ?
+							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? ''',(date,start,stop,'OFF'))
 
-	sportslist = [dict(channelName=row[0],HDNo=row[1],SDNo=row[2],date=row[3],startTime=row[4],duration=row[5],sport=row[6],event=row[7]) for row in query.fetchall()]
+	sportslist = [dict(channelName=row[0],uctvNo=row[1],date=row[2],startTime=row[3],duration=row[4],sport=row[5],event=row[6],HD=row[7]) for row in query.fetchall()]
 
-	for i in sportslist:
+	# for i in sportslist:
 		
 		
-		#add '0' to digital SD channels from sdchannels list
-		if  i['channelName'] in sdchannels:
+	# 	#add '0' to digital SD channels from sdchannels list
+	# 	if  i['channelName'] in sdchannels:
 		
-			i['SDNo'] = i['SDNo']+'0'
+	# 		i['SDNo'] = i['SDNo']+'0'
 		
-		#Remove '0' from analog channels e.g = 23 instead of 23.0
-		if i['SDNo']:
-			if i['SDNo'][-1] == '0' and i['channelName'] not in sdchannels:
+	# 	#Remove '0' from analog channels e.g = 23 instead of 23.0
+	# 	if i['SDNo']:
+	# 		if i['SDNo'][-1] == '0' and i['channelName'] not in sdchannels:
 				
-				i['SDNo'] = i['SDNo'][0:-2]	
+	# 			i['SDNo'] = i['SDNo'][0:-2]	
 
 	sportslist = th.sort_by_time(sportslist)
 

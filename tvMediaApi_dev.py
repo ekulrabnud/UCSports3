@@ -53,7 +53,7 @@ class TvMedia(object):
         #     print  ('http status',r.status_code)
         #     print (method,r.url)
            
-        print r.headers
+        # print r.headers
         try:
             r.raise_for_status()
         except:

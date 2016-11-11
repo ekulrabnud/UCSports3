@@ -11,6 +11,7 @@
       <th>StationID</th>
       <th>LineupID</th>
       <th>uctvNo</th>
+      <th>HD</th>
       <th>Crestron</th>
    
     </tr>
@@ -25,7 +26,14 @@
         <td>  {{ i['stationID'] }}    </td>
         <td>  {{ i['lineupID'] }}    </td>
         <td class="uctvNo" contenteditable="true"> {{ i['uctvNo']}}</td>
-       
+
+        {% if i['HD'] == 1  %}
+        <td><input type="checkbox" checked name="HD" id="{{i['id']}}"></td>
+        {% else %}
+         <td><input type="checkbox"  name="HD" id="{{i['id']}}"></td>
+        {% endif %}
+        
+
         {% if i['crestron'] == 1  %}
           <td><input type="checkbox" checked name="crestron" id="{{i['id']}}"></td>
         {% else %}

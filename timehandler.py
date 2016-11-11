@@ -67,6 +67,17 @@ def convert_time_string(time):
 def date_today():
 	return datetime.strftime(date.today(),"%Y-%m-%d")
 
+def get_date_times():
+	start = '00:00'
+	stop = '23:59'
+	dates = [date.today() + timedelta(days=x) for x in range(5)]
+	startTimes = [datetime.strftime(x,"%Y-%m-%d") +' '+ start for x in dates]
+	stopTimes = [datetime.strftime(x,"%Y-%m-%d") +' '+ stop for x in dates]
+	times =  zip(startTimes,stopTimes)
+
+
+	return times
+
 
 def date_today_withMonth():
 	return datetime.strftime(date.today(),"%Y-%b-%d")

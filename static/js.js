@@ -335,7 +335,9 @@ function tableEdit(table){
 
         let checkbox;
         let id = $(this).parent().parent().attr('id')
-        let col = "crestron";
+        let col = $(this).attr('name')
+
+        console.log(id,col)
       
         if ($(this).is(":checked")){
             checkbox = 1;
@@ -357,14 +359,12 @@ function tableEdit(table){
         let id = $(this).parent().attr('id')
         let col = $(this).attr('class')
 
-        row = {id:id,col:col,value:value}
+        row = {id:id,col:col,value:value.trim()}
 
         if (value === origValue){
             console.log(value + ' has not changed')
         }
         else{
-
-
             edits.push(JSON.stringify(row));
             console.log(row)
         }

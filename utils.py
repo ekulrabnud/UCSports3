@@ -69,7 +69,7 @@ def getChannels(db):
 
 def getCrestronLiveSports(db):
 
-	query = db.execute('''SELECT DISTINCT * FROM crestronLiveSports''')
+	query = db.execute('''SELECT DISTINCT * FROM crestronLiveSports WHERE date = ?''',(th.date_today(),))
 	liveSports = [dict(row) for row in query.fetchall()]
 	
 	return liveSports

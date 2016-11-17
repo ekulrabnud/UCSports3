@@ -88,25 +88,48 @@ def get_lineup_listings(start,stop,lineups):
 					date = startTime[0]
 					startTime = startTime[1]
 					duration = i['duration']
-					# stopTime = th.addTime(startTime,duration)
 					sport = i['showName']
 					stationID = i['stationID']
+					print startTime
+					stopTime = th.addTime(startTime,duration)
 					
 
-					cursor.execute('''INSERT INTO liveSports (stationID,date,startTime,duration,sport,event)
-									VALUES (?,?,?,?,?,?)''',(stationID,date,startTime,duration,sport,event))
-	
+					cursor.execute('''INSERT INTO liveSports (stationID,date,startTime,duration,stopTime,sport,event)
+									VALUES (?,?,?,?,?,?,?)''',(stationID,date,startTime,duration,stopTime,sport,event))
+					
 	#upates the Crestron Live Sports table
-	cursor.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,stationID,event,sport,date,startTime,duration)
-			SELECT uctvLineups.channelName,uctvLineups.uctvNo,liveSports.event,liveSports.sport,liveSports.date,liveSports.startTime,liveSports.duration,liveSports.stationID
+	conn.commit()
+	cursor.execute('''UPDATE liveSports
+					SET 
+					uctvNo = (SELECT uctvNo FROM uctvLineups WHERE uctvLineups.stationID = liveSports.stationID),
+					channelName = (SELECT channelName FROM uctvLineups WHERE uctvLineups.stationID = liveSports.stationID)	''')
+	conn.commit()
+	cursor.execute('''DELETE FROM liveSports
+					WHERE id
+					IN (SELECT id FROM liveSports
+					GROUP BY stationID,channelName,date,startTime
+					HAVING COUNT(*) >1) ''')
+
+	conn.commit()
+										
+	cursor.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,stationID,event,sport,date,startTime,stopTime,duration)
+			SELECT 	uctvLineups.channelName,
+					uctvLineups.uctvNo,
+					liveSports.stationID,
+					liveSports.event,
+					liveSports.sport,
+					liveSports.date,
+					liveSports.startTime,
+					liveSports.stopTime,
+					liveSports.duration
 			FROM uctvlineups
 			INNER JOIN liveSports
 			ON uctvLineups.stationID = liveSports.stationID
 			WHERE uctvlineups.crestron = 1 ''')
 
 									
-
 	conn.commit()
+	
 	conn.close()
 
 def get_Sports():

@@ -98,9 +98,9 @@ def date_email():
 
 
 def addTime(startTime,duration):
-	startTime = datetime.strptime(startTime,"%H:%M")
+	startTime = datetime.strptime(startTime,"%H:%M:%S")
 	endTime = startTime + timedelta(minutes=duration)
-	endTime = datetime.strftime(endTime,"%H:%M")
+	endTime = datetime.strftime(endTime,"%H:%M:%S")
 	return endTime
 
 def convert_to_24hr(time):

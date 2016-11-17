@@ -167,7 +167,7 @@ def editCrestronLiveSports():
 	 					duration=?,
 	 					stopTime=?,
 	 					channelName=?,
-	 					HDNo=?
+	 					uctvNo=?
 	 					WHERE id = ?''',row)
 
 
@@ -198,13 +198,17 @@ def reload():
 def crestronLiveSportsUpdate():
 
 	
-	try:
-		utils.make_crestron_live_sports_file(g.db)
-		liveSports = utils.getCrestronLiveSports(g.db)
-		return jsonify(error=0,message="Successfully updated Crestron Live Sports Text File")
-	except Exception as e:
-		print "error"
-		return jsonify(error=1,message="Error!! %s" % e.args[0]) 
+	# try:
+	# 	utils.make_crestron_live_sports_file(g.db)
+	# 	liveSports = utils.getCrestronLiveSports(g.db)
+	# 	return jsonify(error=0,message="Successfully updated Crestron Live Sports Text File")
+	# except Exception as e:
+	# 	print "error"
+	# 	return jsonify(error=1,message="Error!! %s" % e.args[0]) 
+
+	utils.make_crestron_live_sports_file(g.db)
+	liveSports = utils.getCrestronLiveSports(g.db)
+	# 	return jsonify(error=0,message="Successfully updated Crestron Live Sports Text File")
 
 	return render_template('LiveSports/crestronLiveSportsTable.html',liveSports=liveSports,event="test")
 

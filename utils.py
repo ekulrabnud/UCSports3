@@ -4,6 +4,7 @@ import config
 
 conn = sqlite3.connect('uctvDb')
 conn.row_factory = sqlite3.Row
+conn.text_factory = str
 cursor = conn.cursor()
  
 START = config.DEFAULT_START
@@ -45,13 +46,13 @@ def make_crestron_live_sports_file(db):
 
 	with open(config.CRESTRON_LIVE_FILE,'w') as file:
 		for i in liveSports:
-			# remove sd channel no info for the moment
-			del i['SDNo']
 			
-			event = i['event'].encode('utf8')
+			
+			
+			event = i['event'].decode('utf-8')
 
 			event  = r'<FONT size=""30"" face=""Crestron Sans Pro"" color=""#ffffff"">'+event+'</FONT>'
-			line = [i['sport'],event,i['date'],i['startTime'],i['duration'],i['stopTime'],i['channelName'],i['HDNo'],'\n']
+			line = [i['sport'],event,i['date'],i['startTime'],i['duration'],i['stopTime'],i['channelName'],i['uctvNo'],'\n']
 			newline = ','.join(str(i) for i in line)
 		
 			file.write(newline)
@@ -69,7 +70,9 @@ def getChannels(db):
 
 def getCrestronLiveSports(db):
 
-	query = db.execute('''SELECT DISTINCT * FROM crestronLiveSports WHERE date = ?''',(th.date_today(),))
+	print "getting crestron live sport {}".format(th.date_today())
+
+	query = db.execute('''SELECT * FROM crestronLiveSports WHERE date = ?''',(th.date_today(),))
 	liveSports = [dict(row) for row in query.fetchall()]
 	
 	return liveSports

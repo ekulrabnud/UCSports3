@@ -336,6 +336,7 @@ function tableEdit(table){
         let checkbox;
         let id = $(this).parent().parent().attr('id')
         let col = $(this).attr('name')
+        console.log(col)
 
         console.log(id,col)
       

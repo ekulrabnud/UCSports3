@@ -43,9 +43,9 @@ def update_crestron_live_sports_db(db):
 					values (?,?,?,?,?,?,?,?,?)''',(channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event))
 	db.commit()
 
-def make_crestron_live_sports_file(db):
+def make_crestron_live_sports_file(db,date):
 
-	query = db.execute('''SELECT * FROM crestronLiveSports''')
+	query = db.execute('''SELECT * FROM crestronLiveSports WHERE date = ?''',(date,))
 	
 	liveSports = [dict(row) for row in query.fetchall()]
 	

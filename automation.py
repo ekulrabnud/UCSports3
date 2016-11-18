@@ -31,13 +31,13 @@ def do_it_early(start_time):
 	try:
 		start,stop = th.sevenDay_start_stop_time()
 		
-		sds.get_sport_listings(start,stop)
+		sds.get_lineup_listings()
 		print "Got Api Listings"
 		misft.make_text_file(th.date_today(),start_time,DAY_STOP)
 		print "Updated Infocaster File"
 		utils.update_crestron_live_sports_db(conn)
 		print "Updated Crestron db"
-		utils.make_crestron_live_sports_file(conn)
+		utils.make_crestron_live_sports_file(conn,TODAY)
 		print "Updated Crestron TXT file"
 
 	except Exception as e:

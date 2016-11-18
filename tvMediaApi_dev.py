@@ -107,7 +107,8 @@ class TvMedia(object):
                         league=None,
                         team=None,
                         sportEventsOnly=0,
-                        liveOnly=0
+                        liveOnly=0,
+                        exclude=None,
                         ):
 
         url = 'lineups/%s/listings' % lineupID

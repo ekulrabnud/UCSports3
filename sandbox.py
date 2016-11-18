@@ -69,11 +69,8 @@ def get_lineup_listings(start,stop,lineups):
 			for i in lineup:
 				if i['stationID'] in stationIDs :
 
-					print i['live'],i['event'],i['team1']
+					# print i['live'],i['event'],i['team1']
 
-
-					
-			
 					if i['live'] and i['team1']:
 						event = i['team1'] + ' at '+ i['team2']
 						print 'team1' + i['event'] 
@@ -112,20 +109,28 @@ def get_lineup_listings(start,stop,lineups):
 
 	conn.commit()
 										
-	cursor.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,stationID,event,sport,date,startTime,stopTime,duration)
+	cursor.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,duration,stopTime,event)
 			SELECT 	uctvLineups.channelName,
 					uctvLineups.uctvNo,
-					liveSports.stationID,
-					liveSports.event,
 					liveSports.sport,
 					liveSports.date,
 					liveSports.startTime,
 					liveSports.stopTime,
-					liveSports.duration
-			FROM uctvlineups
-			INNER JOIN liveSports
+					liveSports.duration,
+					liveSports.event
+			FROM livesports
+			INNER JOIN uctvLineups
 			ON uctvLineups.stationID = liveSports.stationID
 			WHERE uctvlineups.crestron = 1 ''')
+
+	# cursor.execute('''INSERT INTO crestronLiveSports (sport,date,startTime,duration,stopTime,event)
+	# 				SELECT liveSports.sport,
+	# 						liveSports.date,
+	# 						liveSports.startTime,
+	# 						liveSports.stopTime,
+	# 							liveSports.duration,
+	# 						liveSports.event
+	# 				FROM liveSports WHERE channelName = ?''',('ESPN',))
 
 									
 	conn.commit()

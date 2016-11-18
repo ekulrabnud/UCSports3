@@ -232,9 +232,6 @@ def channelLineup():
 	g.db.commit()
 		
 
-	
-		
-		
 
 	query= g.db.execute('''select * from uctvLineups ''')
 	channelLineups = [dict(row) for row in query.fetchall()]

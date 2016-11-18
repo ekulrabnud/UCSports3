@@ -1,10 +1,16 @@
 import timehandler as th
 import sqlite3
 import config
+import codecs
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 
 conn = sqlite3.connect('uctvDb')
 conn.row_factory = sqlite3.Row
-conn.text_factory = str
+# conn.text_factory = str
 cursor = conn.cursor()
  
 START = config.DEFAULT_START
@@ -33,7 +39,7 @@ def update_crestron_live_sports_db(db):
 		
 		
 
-		db.execute('''INSERT INTO crestronLiveSports (channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event)
+		db.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,duration,stopTime,event)
 					values (?,?,?,?,?,?,?,?,?)''',(channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event))
 	db.commit()
 
@@ -47,13 +53,10 @@ def make_crestron_live_sports_file(db):
 	with open(config.CRESTRON_LIVE_FILE,'w') as file:
 		for i in liveSports:
 			
-			
-			
-			event = i['event'].decode('utf-8')
-
-			event  = r'<FONT size=""30"" face=""Crestron Sans Pro"" color=""#ffffff"">'+event+'</FONT>'
+			event = i['event']
+			event  = '<FONT size=""30"" face=""Crestron Sans Pro"" color=""#ffffff"">'+event+'</FONT>'
 			line = [i['sport'],event,i['date'],i['startTime'],i['duration'],i['stopTime'],i['channelName'],i['uctvNo'],'\n']
-			newline = ','.join(str(i) for i in line)
+			newline = ','.join(i for i in line)
 		
 			file.write(newline)
 
@@ -180,5 +183,7 @@ def updateUctvLineups(columnName,rowid,value):
 
 	cursor.execute('''UPDATE uctvLineups SET {}=? WHERE id=?'''.format(columnName),(value,rowid,))
 	conn.commit()
+
+# make_crestron_live_sports_file(cursor)
 		
 

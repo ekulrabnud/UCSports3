@@ -5,11 +5,17 @@ import codecs
 import sys
 from tvMediaApi_dev import TvMedia
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
-print 'apiiiiiiii'
 api = TvMedia(config.APIKEY,config.BASE_URL)
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+
+# conn = sqlite3.connect('uctvDb')
+# conn.row_factory = sqlite3.Row
+# # conn.text_factory = str
+# cursor = conn.cursor()
+ 
 START = config.DEFAULT_START
 STOP = config.DEFAULT_STOP
 DATETODAY = th.date_today()
@@ -148,15 +154,11 @@ def getChannels(db):
 
 	query = db.execute('''SELECT id,channelNumber,callsign,channelName,uctvNo,stationID,lineupID
 						   FROM uctvLineups 
-						   WHERE uctvNo IS NOT NULL
-						   ORDER BY uctvNo''')
+						   WHERE uctvNo != ?
+						   ORDER BY uctvNo''',('None',))
 
-	channels = [dict(row) for row in query.fetchall() ]
+	channels = [dict(row) for row in query.fetchall()]
 
-	for i in channels:
-		i['uctvNo'] = i['uctvNo'].strip()
-	
-	
 	return channels
 
 def getCrestronLiveSports(db):

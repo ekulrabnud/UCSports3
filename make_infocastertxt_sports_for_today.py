@@ -18,7 +18,7 @@ def make_text_file(date,start,stop):
 
 	print date,start,stop
 
-	try:
+	try: 
 		sdchannels=['NHL Centre Ice 10','NBA League Pass 10']
 		
 		conn = sqlite3.connect('uctvDb')

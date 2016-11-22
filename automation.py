@@ -33,8 +33,8 @@ def do_it_early(start_time):
 		
 		utils.get_lineup_listings(ALL_DAY_START,DAY_STOP,TODAY,config.LINEUPS,cursor)
 		print "Got Lineup Listings"
-		utils.make_infocaster_file(ALL_DAY_START,DAY_STOP,TODAY,cursor)
-		print "Made ALL_DAY Infocaster text file"
+		# utils.make_infocaster_file(ALL_DAY_START,DAY_STOP,TODAY,cursor)
+		# print "Made ALL_DAY Infocaster text file"
 		# utils.update_crestron_live_sports_db(conn)
 		# print "Updated Crestron db"
 		utils.make_crestron_live_sports_file(TODAY,cursor)
@@ -45,7 +45,7 @@ def do_it_early(start_time):
 
 def do_it_late(start_time):
 	try:
-		utils.make_infocaster_file(HALF_DAY_START,DAY_STOP,TODAY,cursor)
+		# utils.make_infocaster_file(HALF_DAY_START,DAY_STOP,TODAY,cursor)
 		print "Made half-day infocaster text file"
 	except Exception as e:
 		print "Make infocaster hald day failed with error: %s" % e
@@ -54,7 +54,7 @@ def auto():
 
 	 	try:
 	 		print "Checking Time"
-			if dt.now().hour == 18:
+			if dt.now().hour == 4:
 
 				do_it_early(ALL_DAY_START)
 				print "FullDay"

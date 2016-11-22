@@ -406,6 +406,28 @@ function tableEdit(table){
                 });
 
 
+                $('#addStation').click(function() {
+
+                    console.log('add_station')
+
+                    $("#addStationModal").modal('show');
+
+                    $("#submitStation").click(function() {
+
+                        console.log('click submit add station')
+
+                           console.log($("#addStationForm").serialize())
+
+                       $.post('/addStation',$("#addStationForm").serialize(),function(data){
+
+                            console.log(data)
+                        });
+                        
+                    })
+                });
+
+
+
      
 
 

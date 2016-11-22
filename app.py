@@ -22,7 +22,8 @@ api = TvMedia(config.APIKEY,config.BASE_URL)
 def connect_db():
     conn = sqlite3.connect(app.config['DATABASE'])
     conn.row_factory = sqlite3.Row
-    return conn
+    cursor = conn.cursor()
+    return cursor
 
 @app.before_request
 def before_request():
@@ -31,13 +32,14 @@ def before_request():
 @app.teardown_request
 def teardown_request(exception):
 	db = getattr(g, 'db', None)
+	print exception
 	if db is not None:
 		db.close()
 
 #Error******************************************************************************************************
-@app.errorhandler(404)
-def page_not_found(error):
-    return redirect(url_for('index'))
+# @app.errorhandler(404)
+# def page_not_found(error):
+#     return redirect(url_for('index'))
 
 # Index  ******************************************************************************************************
 @app.route('/')
@@ -174,8 +176,7 @@ def editCrestronLiveSports():
 	 	deletions = [(int(i),) for i in request.form.getlist('delete')]
 	 	print request.form.getlist('delete')
 		g.db.executemany('''DELETE from crestronliveSports where id = ?''',deletions)
-		g.db.commit()
-
+		g.db.connection.commit()
 	except Exception as e:
 		
 		return jsonify(error=1,message="Error!! %s" % e.args[0]) 
@@ -206,7 +207,7 @@ def crestronLiveSportsUpdate():
 	# 	print "error"
 	# 	return jsonify(error=1,message="Error!! %s" % e.args[0]) 
 
-	utils.make_crestron_live_sports_file(g.db,th.date_today())
+	utils.make_crestron_live_sports_file(th.date_today(),g.db)
 	liveSports = utils.getCrestronLiveSports(g.db)
 	# 	return jsonify(error=0,message="Successfully updated Crestron Live Sports Text File")
 
@@ -229,13 +230,64 @@ def channelLineup():
 		val = row['value']
 		id = row['id']
 		g.db.execute('UPDATE uctvlineups SET ' + col + ' = ? WHERE id = ?',(val,id))
-	g.db.commit()
+	g.db.connection.commit()
 		
 
 
 	query= g.db.execute('''select * from uctvLineups ''')
 	channelLineups = [dict(row) for row in query.fetchall()]
 	return render_template('Lineups/channelLineups.html',channelLineups=channelLineups)
+
+@app.route('/addStation',methods=['POST'])
+def addStation():
+
+		if request.method == 'POST':
+
+			form = request.form
+
+		
+			channelName = form['channelName']
+			uctvNo = form['uctvNo']
+			lineupID = 1994
+
+			HD = 1 if 'HD' in form else 0
+			crestron = 1 if 'crestron' in form else 0
+			print channelName,uctvNo,lineupID,crestron,HD
+
+			g.db.execute('''INSERT INTO uctvLineups (channelName,uctvNo,lineupID,HD,crestron)
+						VALUES (?,?,?,?,?)''',(channelName,uctvNo,lineupID,HD,crestron))
+
+			g.db.connection.commit()
+		
+
+			return 'success'
+
+		# g.db.execute('''INSERT INTO uctvLineups (callsign,channelName,stationID,lineupID,uctvNo,HD,crestron)
+		# 				VALUES (?,?,?,?,?,?,?)''',(form['callsign'],form['channelName'],form['stationID'],form['lineupID'],form['uctvNo'],HD,crestron))
+		
+		# try:
+		# 	print channelName,lineupID,uctvNo,str(HD),str(crestron)
+		# except Exception as e:
+		# 	print e
+
+			
+
+
+		return 'fail'
+
+
+
+@app.route('/findLineup',methods=['POST'])
+def addLineup():
+
+		zipcode = request.form['zipcode']
+		
+		lineups = api.lineups(zipcode)
+		
+		return render_template('Lineups/availableLineups.html',lineups=lineups)
+
+
+
 
 
 	
@@ -369,14 +421,6 @@ def pdf():
 
 	return "Successfully created %s" % out_pdf
 
-@app.route('/findLineup',methods=['POST'])
-def addLineup():
-
-		zipcode = request.form['zipcode']
-		
-		lineups = api.lineups(zipcode)
-		
-		return render_template('Lineups/availableLineups.html',lineups=lineups)
 
 @app.route('/sandbox')
 def sandbox():

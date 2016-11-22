@@ -82,6 +82,9 @@ li:hover{
 #printHeading{
 	display: none;
 }
+.printHeading{
+	display:none;
+}
 
 #channelLineup,#sportsLineup{
 	margin-top:10px;

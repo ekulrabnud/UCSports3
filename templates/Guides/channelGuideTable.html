@@ -10,12 +10,14 @@
         </tr>
     </thead>
         {% for i in channels %}
+        {% if i['uctvNo'] != 'None' %}
         <tr id="{{i['id']}}">
             <td class="uctvNo edit channelGuide" >   {{ i['uctvNo'] }}   </td>
             <td class="channelName edit channelGuide" >  {{ i['channelName'] }}    </td>
             <td> {{i['stationID']}} </td>
             <td> {{i['lineupID']}} </td>
         </tr>
+        {% endif %}
         {% endfor %}
 </table>
 

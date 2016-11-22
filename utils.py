@@ -3,56 +3,140 @@ import sqlite3
 import config
 import codecs
 import sys
+from tvMediaApi_dev import TvMedia
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
+print 'apiiiiiiii'
+api = TvMedia(config.APIKEY,config.BASE_URL)
 
-
-conn = sqlite3.connect('uctvDb')
-conn.row_factory = sqlite3.Row
-# conn.text_factory = str
-cursor = conn.cursor()
- 
 START = config.DEFAULT_START
 STOP = config.DEFAULT_STOP
 DATETODAY = th.date_today()
 
+def get_lineup_listings(start,stop,date,lineups,cursor):
 
-def update_crestron_live_sports_db(db):
+	print "Getting Lineup Listings"
+
+	times = th.get_date_times()
 	
-	event = check_for_event(DATETODAY,db)
-	liveSports = getLiveSports(DATETODAY,START,STOP,db)
-	sortedLiveSports = sort_live_sports(liveSports,DATETODAY,event[0])
+	query = cursor.execute('''SELECT stationID from uctvLineups WHERE uctvNo != ?''',('OFF',))
+	stationIDs = [i[0] for i in query.fetchall()]
+	
+	cursor.execute('''DELETE FROM liveSports''')
+	cursor.execute('''DELETE FROM crestronLiveSports''')
+	
+	cursor.connection.commit()
 
-	db.execute('''DELETE FROM crestronLiveSports''')
+	try:
+		for time in times:
+			listings = [api.lineup_listings(i,start=time[0],stop=time[1],sportEventsOnly=1,liveOnly=1) for i in lineups]
+			
+			for lineup in listings:
+				
+				for i in lineup:
+					if i['stationID'] in stationIDs :
 
-	for i in sortedLiveSports:
-		channelName = i['channelName']
-		HDNo = i['HDNo']
-		SDNo = i['SDNo']
-		sport = i['sport']
-		date = i['date']
-		startTime = th.convert_to_24hr(i['startTime'])
-		duration = i['duration']
-		stopTime = th.addTime(startTime,duration)
-		event = i['event']
+						if i['live'] and i['team1']:
+							event = i['team1'] + ' at '+ i['team2']
+						
+						elif i['live'] and i['event']:
+							event = i['event']
+						
+						elif i['live'] and i['showName'] == "UFC Fight Night":
+							event = i['location'] 
+
+						startTime = th.format_time(th.convert_utc_to_local(i['listDateTime']))
+						date = startTime[0]
+						startTime = startTime[1]
+						duration = i['duration']
+						sport = i['showName']
+						stationID = i['stationID']
+						stopTime = th.addTime(startTime,duration)
+						
+						cursor.execute('''INSERT INTO liveSports (stationID,date,startTime,duration,stopTime,sport,event)
+										VALUES (?,?,?,?,?,?,?)''',(stationID,date,startTime,duration,stopTime,sport,event))
+	except Exception as e:
+		print "Get Lineups Listings failed with error %s" % e
+
+						
+	cursor.execute('''UPDATE liveSports
+					SET 
+					uctvNo = (SELECT uctvNo FROM uctvLineups WHERE uctvLineups.stationID = liveSports.stationID),
+					channelName = (SELECT channelName FROM uctvLineups WHERE uctvLineups.stationID = liveSports.stationID)	''')
+	cursor.connection.commit()
+
+	cursor.execute('''DELETE FROM liveSports
+					WHERE id
+					IN (SELECT id FROM liveSports
+					GROUP BY stationID,channelName,date,startTime
+					HAVING COUNT(*) >1) ''')
+	cursor.connection.commit()
+										
+	cursor.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,duration,stopTime,event)
+			SELECT 	uctvLineups.channelName,
+					uctvLineups.uctvNo,
+					liveSports.sport,
+					liveSports.date,
+					liveSports.startTime,
+					liveSports.stopTime,
+					liveSports.duration,
+					liveSports.event
+			FROM livesports
+			INNER JOIN uctvLineups
+			ON uctvLineups.stationID = liveSports.stationID
+			WHERE uctvlineups.crestron = 1 ''')
+								
+	cursor.connection.commit()
+
+def make_infocaster_file(startTime,stopTime,date,cursor):
+
+	start = startTime
+	stop = stopTime
+
+	print start,stop
+
+	query = cursor.execute('''SELECT event,startTime,sport,liveSports.uctvNo,liveSports.channelName,uctvLineups.hd
+							FROM liveSports
+							INNER JOIN uctvLineups
+							ON liveSports.stationID = uctvLineups.stationID
+							WHERE date = ? AND startTime between ? AND ?  
+							ORDER BY sport,startTime,event''',(date,start,stop))
+	listings = [dict(row) for row in query.fetchall()]
+
+	csport = None
+
+	with open(config.INFOCASTER_TEXT_FILE,'w') as f:
+
+		for i in listings:
+
+			startTime = th.convert_to_am_pm(i['startTime'])
+			
+			hd = i['uctvNo'] if i['HD'] else ''
+			sd = i['uctvNo'] if not i['HD'] else ''
+
+			event = i['event'] if not len(i['event']) > 44 else i['event'][:45]
 		
-		
+			if csport == i['sport']:
+				row = ",%s,%s,%s,%s,%s\n" % (startTime,i['event'],i['channelName'],hd,sd)
+				f.write(row)
 
-		db.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,duration,stopTime,event)
-					values (?,?,?,?,?,?,?,?,?)''',(channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event))
-	db.commit()
+			else:
+				row = "%s,,,,,\n" % i['sport']
+				f.write(row)
+				row = ",%s,%s,%s,%s,%s\n" % (startTime,i['event'],i['channelName'],hd,sd)
+				f.write(row)
+				csport = i['sport']
 
-def make_crestron_live_sports_file(db,date):
+def make_crestron_live_sports_file(date,cursor):
 
-	query = db.execute('''SELECT * FROM crestronLiveSports WHERE date = ?''',(date,))
+	query = cursor.execute('''SELECT * FROM crestronLiveSports WHERE date = ?''',(date,))
 	
 	liveSports = [dict(row) for row in query.fetchall()]
 	
-
 	with open(config.CRESTRON_LIVE_FILE,'w') as file:
+
 		for i in liveSports:
-			
 			event = i['event']
 			event  = '<FONT size=""30"" face=""Crestron Sans Pro"" color=""#ffffff"">'+event+'</FONT>'
 			line = [i['sport'],event,i['date'],i['startTime'],i['duration'],i['stopTime'],i['channelName'],i['uctvNo'],'\n']
@@ -64,11 +148,15 @@ def getChannels(db):
 
 	query = db.execute('''SELECT id,channelNumber,callsign,channelName,uctvNo,stationID,lineupID
 						   FROM uctvLineups 
-						   WHERE uctvNo != ?
-						   ORDER BY uctvNo''',('None',))
+						   WHERE uctvNo IS NOT NULL
+						   ORDER BY uctvNo''')
 
-	channels = [dict(row) for row in query.fetchall()]
+	channels = [dict(row) for row in query.fetchall() ]
 
+	for i in channels:
+		i['uctvNo'] = i['uctvNo'].strip()
+	
+	
 	return channels
 
 def getCrestronLiveSports(db):
@@ -183,6 +271,31 @@ def updateUctvLineups(columnName,rowid,value):
 
 	cursor.execute('''UPDATE uctvLineups SET {}=? WHERE id=?'''.format(columnName),(value,rowid,))
 	conn.commit()
+
+def update_crestron_live_sports_db(db):
+	
+	event = check_for_event(DATETODAY,db)
+	liveSports = getLiveSports(DATETODAY,START,STOP,db)
+	sortedLiveSports = sort_live_sports(liveSports,DATETODAY,event[0])
+
+	db.execute('''DELETE FROM crestronLiveSports''')
+
+	for i in sortedLiveSports:
+		channelName = i['channelName']
+		HDNo = i['HDNo']
+		SDNo = i['SDNo']
+		sport = i['sport']
+		date = i['date']
+		startTime = th.convert_to_24hr(i['startTime'])
+		duration = i['duration']
+		stopTime = th.addTime(startTime,duration)
+		event = i['event']
+		
+		
+
+		db.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,duration,stopTime,event)
+					values (?,?,?,?,?,?,?,?,?)''',(channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event))
+	db.commit()
 
 # make_crestron_live_sports_file(cursor)
 		

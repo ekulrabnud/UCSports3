@@ -31,29 +31,30 @@ def do_it_early(start_time):
 	try:
 		start,stop = th.sevenDay_start_stop_time()
 		
-		sds.get_lineup_listings()
-		print "Got Api Listings"
-		misft.make_text_file(th.date_today(),start_time,DAY_STOP)
-		print "Updated Infocaster File"
-		utils.update_crestron_live_sports_db(conn)
-		print "Updated Crestron db"
-		utils.make_crestron_live_sports_file(conn,TODAY)
+		utils.get_lineup_listings(ALL_DAY_START,DAY_STOP,TODAY,config.LINEUPS,cursor)
+		print "Got Lineup Listings"
+		utils.make_infocaster_file(ALL_DAY_START,DAY_STOP,TODAY,cursor)
+		print "Made ALL_DAY Infocaster text file"
+		# utils.update_crestron_live_sports_db(conn)
+		# print "Updated Crestron db"
+		utils.make_crestron_live_sports_file(TODAY,cursor)
 		print "Updated Crestron TXT file"
 
 	except Exception as e:
-		print e.args
+		print "Get Lineups Listings failed with error: %s" % e
 
 def do_it_late(start_time):
 	try:
-		misft.make_text_file(th.date_today(),start_time,DAY_STOP)
-	except:
-		print "do_it_late failed"
+		utils.make_infocaster_file(HALF_DAY_START,DAY_STOP,TODAY,cursor)
+		print "Made half-day infocaster text file"
+	except Exception as e:
+		print "Make infocaster hald day failed with error: %s" % e
 
 def auto():
 
 	 	try:
 	 		print "Checking Time"
-			if dt.now().hour == 3:
+			if dt.now().hour == 18:
 
 				do_it_early(ALL_DAY_START)
 				print "FullDay"

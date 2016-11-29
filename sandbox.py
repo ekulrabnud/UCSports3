@@ -11,8 +11,9 @@ conn.text_factory = str
 conn.row_factory = sqlite3.Row
 cursor = conn.cursor()
 
-START = '2016-11-09 00:00:00'
-STOP = '2016-11-09 11:59:59'
+START = config.DEFAULT_START
+STOP = config.DEFAULT_STOP
+DATETODAY = th.date_today()
 
 DATETODAY = th.date_today()
 LINEUPS = ['41614D','41487']
@@ -42,91 +43,32 @@ def get_stationIDs():
 
 	return stationIDs
 
-def get_lineup_listings(start,stop,lineups):
 
-	print "Getting Lineup Listings"
-
-	times = th.get_date_times()
-	
-	query = cursor.execute('''SELECT stationID from uctvLineups WHERE uctvNo != ?''',('OFF',))
-	stationIDs = [i[0] for i in query.fetchall()]
-	
-	cursor.execute('''DELETE FROM liveSports''')
-	cursor.execute('''DELETE FROM crestronLiveSports''')
-	
-	conn.commit()
-
-	try:
-		for time in times:
-			listings = [api.lineup_listings(i,start=time[0],stop=time[1],sportEventsOnly=1,liveOnly=1) for i in lineups]
-			
-			for lineup in listings:
-				
-				for i in lineup:
-					if i['stationID'] in stationIDs :
-
-						if i['live'] and i['team1']:
-							event = i['team1'] + ' at '+ i['team2']
-						
-						elif i['live'] and i['event']:
-							event = i['event']
-						
-						elif i['live'] and i['showName'] == "UFC Fight Night":
-							event = i['location'] 
-
-						startTime = th.format_time(th.convert_utc_to_local(i['listDateTime']))
-						date = startTime[0]
-						startTime = startTime[1]
-						duration = i['duration']
-						sport = i['showName']
-						stationID = i['stationID']
-						stopTime = th.addTime(startTime,duration)
-						
-						cursor.execute('''INSERT INTO liveSports (stationID,date,startTime,duration,stopTime,sport,event)
-										VALUES (?,?,?,?,?,?,?)''',(stationID,date,startTime,duration,stopTime,sport,event))
-	except Exception as e:
-		print "Get Lineups Listings failed with error %s" % e
-
-						
-	cursor.execute('''UPDATE liveSports
-					SET 
-					uctvNo = (SELECT uctvNo FROM uctvLineups WHERE uctvLineups.stationID = liveSports.stationID),
-					channelName = (SELECT channelName FROM uctvLineups WHERE uctvLineups.stationID = liveSports.stationID)	''')
-	conn.commit()
-
-	cursor.execute('''DELETE FROM liveSports
-					WHERE id
-					IN (SELECT id FROM liveSports
-					GROUP BY stationID,channelName,date,startTime
-					HAVING COUNT(*) >1) ''')
-	conn.commit()
-										
-	cursor.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,duration,stopTime,event)
-			SELECT 	uctvLineups.channelName,
-					uctvLineups.uctvNo,
-					liveSports.sport,
-					liveSports.date,
-					liveSports.startTime,
-					liveSports.stopTime,
-					liveSports.duration,
-					liveSports.event
-			FROM livesports
-			INNER JOIN uctvLineups
-			ON uctvLineups.stationID = liveSports.stationID
-			WHERE uctvlineups.crestron = 1 ''')
-								
-	conn.commit()
 	
 def get_Sports():
 
-	query = cursor.execute('''SELECT uctvLineups.channelName,uctvLineups.uctvNo,liveSports.event,liveSports.date,liveSports.startTime
-							FROM uctvLineups
-							INNER JOIN liveSports
-							ON uctvLineups.stationID = liveSports.stationID
-							WHERE uctvLineups.crestron = 0''')
+		query = cursor.execute('''  SELECT uctvLineups.uctvNo,liveSports.listingID,HD
+							FROM liveSports 
+							INNER JOIN uctvLineups
+							ON livesports.stationID = uctvLineups.stationID
+							WHERE date = ?
+							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? OR ? ''',(DATETODAY,START,STOP,'OFF','None'))
 
-	for i in query.fetchall():
-		print i
+		liveSports = [dict(row) for row in query.fetchall()]
+		
+		
+		seen = set();
+
+		newSport = [ x for x in liveSports if x['listingID'] not in seen and not seen.add(x['listingID']) ]
+
+		
+		
+		print newSport
+		
+
+		
+		
+		
 						
 def update_crestron_live_sports_db():
 
@@ -201,10 +143,100 @@ def make_infocaster_file(startTime,stopTime,date):
 				f.write(row)
 				csport = i['sport']
 
+def get_lineup_listings(lineups):
+
+	print "Getting Lineup Listings"
+
+	times = th.get_date_times()
 
 
-get_lineup_listings(START,STOP,LINEUPS)
+	
+	query = cursor.execute('''SELECT stationID from uctvLineups WHERE uctvNo != ?''',('OFF',))
+	stationIDs = [i[0] for i in query.fetchall()]
+	
+	cursor.execute('''DELETE FROM liveSports''')
+	cursor.execute('''DELETE FROM crestronLiveSports''')
+	
+	conn.commit()
 
-make_infocaster_file()
+	try:
+		for time in times:
+			listings = [api.lineup_listings(i,start=time[0],stop=time[1],sportEventsOnly=1,liveOnly=1) for i in lineups]
+			
+			for lineup in listings:
+				
+				for i in lineup:
+				
+					if i['stationID'] in stationIDs :
+
+						if i['live'] and i['team1']:
+							event = i['team1'] + ' at '+ i['team2']
+						
+						elif i['live'] and i['event']:
+							event = i['event']
+						
+						elif i['live'] and i['showName'] == "UFC Fight Night":
+							event = i['location'] 
+
+						startTime = th.format_time(th.convert_utc_to_local(i['listDateTime']))
+						date = startTime[0]
+						startTime = startTime[1]
+						duration = i['duration']
+						sport = i['showName']
+						stationID = i['stationID']
+						stopTime = th.addTime(startTime,duration)
+						listingID = i['listingID']
+						
+						cursor.execute('''INSERT INTO liveSports (stationID,date,startTime,duration,stopTime,sport,event,listingID)
+										VALUES (?,?,?,?,?,?,?,?)''',(stationID,date,startTime,duration,stopTime,sport,event,listingID))
+	except Exception as e:
+		print "Get Lineups Listings failed with error %s" % e
+
+						
+	cursor.execute('''UPDATE liveSports
+					SET 
+					uctvNo = (SELECT uctvNo FROM uctvLineups WHERE uctvLineups.stationID = liveSports.stationID),
+					channelName = (SELECT channelName FROM uctvLineups WHERE uctvLineups.stationID = liveSports.stationID)	''')
+
+
+	cursor.execute('''DELETE FROM liveSports
+					WHERE id
+					IN (SELECT id FROM liveSports
+					GROUP BY stationID,channelName,date,startTime
+					HAVING COUNT(*) >1) ''')
+	
+										
+	cursor.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,duration,stopTime,event)
+			SELECT 	uctvLineups.channelName,
+					uctvLineups.uctvNo,
+					liveSports.sport,
+					liveSports.date,
+					liveSports.startTime,
+					liveSports.stopTime,
+					liveSports.duration,
+					liveSports.event
+			FROM livesports
+			INNER JOIN uctvLineups
+			ON uctvLineups.stationID = liveSports.stationID
+			WHERE uctvlineups.crestron = 1 ''')
+								
+	conn.commit()
+
+def listingsTest(lineups):
+
+	START = '2016-11-29 00:00:00'
+	STOP = '2016-11-29 11:59:59'
+
+	listings = [api.lineup_listings(i,start=START,stop=STOP,sportEventsOnly=1,liveOnly=1) for i in lineups]
+
+
+	for lineup in listings:
+		for i in lineup:
+			print i['stationID'],i['name'],i['team1'],i['listingID']
+			
+get_Sports()
+# get_lineup_listings(LINEUPS)
+# listingsTest(LINEUPS)
+# make_infocaster_file()
 
 # 

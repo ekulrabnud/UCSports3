@@ -108,6 +108,7 @@ def make_infocaster_file(startTime,stopTime,date,cursor):
 							ON liveSports.stationID = uctvLineups.stationID
 							WHERE date = ? AND startTime between ? AND ?  
 							ORDER BY sport,startTime,event''',(date,start,stop))
+
 	listings = [dict(row) for row in query.fetchall()]
 
 	csport = None
@@ -187,7 +188,7 @@ def getLiveSports(date,start,stop,db):
 							INNER JOIN uctvLineups
 							ON livesports.stationID = uctvLineups.stationID
 							WHERE date = ?
-							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? ''',(date,start,stop,'OFF'))
+							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? OR ? ''',(date,start,stop,'OFF'))
 
 	sportslist = [dict(channelName=row[0],uctvNo=row[1],date=row[2],startTime=row[3],duration=row[4],sport=row[5],event=row[6],HD=row[7]) for row in query.fetchall()]
 

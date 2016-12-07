@@ -79,7 +79,7 @@ def get_lineup_listings(start,stop,date,lineups,cursor):
 					HAVING COUNT(*) >1) ''')
 	cursor.connection.commit()
 										
-	cursor.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,duration,stopTime,event)
+	cursor.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,stopTime,duration,event)
 			SELECT 	uctvLineups.channelName,
 					uctvLineups.uctvNo,
 					liveSports.sport,
@@ -146,7 +146,7 @@ def make_crestron_live_sports_file(date,cursor):
 		for i in liveSports:
 			event = i['event']
 			event  = '<FONT size=""30"" face=""Crestron Sans Pro"" color=""#ffffff"">'+event+'</FONT>'
-			line = [i['sport'],event,i['date'],i['startTime'],i['duration'],i['stopTime'],i['channelName'],i['uctvNo'],'\n']
+			line = [i['sport'],event,i['date'],i['startTime'],str(i['duration']),i['stopTime'],i['channelName'],i['uctvNo'],'\n']
 			newline = ','.join(i for i in line)
 		
 			file.write(newline)
@@ -188,7 +188,7 @@ def getLiveSports(date,start,stop,db):
 							INNER JOIN uctvLineups
 							ON livesports.stationID = uctvLineups.stationID
 							WHERE date = ?
-							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? OR ? ''',(date,start,stop,'OFF'))
+							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? OR ? ''',(date,start,stop,'OFF','None'))
 
 	sportslist = [dict(channelName=row[0],uctvNo=row[1],date=row[2],startTime=row[3],duration=row[4],sport=row[5],event=row[6],HD=row[7]) for row in query.fetchall()]
 

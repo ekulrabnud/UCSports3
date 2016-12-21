@@ -59,9 +59,10 @@ def get_lineup_listings(start,stop,date,lineups,cursor):
 						sport = i['showName']
 						stationID = i['stationID']
 						stopTime = th.addTime(startTime,duration)
+						listingID = i['listingID']
 						
-						cursor.execute('''INSERT INTO liveSports (stationID,date,startTime,duration,stopTime,sport,event)
-										VALUES (?,?,?,?,?,?,?)''',(stationID,date,startTime,duration,stopTime,sport,event))
+						cursor.execute('''INSERT INTO liveSports (stationID,date,startTime,duration,stopTime,sport,event,listingID)
+										VALUES (?,?,?,?,?,?,?,?)''',(stationID,date,startTime,duration,stopTime,sport,event,listingID))
 	except Exception as e:
 		print "Get Lineups Listings failed with error %s" % e
 
@@ -146,6 +147,7 @@ def make_crestron_live_sports_file(date,cursor):
 		for i in liveSports:
 			event = i['event']
 			event  = '<FONT size=""30"" face=""Crestron Sans Pro"" color=""#ffffff"">'+event+'</FONT>'
+			# Note conversion of duration from int to string. This was to fix a node red bug that was preventing crestron parsing live.txt file
 			line = [i['sport'],event,i['date'],i['startTime'],str(i['duration']),i['stopTime'],i['channelName'],i['uctvNo'],'\n']
 			newline = ','.join(i for i in line)
 		
@@ -153,13 +155,14 @@ def make_crestron_live_sports_file(date,cursor):
 
 def getChannels(db):
 
-	query = db.execute('''SELECT id,channelNumber,callsign,channelName,uctvNo,stationID,lineupID
+	query = db.execute('''SELECT id,channelNumber,callsign,channelName,uctvNo,stationID,lineupID,HD
 						   FROM uctvLineups 
 						   WHERE uctvNo != ?
 						   ORDER BY uctvNo''',('None',))
 
 	channels = [dict(row) for row in query.fetchall()]
-
+	for i in channels:
+		print i['uctvNo']
 	return channels
 
 def getCrestronLiveSports(db):
@@ -171,13 +174,54 @@ def getCrestronLiveSports(db):
 	
 	return liveSports
 
-def getLiveSportsWithId(date,start,stop,db):
+# Function to merge hd and sd listings
+def combiner(listings):
 
-	query = db.execute('''SELECT * FROM liveSports WHERE date=? and startTime between ? and ?''',(date,start,stop))
-	liveSports = [dict(row) for row in query.fetchall()]
-	liveSports = th.sort_by_time(liveSports)
+	seen = []
+	newRows = []
 
-	return liveSports
+	for i in listings:
+
+		# print i['channelName'],i['uctvNo'],i['HD'],i['SD']
+
+		if i['listingID'] not in seen:
+			i['SD'] = i['uctvNo'] if i['HD'] == None else ''
+			seen.append(i['listingID']);	
+		else:
+			print i['uctvNo'],i['HD'],i['channelName']
+			row = [x for x in listings if x['listingID']==i['listingID']]
+			uctvNo = row[0]['uctvNo'] if row[0]['HD'] == 1 else row[1]['uctvNo']		
+			SD = row[1]['uctvNo'] if row[1]['HD'] == None else row[0]['uctvNo']
+			HD = row[0]['HD']
+			listingID = row[0]['listingID']
+			event = row[0]['event']
+			sport = row[0]['sport']
+			channelName = row[0]['channelName']
+			startTime = row[0]['startTime']
+			newRow = {'sport':sport,'event':event,'listingID':listingID,'HD':HD,'SD':SD,'channelName':channelName,'uctvNo':uctvNo,'startTime':startTime}
+			newRows.append(newRow)
+
+	newRowIds = [x['listingID'] for x in newRows]
+	newlistings = [x for x in listings if x['listingID'] not in newRowIds]
+
+	return newRows + newlistings	
+
+def get_live_sports(date,start,stop,cursor):
+
+		query = cursor.execute('''  SELECT uctvLineups.uctvNo,uctvLineups.channelName,listingID,HD,sport,event,startTime
+							FROM liveSports 
+							INNER JOIN uctvLineups
+							ON livesports.stationID = uctvLineups.stationID
+							WHERE date = ? 
+							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? OR ? ''',(date,start,stop,'OFF','None'))
+
+		liveSports = [dict(row) for row in query.fetchall()]
+
+		newListings = combiner(liveSports)
+
+		sportslist = th.sort_by_time(newListings)
+
+		return sportslist
 
 def getLiveSports(date,start,stop,db):
 
@@ -209,6 +253,14 @@ def getLiveSports(date,start,stop,db):
 	sportslist = th.sort_by_time(sportslist)
 
 	return sportslist
+	
+def getLiveSportsWithId(date,start,stop,db):
+
+	query = db.execute('''SELECT * FROM liveSports WHERE date=? and startTime between ? and ?''',(date,start,stop))
+	liveSports = [dict(row) for row in query.fetchall()]
+	liveSports = th.sort_by_time(liveSports)
+
+	return liveSports
 
 def check_for_event(date,db):
 	
@@ -294,12 +346,12 @@ def update_crestron_live_sports_db(db):
 		stopTime = th.addTime(startTime,duration)
 		event = i['event']
 		
-		
-
 		db.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,duration,stopTime,event)
 					values (?,?,?,?,?,?,?,?,?)''',(channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event))
 	db.commit()
 
 # make_crestron_live_sports_file(cursor)
+
+
 		
 

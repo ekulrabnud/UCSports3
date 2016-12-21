@@ -51,12 +51,12 @@ def combiner(listings):
 	for i in listings:
 		
 		if i['listingID'] not in seen:
-			i['SD'] = ''
+			i['SD'] = i['uctvNo'] if i['HD'] == None else ''
 			seen.append(i['listingID']);	
 		else:
 			row = [x for x in listings if x['listingID']==i['listingID']]
 			print row[0]['HD'],row[0]['uctvNo'],row[1]['HD'],row[1]['uctvNo']
-			uctvNo = row[0]['uctvNo'] if row[0]['HD'] == 1 else row[1]['uctvNo']		# newRow = [row['channel'],row['name'] ]
+			uctvNo = row[0]['uctvNo'] if row[0]['HD'] == 1 else row[1]['uctvNo']		
 			SD = row[1]['uctvNo'] if row[1]['HD'] == None else row[0]['uctvNo']
 			HD = row[0]['HD']
 			listingID = row[0]['listingID']
@@ -72,7 +72,7 @@ def combiner(listings):
 
 	return newRows + newlistings	
 
-def get_Sports():
+def get_live_sports():
 
 		query = cursor.execute('''  SELECT uctvLineups.uctvNo,liveSports.channelName,listingID,HD,sport,event,startTime
 							FROM liveSports 
@@ -88,8 +88,8 @@ def get_Sports():
 		
 		newListings = combiner(liveSports)
 
-		for i in newListings:
-			print i['uctvNo'],i['SD'],i['listingID'],i['event']		
+		# for i in newListings:
+		# 	print i['uctvNo'],i['SD'],i['listingID'],i['event']		
 						
 def update_crestron_live_sports_db():
 
@@ -132,35 +132,52 @@ def make_infocaster_file(startTime,stopTime,date):
 
 	print start,stop
 
-	query = cursor.execute('''SELECT event,startTime,sport,liveSports.uctvNo,liveSports.channelName,uctvLineups.hd
-							FROM liveSports
+	# query = cursor.execute('''SELECT event,startTime,sport,liveSports.uctvNo,liveSports.channelName,uctvLineups.hd
+	# 						FROM liveSports
+	# 						INNER JOIN uctvLineups
+	# 						ON liveSports.stationID = uctvLineups.stationID
+	# 						WHERE date = ? AND startTime between ? AND ?  
+	# 						ORDER BY sport,startTime,event''',(date,start,stop))
+
+	query = cursor.execute('''  SELECT uctvLineups.uctvNo,liveSports.channelName,listingID,HD,sport,event,startTime
+							FROM liveSports 
 							INNER JOIN uctvLineups
-							ON liveSports.stationID = uctvLineups.stationID
-							WHERE date = ? AND startTime between ? AND ?  
-							ORDER BY sport,startTime,event''',(date,start,stop))
+							ON livesports.stationID = uctvLineups.stationID
+							WHERE date = ? 
+							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? OR ?
+							ORDER BY sport,startTime ''',(DATETODAY,START,STOP,'OFF','None'))
 	listings = [dict(row) for row in query.fetchall()]
 
+	newListings = combiner(listings)
+
+
+
+	# newlistings = th.sort_by_time(newListings)
+	sortedListings = sorted(newListings, key=lambda k: (k['sport'],k['startTime'])) 
+	# sortedListings = sorted(sortedListings, key=lambda k: k['startTime']) 
 	csport = None
+	
+	
 
 	with open('testinfocaster.txt','w') as f:
 
-		for i in listings:
+		for i in sortedListings:
 
-			startTime = th.convert_to_am_pm(i['startTime'])
+			# startTime = th.convert_to_am_pm(i['startTime'])
 			
-			hd = i['uctvNo'] if i['HD'] else ''
-			sd = i['uctvNo'] if not i['HD'] else ''
+			# hd = i['uctvNo'] if i['HD'] else ''
+			# sd = i['uctvNo'] if not i['HD'] else ''
 
 			event = i['event'] if not len(i['event']) > 44 else i['event'][:45]
 		
 			if csport == i['sport']:
-				row = ",%s,%s,%s,%s,%s\n" % (startTime,i['event'],i['channelName'],hd,sd)
+				row = ",%s,%s,%s,%s,%s\n" % (i['startTime'],i['event'],i['channelName'],i['uctvNo'],i['SD'])
 				f.write(row)
 
 			else:
 				row = "%s,,,,,\n" % i['sport']
 				f.write(row)
-				row = ",%s,%s,%s,%s,%s\n" % (startTime,i['event'],i['channelName'],hd,sd)
+				row = ",%s,%s,%s,%s,%s\n" % (i['startTime'],i['event'],i['channelName'],i['uctvNo'],i['SD'])
 				f.write(row)
 				csport = i['sport']
 
@@ -347,11 +364,10 @@ def make_crestron_live_sports_file(date):
 		
 			file.write(newline)
 			
-
 #get_lineup_listingsver2(LINEUPS)
-make_crestron_live_sports_file(DATETODAY)
+#make_crestron_live_sports_file(DATETODAY)
 #get_Sports()
 # listingsTest(LINEUPS)
-# make_infocaster_file()
+make_infocaster_file(START,STOP,DATETODAY)
 
-# 
+

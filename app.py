@@ -75,7 +75,8 @@ def liveSports():
 
 	if request.method == 'GET':
 
-		sportslist = utils.getLiveSports(DATETODAY,START,STOP,g.db)
+		# sportslist = utils.getLiveSports(DATETODAY,START,STOP,g.db)
+		sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
 	
 		return render_template('LiveSports/liveSports.html',sportslist=sportslist,request=request)
 
@@ -85,8 +86,8 @@ def liveSports():
 		date = th.convert_date_string(request.form['date'])
 		start = th.convert_time_string(request.form['start'])
 		stop = th.convert_time_string(request.form['stop']) 
-		sportslist = utils.getLiveSports(date,start,stop,g.db)
-
+		# sportslist = utils.getLiveSports(DATETODAY,START,STOP,g.db)
+		sportslist = utils.get_live_sports(date,start,stop,g.db)
 
 		
 		return render_template('LiveSports/liveSportsTable.html',sportslist=sportslist,request=request)

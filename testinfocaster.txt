@@ -1,0 +1,33 @@
+Basketball,,,,,
+,17:00:00,Elon at Duke,ESPN2, 61.1, 22.0
+,17:00:00,Boston College at Fairfield,CBS Sports Network, 53.2,
+,17:30:00,American at Villanova,Fox Sports 1, 25.1, 25.0
+,18:00:00,Kentucky at Louisville,ESPN, 60.2, 21.0
+,18:00:00,Oakland at Michigan State,Big Ten Network, 58.1, 24.0
+,18:00:00,Milwaukee Bucks at Cleveland Cavaliers,NBA TV, 18.1, 18.0
+,18:00:00,Missouri at Illinois,ESPN U, 55.1,
+,18:30:00,Minnesota Timberwolves at Atlanta Hawks,NBA League Pass 1, 18.2, 18.11
+,18:30:00,Minnesota Timberwolves at Atlanta Hawks,NBA League Pass 2, 18.12, 18.12
+,18:30:00,Memphis Grizzlies at Detroit Pistons,NBA League Pass 3,18.13,18.13
+,18:30:00,Memphis Grizzlies at Detroit Pistons,NBA League Pass 4,18.14,18.14
+,19:00:00,Washington Wizards at Chicago Bulls,Comcast Sportsnet Chicago, 60.1, 17.0
+,19:00:00,Northern Iowa at North Carolina,ESPN2, 61.1, 22.0
+,19:00:00,Liberty at Houston,Comcast Sportsnet Plus, 54.1,
+,19:00:00,Washington Wizards at Chicago Bulls,NBA League Pass 5,18.15,18.15
+,19:00:00,Oklahoma City Thunder at New Orleans Pelicans,NBA League Pass 6,18.16,18.16
+,19:30:00,Southern Illinois - Edwardsville at Marquette,Fox Sports 1, 25.1, 25.0
+,19:30:00,Oklahoma at Auburn,CBS Sports Network, 53.2,
+,20:00:00,Connecticut at Nebraska,Big Ten Network, 58.1, 24.0
+,20:00:00,Clemson at South Carolina,ESPN U, 55.1,
+,20:00:00,Sacramento Kings at Utah Jazz,NBA League Pass 7,18.17,18.17
+,20:00:00,Houston Rockets at Phoenix Suns,NBA League Pass 8,18.18,18.18
+,21:00:00,Virginia at California,ESPN2, 61.1, 22.0
+,21:00:00,Dallas Mavericks at Portland Trail Blazers,NBA TV, 18.1, 18.0
+,21:00:00,Dallas Mavericks at Portland Trail Blazers,TSN1, 23.1, 23.0
+Football,,,,,
+,20:00:00,BYU at Wyoming,ESPN, 60.2, 21.0
+Hockey,,,,,
+,18:00:00,Canada at Czech Republic,TSN1, 23.1, 23.0
+,19:00:00,Washington Capitals at Philadelphia Flyers,  NBC Sports , 57.1,
+,20:00:00,Edmonton Oilers at Arizona Coyotes,NHL Center Ice 1 HD, 19.2, 19.11
+,20:30:00,Edmonton Oilers at Arizona Coyotes,NHL Center Ice 2, 19.12, 19.12

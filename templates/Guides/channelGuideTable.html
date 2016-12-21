@@ -13,7 +13,11 @@
         {% if i['uctvNo'] != 'None' %}
         <tr id="{{i['id']}}">
             <td class="uctvNo edit channelGuide" >   {{ i['uctvNo'] }}   </td>
-            <td class="channelName edit channelGuide" >  {{ i['channelName'] }}    </td>
+            {% if i['HD'] == 1 %}
+            <td class="channelName edit channelGuide" > <strong> {{ i['channelName'] }} </strong>   </td>
+            {% else %}
+             <td class="channelName edit channelGuide" > {{ i['channelName'] }}   </td>
+             {% endif %}
             <td> {{i['stationID']}} </td>
             <td> {{i['lineupID']}} </td>
         </tr>

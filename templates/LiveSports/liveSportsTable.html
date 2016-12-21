@@ -18,26 +18,26 @@
                         <td class='event edit'><strong>{{ i['event'] }}</strong></td>
                         <td class='startTime edit'><strong>{{ i['startTime'] }} </strong></td>
                         <td class="channelName edit"><strong>{{ i['channelName'] }}</strong> </td>
-                        {% if i['HD'] %}
-                        <td class="HD edit"><strong>{{ i['uctvNo'] }}</td>
+                          {% if i['uctvNo'] == i['SD'] %}
                         <td class="HD edit"><strong></td>
+                        <td class="SD edit"><strong>{{i['SD']}}</td>
                         {% else %}
-                        <td class="SD edit"><strong></strong></td>
-                        <td class="HD edit"><strong>{{ i['uctvNo'] }}</td>
-                        {% endif %}
+                        <td class="HD edit"><strong>{{i['uctvNo']}}</td>
+                        <td class="SD edit"><strong>{{i['SD']}}</td>
+                         {% endif %}
                     </tr>
                 {% else %}
                     <tr>
                         <td class='event edit'>{{ i['event'] }}</td>
                         <td class='startTime edit'>{{ i['startTime'] }} </td>
                         <td class="channelName edit">{{ i['channelName'] }} </td>
-                        {% if i['HD'] %}
-                        <td class="HD edit"><strong>{{ i['uctvNo'] }}</td>
+                        {% if i['uctvNo'] == i['SD'] %}
                         <td class="HD edit"><strong></td>
+                        <td class="SD edit"><strong>{{i['SD']}}</td>
                         {% else %}
-                        <td class="SD edit"><strong></strong></td>
-                        <td class="HD edit"><strong>{{ i['uctvNo'] }}</td>
-                        {% endif %}
+                        <td class="HD edit"><strong>{{i['uctvNo']}}</td>
+                        <td class="SD edit"><strong>{{i['SD']}}</td>
+                         {% endif %}
                     </tr>
                 {% endif %}
             {% endfor %}

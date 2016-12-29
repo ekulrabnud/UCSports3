@@ -130,22 +130,14 @@ def make_infocaster_file(startTime,stopTime,date):
 	start = startTime
 	stop = stopTime
 
-	print start,stop
-
-	# query = cursor.execute('''SELECT event,startTime,sport,liveSports.uctvNo,liveSports.channelName,uctvLineups.hd
-	# 						FROM liveSports
-	# 						INNER JOIN uctvLineups
-	# 						ON liveSports.stationID = uctvLineups.stationID
-	# 						WHERE date = ? AND startTime between ? AND ?  
-	# 						ORDER BY sport,startTime,event''',(date,start,stop))
-
 	query = cursor.execute('''  SELECT uctvLineups.uctvNo,liveSports.channelName,listingID,HD,sport,event,startTime
 							FROM liveSports 
 							INNER JOIN uctvLineups
 							ON livesports.stationID = uctvLineups.stationID
 							WHERE date = ? 
 							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? OR ?
-							ORDER BY sport,startTime ''',(DATETODAY,START,STOP,'OFF','None'))
+							ORDER BY sport,startTime ''',(date,start,stop,'OFF','None'))
+
 	listings = [dict(row) for row in query.fetchall()]
 
 	newListings = combiner(listings)
@@ -157,8 +149,6 @@ def make_infocaster_file(startTime,stopTime,date):
 	# sortedListings = sorted(sortedListings, key=lambda k: k['startTime']) 
 	csport = None
 	
-	
-
 	with open('testinfocaster.txt','w') as f:
 
 		for i in sortedListings:

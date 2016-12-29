@@ -33,7 +33,7 @@ def get_lineup_listings(start,stop,date,lineups,cursor):
 	cursor.execute('''DELETE FROM crestronLiveSports''')
 	
 	cursor.connection.commit()
-
+	print times
 	try:
 		for time in times:
 			listings = [api.lineup_listings(i,start=time[0],stop=time[1],sportEventsOnly=1,liveOnly=1) for i in lineups]
@@ -79,6 +79,8 @@ def get_lineup_listings(start,stop,date,lineups,cursor):
 					GROUP BY stationID,channelName,date,startTime
 					HAVING COUNT(*) >1) ''')
 	cursor.connection.commit()
+
+	cursor.execute('''DELETE FROM crestronLiveSports''')
 										
 	cursor.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,stopTime,duration,event)
 			SELECT 	uctvLineups.channelName,

@@ -1,43 +1,45 @@
 Basketball,,,,,
-,17:30:00,Rutgers at Seton Hall,Fox Sports 1, 25.1, 25.0
-,18:00:00,Chicago Bulls at Charlotte Hornets,  WGN Chicago , 9.1, 9.0
-,18:00:00,Arkansas State at Minnesota,Big Ten Network, 58.1, 24.0
-,18:00:00,Chicago Bulls at Charlotte Hornets,NBA League Pass 1, 18.2, 18.11
-,18:00:00,Los Angeles Lakers at Orlando Magic,NBA League Pass 2, 18.12, 18.12
-,18:30:00,Oklahoma City Thunder at Boston Celtics,NBA TV, 18.1, 18.0
-,18:30:00,Brooklyn Nets at Cleveland Cavaliers,NBA League Pass 3,18.13,18.13
-,18:30:00,Golden State Warriors at Detroit Pistons,NBA League Pass 4,18.14,18.14
-,19:00:00,Harvard at Houston,ESPN2, 61.1, 22.0
-,19:00:00,Washington Wizards at Milwaukee Bucks,NBA League Pass 5,18.15,18.15
-,19:00:00,Houston Rockets at Memphis Grizzlies,NBA League Pass 6,18.16,18.16
-,19:00:00,Miami Heat at New Orleans Pelicans,NBA League Pass 7,18.17,18.17
-,19:00:00,Sacramento Kings at Minnesota Timberwolves,NBA League Pass 8,18.18,18.18
-,19:30:00,Las Vegas Classic,Fox Sports 1, 25.1, 25.0
-,20:00:00,Florida A&M at Wisconsin,Big Ten Network, 58.1, 24.0
-,20:00:00,Toronto Raptors at Utah Jazz,TSN1, 23.1, 23.0
-,20:00:00,Philadelphia 76ers at Phoenix Suns,NBA League Pass 2, 18.12, 18.12
-,20:00:00,Atlanta Hawks at Denver Nuggets,NBA League Pass 9,18.19,18.19
-,20:00:00,Toronto Raptors at Utah Jazz,NBA League Pass 10,18.10,18.10
-,21:00:00,Diamond Head Classic,ESPN2, 61.1, 22.0
-,21:00:00,San Antonio Spurs at Portland Trail Blazers,NBA League Pass 1, 18.2, 18.11
-,21:30:00,Dallas Mavericks at Los Angeles Clippers,NBA TV, 18.1, 18.0
-Football,,,,,
-,15:30:00,Louisiana Tech at Navy,ESPN, 60.2, 21.0
-,15:30:00,Louisiana Tech at Navy,TSN1, 23.1, 23.0
-,17:00:00,State Champions Bowl Series,ESPN U, 55.1,
-,19:00:00,Ohio University at Troy University,ESPN, 60.2, 21.0
-,20:30:00,State Champions Bowl Series,ESPN U, 55.1,
+,05:00 PM,Indiana at Michigan,Big Ten Network, 58.1,24
+,06:00 PM,Kentucky at Vanderbilt,ESPN, 60.2,21
+,06:00 PM,Chicago Bulls at Washington Wizards,Comcast Sportsnet Chicago, 60.1,17
+,06:00 PM,Baylor at West Virginia,ESPN2, 61.1,22
+,06:00 PM,Xavier at Villanova,Fox Sports 1, 25.1,25
+,06:00 PM,Chicago Bulls at Washington Wizards,NBA League Pass 1, 18.2, 18.11
+,06:00 PM,Baylor at West Virginia,TSN1, 23.1,23
+,06:00 PM,Eastern Michigan at Bowling Green,Comcast Sportsnet Plus, 54.1,
+,06:00 PM,South Florida at Connecticut,CBS Sports Network, 53.2,
+,06:00 PM,Syracuse at Virginia Tech,ESPN U, 55.1,
+,06:30 PM,Boston Celtics at Toronto Raptors,NBA TV, 18.1,18
+,06:30 PM,Atlanta Hawks at Brooklyn Nets,NBA League Pass 2,, 18.12
+,07:00 PM,Ohio State at Michigan State,Big Ten Network, 58.1,24
+,07:00 PM,Charlotte Hornets at Houston Rockets,NBA League Pass 3,,18.13
+,07:30 PM,Milwaukee Bucks at San Antonio Spurs,NBA League Pass 4,,18.14
+,08:00 PM,Indiana at Maryland,ESPN, 60.2,21
+,08:00 PM,Kansas at Oklahoma,ESPN2, 61.1,22
+,08:00 PM,Providence at DePaul,Fox Sports 1, 25.1,25
+,08:00 PM,Kansas at Oklahoma,TSN1, 23.1,23
+,08:00 PM,Florida at Alabama,ESPN U, 55.1,
+,08:00 PM,Cleveland Cavaliers at Utah Jazz,NBA League Pass 5,,18.15
+,08:00 PM,Cleveland Cavaliers at Utah Jazz,NBA League Pass 6,,18.16
+,09:30 PM,Miami Heat at Golden State Warriors,NBA TV, 18.1,18
+,09:30 PM,Detroit Pistons at Sacramento Kings,NBA League Pass 1, 18.2, 18.11
+,09:30 PM,Portland Trail Blazers at Los Angeles Lakers,NBA League Pass 7,,18.17
+,09:30 PM,Portland Trail Blazers at Los Angeles Lakers,NBA League Pass 8,,18.18
+,09:30 PM,Detroit Pistons at Sacramento Kings,NBA League Pass 9,,18.19
+,10:00 PM,San Jose State at San Diego State,ESPN U, 55.1,
+Golf,,,,,
+,02:00 PM,Bahamas Great Exuma Classic,Golf Channel USA, 58.3,
 Hockey,,,,,
-,17:30:00,Montréal Canadiens at Columbus Blue Jackets,NHL Center Ice 5,  19.15,  19.15
-,18:00:00,Buffalo Sabres at New York Islanders,NHL Center Ice 1 HD, 19.2, 19.11
-,18:00:00,Minnesota Wild at New York Rangers,NHL Center Ice 2, 19.12, 19.12
-,18:00:00,New Jersey Devils at Pittsburgh Penguins,NHL Center Ice 3, 19.13, 19.13
-,18:00:00,Tampa Bay Lightning at Washington Capitals,NHL Center Ice 4, 19.14, 19.14
-,18:00:00,Detroit Red Wings at Florida Panthers,NHL Center Ice 6,19.16,19.16
-,18:00:00,Boston Bruins at Carolina Hurricanes,NHL Center Ice 7,19.17,19.17
-,19:00:00,Los Angeles Kings at Dallas Stars,NHL Center Ice 9,19.19,19.19
-,19:30:00,Colorado Avalanche at Chicago Blackhawks,Comcast Sportsnet Chicago, 60.1, 17.0
-,19:30:00,Colorado Avalanche at Chicago Blackhawks,NHL Center Ice 8,19.18,19.18
-,19:30:00,Vancouver Canucks at Calgary Flames,NHL Center Ice 10,19.20,19.20
-,19:30:00,Toronto Maple Leafs at Arizona Coyotes,NHL Center Ice 11,19.21,19.21
-,21:30:00,Edmonton Oilers at San Jose Sharks,NHL Center Ice 1 HD, 19.2, 19.11
+,05:30 PM,Columbus Blue Jackets at Carolina Hurricanes,NHL Center Ice 3,, 19.13
+,05:30 PM,Columbus Blue Jackets at Carolina Hurricanes,NHL Center Ice 4,, 19.14
+,06:00 PM,Philadelphia Flyers at Buffalo Sabres,NHL Center Ice 1 HD,19.2, 19.11
+,06:00 PM,Philadelphia Flyers at Buffalo Sabres,NHL Center Ice 2,, 19.12
+,06:30 PM,Vancouver Canucks at Nashville Predators,NHL Center Ice 5,,  19.15
+,07:00 PM,Boston Bruins at St. Louis Blues,NBC Sports Network, 57.1,16
+,07:00 PM,Vancouver Canucks at Nashville Predators,NHL Center Ice 6,,19.16
+,07:00 PM,Detroit Red Wings at Chicago Blackhawks,NHL Center Ice 8,,19.18
+,07:30 PM,Detroit Red Wings at Chicago Blackhawks,  WGN Chicago , 9.1,9
+,07:30 PM,Detroit Red Wings at Chicago Blackhawks,NHL Center Ice 7,,19.17
+,08:00 PM,San Jose Sharks at Edmonton Oilers,NHL Center Ice 9,,19.19
+,08:00 PM,San Jose Sharks at Edmonton Oilers,NHL Center Ice 10,,19.20
+,09:00 PM,Dallas Stars at Anaheim Ducks,NHL Center Ice 1 HD,19.2, 19.11

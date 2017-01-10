@@ -12,6 +12,13 @@ def convert_utc_to_local(string):
 	local =  datetime.strftime(local,'%Y-%m-%d %H:%M:%S')
 	return local
 
+def convert_local_to_utc_ver2(string):
+	local = datetime.strptime(string,"%Y-%m-%d %H:%M")
+	local = local.replace(tzinfo=to_zone)
+	utc = local.astimezone(from_zone)
+	utc = datetime.strftime(utc,'%Y-%m-%d %H:%M:%S')
+	return utc
+
 def convert_local_to_utc(string):
 	local = datetime.strptime(string,"%m/%d/%Y %I:%M %p")
 	local = local.replace(tzinfo=to_zone)
@@ -67,16 +74,17 @@ def convert_time_string(time):
 def date_today():
 	return datetime.strftime(date.today(),"%Y-%m-%d")
 
-def get_date_times():
+
+def get_utc_start_end_times():
+
 	start = '00:00'
 	stop = '23:59'
-	dates = [date.today() + timedelta(days=x) for x in range(5)]
+	dates = [date.today() + timedelta(days=x) for x in range(1)]
 	startTimes = [datetime.strftime(x,"%Y-%m-%d") +' '+ start for x in dates]
 	stopTimes = [datetime.strftime(x,"%Y-%m-%d") +' '+ stop for x in dates]
 	times =  zip(startTimes,stopTimes)
-
-
-	return times
+	utcStartEndTimes = [(convert_local_to_utc_ver2(i[0]),convert_local_to_utc_ver2(i[1]) ) for i in times]
+	return utcStartEndTimes
 
 
 def date_today_withMonth():
@@ -108,3 +116,10 @@ def convert_to_24hr(time):
 	time = datetime.strptime(time,"%I:%M %p")
 	newtime = datetime.strftime(time,"%H:%M")
 	return newtime
+
+
+
+
+
+
+

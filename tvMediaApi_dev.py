@@ -66,7 +66,7 @@ class TvMedia(object):
 
         if r.text and len(r.text) > 0 and r.text != 'null':
             if self.trace_out:
-                #print('Response',r.content)
+                # print('Response',r.content)
                 return json.loads(r.content)
             else:
                 return None
@@ -99,7 +99,7 @@ class TvMedia(object):
 
     def lineup_listings(self,lineupID,
                         start=None,
-                        stop=None,
+                        end=None,
                         channel=None,
                         station=None,
                         search=None,

@@ -4,12 +4,12 @@
 <table role="table" class="table table-bordered table-condensed sportsTable ">
     <tr>
     
-      <th class="striped"></th>
+      <th ></th>
       <th>startTime</th>
-            <th>Channel</th>
-            <th>HD</th>
-            <th>SD</th> 
-            <td class="pdf_no_show">X</td>
+        <th>Channel</th>
+        <th>HD</th>
+        <th>SD</th> 
+<td class="pdf_no_show">X</td>
     </tr>
         {% for sport in sportslist|groupby('sport') %}
             <th class="thSports">{{sport.grouper}}</th>
@@ -19,9 +19,15 @@
                 
                 <td ><strong><input size="40" type="text" name="{{ i['id'] }}" value="{{ i['event'] }}" required></strong></td>
                 <td><strong><input size="8" type="text" name="{{ i['id'] }}" value="{{ i['startTime'] }}" required> </strong></td>
-                <td><strong><input size="20" type="text" name="{{ i['id'] }}" value="{{ i['channelName'] }}" required></strong> </td>
-                <td><strong><input  size="10" size="10" type="number" name="{{ i['id'] }}" value="{{ i['HDNo'] }}"></td>
-                <td><strong><input  size="10" type="number" name="{{ i['id'] }}" value="{{ i['SDNo'] }}"></strong></td>
+                <td><strong><input size="20" type="text" name="{{ i['id'] }}" value="{{ i['channelName'] }}" required></strong></td>
+                  {% if i['uctvNo'] == i['SD'] %}
+                <td><strong><input  size="10" name="{{ i['id'] }}" value=""></td>
+                <td><strong><input  size="10"  name="{{ i['id'] }}" value="{{ i['SD'] }}"></strong></td>
+                {% else %}
+                    <td><strong><input  size="10" name="{{ i['id'] }}" value="{{ i['uctvNo']}}"></td>
+                <td><strong><input  size="10"  name="{{ i['id'] }}" value="{{ i['SD'] }}"></strong></td>
+                {% endif %}
+
                 <td class="pdf_no_show"><input type="checkbox" name="delete" value="{{ i['id'] }}"></td>
           </tr>
             {% else %}
@@ -30,8 +36,14 @@
               <td ><input size="40" type="text" name="{{ i['id'] }}" value="{{ i['event'] }}" required></td>
                 <td><input size="8" type="text" name="{{ i['id'] }}" value="{{ i['startTime'] }}" required> </td>
                 <td><input size="20" type="text" name="{{ i['id'] }}" value="{{ i['channelName'] }}" required> </td>
-                <td><input size="10" type="number" name="{{ i['id'] }}" value="{{ i['HDNo'] }}"></td>
-                <td><input size="10" type="number" name="{{ i['id'] }}" value="{{ i['SDNo'] }}"></td>
+                {% if i['uctvNo'] == i['SD'] %}
+                 <td><strong><input  size="10"  name="{{ i['id'] }}" value=""></td>
+                <td><strong><input  size="10"  name="{{ i['id'] }}" value="{{ i['SD'] }}"></strong></td>
+                {% else %}
+            <td><strong><input  size="10" name="{{ i['id'] }}" value="{{ i['uctvNo']}}"></td>
+                <td><strong><input  size="10"  name="{{ i['id'] }}" value="{{ i['SD'] }}"></strong></td>
+                {% endif %}
+
                 <td class="pdf_no_show"><input type="checkbox" name="delete" value="{{ i['id'] }}"></td>
             </tr>
             {% endif %}

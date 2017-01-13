@@ -77,7 +77,7 @@ def liveSports():
 
 		# sportslist = utils.getLiveSports(DATETODAY,START,STOP,g.db)
 		sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
-	
+		print "get livesports"
 		return render_template('LiveSports/liveSports.html',sportslist=sportslist,request=request)
 
 	#submit new date time range for query
@@ -94,11 +94,10 @@ def liveSports():
 
 @app.route('/editLiveSports',methods=['GET','POST'])
 def edit():
-	
-
-
-	sportslist = utils.getLiveSportsWithId(DATETODAY,START,STOP,g.db)
-	
+	print "editlive sports"
+	sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
+	for i in sportslist:
+		print i['uctvNo'],i['SD']
 	return render_template('LiveSports/liveSportsEdit.html',sportslist=sportslist)
 
 @app.route('/saveLiveSportsEdit',methods=['POST'])
@@ -230,6 +229,7 @@ def channelLineup():
 		col = row['col']
 		val = row['value']
 		id = row['id']
+		print id,col,
 		g.db.execute('UPDATE uctvlineups SET ' + col + ' = ? WHERE id = ?',(val,id))
 	g.db.connection.commit()
 		
@@ -253,7 +253,7 @@ def addStation():
 
 			HD = 1 if 'HD' in form else 0
 			crestron = 1 if 'crestron' in form else 0
-			print channelName,uctvNo,lineupID,crestron,HD
+			# print channelName,uctvNo,lineupID,crestron,HD
 
 			g.db.execute('''INSERT INTO uctvLineups (channelName,uctvNo,lineupID,HD,crestron)
 						VALUES (?,?,?,?,?)''',(channelName,uctvNo,lineupID,HD,crestron))
@@ -315,7 +315,7 @@ def email():
 
 	if request.method == 'GET':
 
-		sportslist = getLiveSports(DATETODAY,START,STOP)
+		sportslist = get_live_sports(DATETODAY,START,STOP)
 
 	else:
 
@@ -323,7 +323,11 @@ def email():
 		start = th.convert_time_string(request.form['start'])
 		stop = th.convert_time_string(request.form['stop']) 
 
-		sportslist = utils.getLiveSports(date,start,stop,g.db)
+		sportslist = utils.get_live_sports(date,start,stop,g.db)
+
+		for i in sportslist:
+			print i['uctvNo'],i['HD']
+
 	
 	return render_template('LiveSports/email.html',sportslist=sportslist,date=request.form['date'])
 
@@ -335,8 +339,8 @@ def publish_infocast():
 		formDate = th.convert_date_string(request.form['date'])
 		formStart = th.convert_time_string(request.form['start'])
 		formStop = th.convert_time_string(request.form['stop']) 
-
-		misft.make_text_file(formDate,formStart,formStop)
+		# make_infocaster_file(START,STOP,DATETODAY,cursor)
+		utils.make_infocaster_file(formStart,formStop,formDate,g.db)
 
 		return jsonify(error=0,message="Infocaster Text File Updated at %s\\%s" % (config.DIR_INFOCASTER_TEXT,"uctvSportsSchedule.txt"))
 

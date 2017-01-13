@@ -49,7 +49,7 @@ def get_lineup_listings(start,stop,date,lineups,cursor):
 						elif i['live'] and i['event']:
 							event = i['event']
 						
-						elif i['live'] and i['showName'] == "UFC Fight Night":
+						elif i['live'] and i['showName']:
 							event = i['location'] 
 
 
@@ -101,12 +101,12 @@ def get_lineup_listings(start,stop,date,lineups,cursor):
 	cursor.connection.commit()
 
 def make_infocaster_file(startTime,stopTime,date,cursor):
-
+	print "Making INfocaster file"
 	start = startTime
 	stop = stopTime
 
 
-	print start,stop,date
+	
 
 	# query = cursor.execute('''SELECT event,startTime,sport,liveSports.uctvNo,liveSports.channelName,uctvLineups.hd
 	# 						FROM liveSports
@@ -122,15 +122,11 @@ def make_infocaster_file(startTime,stopTime,date,cursor):
 							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo NOT NULL
 							''',(date,start,stop))
 
-
-
-
 	listings = [dict(row) for row in query.fetchall()]
 
 	newListings = combiner(listings)
 
 	sortedListings = sorted(newListings,key=lambda d:(d['sport'],d['startTime']))
-
 
 	csport = None
 	
@@ -147,19 +143,20 @@ def make_infocaster_file(startTime,stopTime,date,cursor):
 				hd = i['uctvNo']
 				sd = i['SD']
 			
-			# hd = i['uctvNo'] if i['HD'] else ''
-			# sd = i['SD'] 
-			
-			event = i['event'] if not len(i['event']) > 44 else i['event'][:45]
+			#handle events that are too long to fit in line
+			event = i['event'] if not len(i['event']) > 42 else i['event'][:42] + '..'
+			#remove comma from event to stop ffing up csv file
+			event = event.replace(',',' ')
+			print type(event),event
 		
 			if csport == i['sport']:
-				row = ",%s,%s,%s,%s,%s\n" % (startTime,i['event'],i['channelName'],hd,sd)
+				row = ",%s,%s,%s,%s,%s\n" % (startTime,event,i['channelName'],hd,sd)
 				f.write(row)
 
 			else:
 				row = "%s,,,,,\n" % i['sport']
 				f.write(row)
-				row = ",%s,%s,%s,%s,%s\n" % (startTime,i['event'],i['channelName'],hd,sd)
+				row = ",%s,%s,%s,%s,%s\n" % (startTime,event,i['channelName'],hd,sd)
 				f.write(row)
 				csport = i['sport']
 
@@ -254,36 +251,36 @@ def get_live_sports(date,start,stop,cursor):
 		sportslist = th.sort_by_time(newListings)
 
 		return sportslist
-def getLiveSports(date,start,stop,db):
+# def getLiveSports(date,start,stop,db):
 
-	# sdchannels=['NHL Centre Ice 10','NBA League Pass 10']
+# 	# sdchannels=['NHL Centre Ice 10','NBA League Pass 10']
 
-	query = db.execute('''  SELECT DISTINCT uctvLineups.channelName,uctvLineups.uctvNo,date,startTime,duration,sport,event,HD
-							FROM liveSports 
-							INNER JOIN uctvLineups
-							ON livesports.stationID = uctvLineups.stationID
-							WHERE date = ?
-							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? OR ? ''',(date,start,stop,'OFF','None'))
+# 	query = db.execute('''  SELECT DISTINCT uctvLineups.channelName,uctvLineups.uctvNo,date,startTime,duration,sport,event,HD
+# 							FROM liveSports 
+# 							INNER JOIN uctvLineups
+# 							ON livesports.stationID = uctvLineups.stationID
+# 							WHERE date = ?
+# 							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? OR ? ''',(date,start,stop,'OFF','None'))
 
-	sportslist = [dict(channelName=row[0],uctvNo=row[1],date=row[2],startTime=row[3],duration=row[4],sport=row[5],event=row[6],HD=row[7]) for row in query.fetchall()]
+# 	sportslist = [dict(channelName=row[0],uctvNo=row[1],date=row[2],startTime=row[3],duration=row[4],sport=row[5],event=row[6],HD=row[7]) for row in query.fetchall()]
 
-	# for i in sportslist:
+# 	# for i in sportslist:
 		
 		
-	# 	#add '0' to digital SD channels from sdchannels list
-	# 	if  i['channelName'] in sdchannels:
+# 	# 	#add '0' to digital SD channels from sdchannels list
+# 	# 	if  i['channelName'] in sdchannels:
 		
-	# 		i['SDNo'] = i['SDNo']+'0'
+# 	# 		i['SDNo'] = i['SDNo']+'0'
 		
-	# 	#Remove '0' from analog channels e.g = 23 instead of 23.0
-	# 	if i['SDNo']:
-	# 		if i['SDNo'][-1] == '0' and i['channelName'] not in sdchannels:
+# 	# 	#Remove '0' from analog channels e.g = 23 instead of 23.0
+# 	# 	if i['SDNo']:
+# 	# 		if i['SDNo'][-1] == '0' and i['channelName'] not in sdchannels:
 				
-	# 			i['SDNo'] = i['SDNo'][0:-2]	
+# 	# 			i['SDNo'] = i['SDNo'][0:-2]	
 
-	sportslist = th.sort_by_time(sportslist)
+# 	sportslist = th.sort_by_time(sportslist)
 
-	return sportslist
+# 	return sportslist
 	
 def getLiveSportsWithId(date,start,stop,db):
 
@@ -381,7 +378,7 @@ def update_crestron_live_sports_db(db):
 					values (?,?,?,?,?,?,?,?,?)''',(channelName,HDNo,SDNo,sport,date,startTime,duration,stopTime,event))
 	db.commit()
 
-make_infocaster_file(START,STOP,DATETODAY,cursor)
+# make_infocaster_file(START,STOP,DATETODAY,cursor)
 
 
 		

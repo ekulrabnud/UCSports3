@@ -51,16 +51,28 @@ table, th,td{
                 <td> <strong>{{i['event']}}</strong></td>
                 <td><strong>{{i['starttime']}}&nbsp;&nbsp;&nbsp;</strong></td>
                 <td><strong>{{i['channelName']}}</strong> </td>
-                <td><strong>{{i['HDNo']}}</strong></td>
-                <td><strong>{{i['SDNo']}}</strong></td>
+                   {% if i['uctvNo'] == i['SD'] %}
+                <td><strong>test</strong></td>
+                <td><strong>{{i['SD']}}</strong></td>
+                {% else %}
+                  <td ><strong>{{i['uctvNo']}}</td>
+                  <td><strong>{{i['SD']}}</td>
+                        {% endif %}
+
           </tr>
             {% else %}
             <tr>
                 <td>{{i['event']}}</td>
                 <td >{{i['startTime'] }}&nbsp;&nbsp;&nbsp;</td>
                 <td>{{i['channelName']}}</td>
-                <td>{{i['HDNo']}}</td>
-                <td>{{i['SDNo']}}</td>
+                        {% if i['uctvNo'] == i['SD'] %}
+                <td></td>
+                <td>{{i['SD']}}</td>
+                {% else %}
+                  <td >{{i['uctvNo']}}</td>
+                  <td>{{i['SD']}}</td>
+                        {% endif %}
+
             </tr>
             {% endif %}
             {% endfor %}

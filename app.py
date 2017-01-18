@@ -47,7 +47,6 @@ def index():
 	
 	return render_template('index.html')
 
-
 # Channel Guide **********************************************************************************************
 @app.route('/channelGuide',methods=['GET','POST'])
 def channelGuide():
@@ -67,7 +66,6 @@ def channelGuide():
 		return jsonify(error=0,message="Database changes saved")
       
 	return render_template('Guides/channelGuide.html',channels=channels)
-
 
 # Live Sports Schedule **********************************************************************************************
 @app.route('/liveSports',methods=['GET','POST'])
@@ -94,10 +92,9 @@ def liveSports():
 
 @app.route('/editLiveSports',methods=['GET','POST'])
 def edit():
-	print "editlive sports"
+
 	sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
-	for i in sportslist:
-		print i['uctvNo'],i['SD']
+
 	return render_template('LiveSports/liveSportsEdit.html',sportslist=sportslist)
 
 @app.route('/saveLiveSportsEdit',methods=['POST'])
@@ -130,15 +127,13 @@ def save():
 
 			return jsonify(error=1,message="Error!! %s" % e.args[0]) 
 
-
-
 # Crestron Live Sports **********************************************************************************************
 @app.route('/crestronLiveSports')
 def crestronLiveSports():
-	
+
+	# liveSports = utils.getLiveSportsWithId(g.db)
 	liveSports = utils.getCrestronLiveSports(g.db)
 	event = utils.check_for_event(th.date_today(),g.db);
-	print DATETODAY,event
 
 	return render_template('LiveSports/crestronLiveSports.html',liveSports=liveSports,event=event)
 	
@@ -194,7 +189,6 @@ def reload():
 
 	return render_template('LiveSports/crestronLiveSportsEdit.html',liveSports=liveSports,event='test')
 
-
 @app.route('/crestronLiveSportsUpdate')
 def crestronLiveSportsUpdate():
 
@@ -212,7 +206,6 @@ def crestronLiveSportsUpdate():
 	# 	return jsonify(error=0,message="Successfully updated Crestron Live Sports Text File")
 
 	return render_template('LiveSports/crestronLiveSportsTable.html',liveSports=liveSports,event="test")
-
 
 # Channel Lineup**********************************************************************************************
 @app.route('/lineups',methods=['GET','POST'])
@@ -276,8 +269,6 @@ def addStation():
 
 		return 'fail'
 
-
-
 @app.route('/findLineup',methods=['POST'])
 def addLineup():
 
@@ -286,22 +277,17 @@ def addLineup():
 		lineups = api.lineups(zipcode)
 		
 		return render_template('Lineups/availableLineups.html',lineups=lineups)
-
-
-
-
-
 	
-# Sports Lineup **********************************************************************************************
-@app.route('/sportsLineup',methods=['GET','POST'])
-def sportsLineup():
+# # Sports Lineup **********************************************************************************************
+# @app.route('/sportsLineup',methods=['GET','POST'])
+# def sportsLineup():
 
-	if request.method == 'GET':
+# 	if request.method == 'GET':
 
-		query = c.execute('select * from uctvLineupsSport')
-		sportsLineup = [dict(id=row[0], chName=row[1], lineupID=row[2], hdStationID=row[3], uctvHDNo=row[4],uctvSDNo=row[5],origHDChNo=row[6]) for row in query.fetchall() ]
+# 		query = c.execute('select * from uctvLineupsSport')
+# 		sportsLineup = [dict(id=row[0], chName=row[1], lineupID=row[2], hdStationID=row[3], uctvHDNo=row[4],uctvSDNo=row[5],origHDChNo=row[6]) for row in query.fetchall() ]
 		
-		return render_template('sportsLineup.html',sportsLineup=sportsLineup)
+# 		return render_template('sportsLineup.html',sportsLineup=sportsLineup)
 
 # Documentation **********************************************************************************************
 @app.route('/docs')
@@ -425,7 +411,6 @@ def pdf():
 	pdfkit.from_file('pdf.html', out_pdf,configuration=pdfconfig,options=pdf_options)
 
 	return "Successfully created %s" % out_pdf
-
 
 @app.route('/sandbox')
 def sandbox():

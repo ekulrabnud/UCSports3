@@ -79,7 +79,7 @@ def get_utc_start_end_times():
 
 	start = '00:00'
 	stop = '23:59'
-	dates = [date.today() + timedelta(days=x) for x in range(1)]
+	dates = [date.today() + timedelta(days=x) for x in range(5)]
 	startTimes = [datetime.strftime(x,"%Y-%m-%d") +' '+ start for x in dates]
 	stopTimes = [datetime.strftime(x,"%Y-%m-%d") +' '+ stop for x in dates]
 	times =  zip(startTimes,stopTimes)

@@ -6,7 +6,7 @@ import timehandler as th
 import datetime
 import config
 import argparse
-import makeCrestronLiveSports
+# import makeCrestronLiveSports
 import utils
 import sqlite3
 

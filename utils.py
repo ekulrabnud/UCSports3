@@ -48,10 +48,14 @@ def get_lineup_listings(start,stop,date,lineups,cursor):
 						
 						elif i['live'] and i['event']:
 							event = i['event']
-						
+
+						elif i['live'] and ['description']:
+							event = i['description']
+
 						elif i['live'] and i['showName']:
 							event = i['location'] 
 
+						
 
 						startTime = th.format_time(th.convert_utc_to_local(i['listDateTime']))
 						date = startTime[0]
@@ -105,15 +109,6 @@ def make_infocaster_file(startTime,stopTime,date,cursor):
 	start = startTime
 	stop = stopTime
 
-
-	
-
-	# query = cursor.execute('''SELECT event,startTime,sport,liveSports.uctvNo,liveSports.channelName,uctvLineups.hd
-	# 						FROM liveSports
-	# 						INNER JOIN uctvLineups
-	# 						ON liveSports.stationID = uctvLineups.stationID
-	# 						WHERE date = ? AND startTime between ? AND ?  
-	# 						ORDER BY sport,startTime,event''',(date,start,stop))
 	query = cursor.execute('''  SELECT uctvLineups.uctvNo,uctvLineups.channelName,listingID,HD,sport,event,startTime
 							FROM liveSports 
 							INNER JOIN uctvLineups
@@ -147,7 +142,7 @@ def make_infocaster_file(startTime,stopTime,date,cursor):
 			event = i['event'] if not len(i['event']) > 42 else i['event'][:42] + '..'
 			#remove comma from event to stop ffing up csv file
 			event = event.replace(',',' ')
-			print type(event),event
+			# print type(event),event
 		
 			if csport == i['sport']:
 				row = ",%s,%s,%s,%s,%s\n" % (startTime,event,i['channelName'],hd,sd)
@@ -185,17 +180,19 @@ def getChannels(db):
 						   ORDER BY uctvNo''',('None',))
 
 	channels = [dict(row) for row in query.fetchall()]
-	for i in channels:
-		print i['uctvNo']
+	
 	return channels
 
 def getCrestronLiveSports(db):
 
 	print "getting crestron live sport {}".format(th.date_today())
 
-	query = db.execute('''SELECT * FROM crestronLiveSports WHERE date = ?''',(th.date_today(),))
+	query = db.execute('''SELECT * FROM crestronLiveSports 
+						  WHERE date = ?
+						 ORDER BY startTime''',(th.date_today(),))
+
 	liveSports = [dict(row) for row in query.fetchall()]
-	
+
 	return liveSports
 
 # Function to merge hd and sd listings
@@ -241,8 +238,7 @@ def get_live_sports(date,start,stop,cursor):
 
 		liveSports = [dict(row) for row in query.fetchall()]
 
-		for i in liveSports:
-			print i['listingID'], i['uctvNo'],i['event']
+
 
 		newListings = combiner(liveSports)
 		# for i in newListings:
@@ -251,36 +247,6 @@ def get_live_sports(date,start,stop,cursor):
 		sportslist = th.sort_by_time(newListings)
 
 		return sportslist
-# def getLiveSports(date,start,stop,db):
-
-# 	# sdchannels=['NHL Centre Ice 10','NBA League Pass 10']
-
-# 	query = db.execute('''  SELECT DISTINCT uctvLineups.channelName,uctvLineups.uctvNo,date,startTime,duration,sport,event,HD
-# 							FROM liveSports 
-# 							INNER JOIN uctvLineups
-# 							ON livesports.stationID = uctvLineups.stationID
-# 							WHERE date = ?
-# 							AND  startTime BETWEEN ? AND ? AND uctvLineups.uctvNo != ? OR ? ''',(date,start,stop,'OFF','None'))
-
-# 	sportslist = [dict(channelName=row[0],uctvNo=row[1],date=row[2],startTime=row[3],duration=row[4],sport=row[5],event=row[6],HD=row[7]) for row in query.fetchall()]
-
-# 	# for i in sportslist:
-		
-		
-# 	# 	#add '0' to digital SD channels from sdchannels list
-# 	# 	if  i['channelName'] in sdchannels:
-		
-# 	# 		i['SDNo'] = i['SDNo']+'0'
-		
-# 	# 	#Remove '0' from analog channels e.g = 23 instead of 23.0
-# 	# 	if i['SDNo']:
-# 	# 		if i['SDNo'][-1] == '0' and i['channelName'] not in sdchannels:
-				
-# 	# 			i['SDNo'] = i['SDNo'][0:-2]	
-
-# 	sportslist = th.sort_by_time(sportslist)
-
-# 	return sportslist
 	
 def getLiveSportsWithId(date,start,stop,db):
 
@@ -303,52 +269,53 @@ def check_for_event(date,db):
 		
 		return ("No Event","00:00")
 
-def sort_live_sports(sportslist,date,event=None):
+# def sort_live_sports(sportslist,date,event=None):
 
-	if event:
+# 	if event:
 			
-			if 'Chicago Bulls' in event[0]:
-				team = 'Chicago Bulls'
-			elif 'Chicago Blackhawks' in event[0]:
-				team = 'Chicago Blackhawks'
-			else:
-				team = 'Chicago'
-	else:
+# 			if 'Chicago Bulls' in event[0]:
+# 				team = 'Chicago Bulls'
+# 			elif 'Chicago Blackhawks' in event[0]:
+# 				team = 'Chicago Blackhawks'
+# 			else:
+# 				team = 'Chicago'
+# 	else:
 		
-		team = 'Chicago'
+# 		team = 'Chicago'
 
-	# checks to make sure team exists in event if not then defaults to other_sport for all Crestron data
-	if team:
+# 	# checks to make sure team exists in event if not then defaults to other_sport for all Crestron data
+# 	if team:
 
 	
-		if any (team in i['event'] for i in sportslist):
+# 		if any (team in i['event'] for i in sportslist):
+		
 			
-			uc_team = [i for i in sportslist if team in i['event']]
-			# print uc_team
-			sport = uc_team[0]['sport']
-			# print sport
+# 			uc_team = [i for i in sportslist if team in i['event']]
+# 			# print uc_team
+# 			sport = uc_team[0]['sport']
+# 			# print sport
 
-			uc_sport = [i for i in sportslist if i['sport'] == sport and team not in i['event']]
-			# print uc_sport
+# 			uc_sport = [i for i in sportslist if i['sport'] == sport and team not in i['event']]
+# 			# print uc_sport
 
-			uc_other_sport = [i for i in sportslist if i['sport'] != sport and team not in i['event']]
-			# print uc_other_sport
+# 			uc_other_sport = [i for i in sportslist if i['sport'] != sport and team not in i['event']]
+# 			# print uc_other_sport
 
-			uc_team = sorted(uc_team,key=lambda x:x['startTime'])
-			uc_sport = sorted(uc_sport,key= lambda x:x['startTime'])
-			other_sport = sorted(uc_other_sport,key=lambda x:x['sport'])
+# 			uc_team = sorted(uc_team,key=lambda x:x['startTime'])
+# 			uc_sport = sorted(uc_sport,key= lambda x:x['startTime'])
+# 			other_sport = sorted(uc_other_sport,key=lambda x:x['sport'])
 
-			crestronSorted = uc_team + uc_sport + other_sport
+# 			crestronSorted = uc_team + uc_sport + other_sport
 		
-			return crestronSorted
-		else:
+# 			return crestronSorted
+# 		else:
 		
-			return sportslist
+# 			return sportslist
 
 
-	else:
+# 	else:
 	
-		return sportslist
+# 		return sportslist
 
 def updateUctvLineups(columnName,rowid,value):
 

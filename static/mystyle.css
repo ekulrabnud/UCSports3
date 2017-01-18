@@ -5,7 +5,7 @@
 #123FC6 blue
 
  */
-
+/*/*
 /*body{
 	background-color:#D7DFF0;
 }*/
@@ -15,57 +15,81 @@ border-radius: 10px;
 
 }
 */
-/*.navbar{
-	background-color:#264AB7;
-	color:#FFFFFF;
-	border-radius:5px;
-	height:75px !important;
+.navbar{
+	background-color:#264AB7 ;
+	color:white !important;
+	border-radius:5px !important;
+	height:100px !important;
 }
 
-a {
-	color:#FFFFFF;
+
+
+body{
+	background-color:#D7DFF0;
+}
+/*a:active{
+	background-color: yellow !important;
+
 }
 */
+table {
 
-/*body{
-	background-color:blue;
+	background-color:#FFF;
+	padding-top: 5px;
+	border:2px solid black !important;
+	border-radius:10px !important;
+
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color:black;
+    background-color: #FFFFFF;
+}
+
+
+.navbar-default .navbar-nav > li > a {
+    color: #FFFFFF;
+    font-size:1.5em;
+
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+    color: #e28e18;
+    
+}
+
+/*.navbar-default .navbar-nav > li > .active {
+    color: #264AB7;
+    
 }*/
-a {
-	color:white;
-	font-size:large;
-}
 
-li:hover{
-	color:red;
-	background-color:#FCC;
-}
 
 #mainContent{
 	padding-top:20px;
 
 }
 
-
+/*
 .guideTable th{
 	background-color:#A9C5EC;
 	
-}
+}*/
 
 .thSports{
 	background-color:#87BC5E!important;
 
 }
 
-#liveSportsTable {
+/*#liveSportsTable {
 	border:2px solid black!important;
 	border-radius: 10px;
 }
-
-#crestronLiveSportsTable {
+*/
+/*#crestronLiveSportsTable {
 	border:2px solid black!important;
 	border-radius: 10px;
 }
-
+*/
 
 #index{
 	border-style:solid;
@@ -99,7 +123,7 @@ li:hover{
 	width:150px;
 }
 
-
+*/*/
 
 
 

@@ -12,4 +12,6 @@ Bug = station ids repeated causing software to double dip and downlod same event
 BUG. Need to rework the Make infocaster text file since it used to pull date from the sports schedule but now it has to pull date from live sports. This is going to be fun.
 
 
+fix reload route 
+
 

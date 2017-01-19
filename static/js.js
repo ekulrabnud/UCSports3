@@ -91,7 +91,7 @@ $(document).ready(function() {
             "paging":false,
         });
 
-        cellEdit();   
+        // cellEdit();   
     });
 /**************************************************************************************/
 
@@ -212,20 +212,26 @@ $(document).ready(function() {
 
             $.post('/add',$('#add_event').serialize(),function(data){
                  errorCheck(data);
+                 console.log(data);
                 $("#edit_schedule_popup").modal('hide');
 
-            $.post('/saveLiveSportsEdit',$('form').serialize(),function(data){
-                 errorCheck(data);
-                $("#liveSportsTable").empty().append(data);
-                $("#printHeading").html("UCTV Sports Schedule for " + $('#datePicker').find("input").val())
-                });
+            // $.post('/saveLiveSportsEdit',$('form').serialize(),function(data){
+            //      errorCheck(data);
+            //     $("#liveSportsTable").empty().append(data);
+            //     $("#printHeading").html("UCTV Sports Schedule for " + $('#datePicker').find("input").val())
+            //     });
             })
         })
 
         $('#save').click(function() {
+
+            console.log($('#liveSportsForm').serialize())
+
           
             $.post('/saveLiveSportsEdit',$('#liveSportsForm').serialize(),function(data){
                 errorCheck(data);
+
+
 
                 $("#liveSportsTable").empty().append(data['html']);
                
@@ -234,7 +240,7 @@ $(document).ready(function() {
             });
         }); 
 
-        $("#reload").click(function(){
+        $("#reloadSports").click(function(){
            
             bootstrap_alert_success("Updating.........please wait!");
      

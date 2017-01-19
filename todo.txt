@@ -1,17 +1,8 @@
+fix livesports edit
+fix livesports add
+fix reload
+test add station lineups!!
+get rid of cal selection when in mobile mode
 
-fix 'underfined' popup on save livesports edit
-fix 'add live event add'
-fix 'underfined' popup on save crestron  edit
-
-fix crestron sports so that only events within certain timeframe are pulled into to the lineups
-fix do not include NHL/NBA packages in crestron sports lineups 
-fix do not include sd channels in crestron events
-
-Bug = station ids repeated causing software to double dip and downlod same event multiple times. Think this has been solved crudely using sys.setdefaultencoding()
-
-BUG. Need to rework the Make infocaster text file since it used to pull date from the sports schedule but now it has to pull date from live sports. This is going to be fun.
-
-
-fix reload route 
 
 

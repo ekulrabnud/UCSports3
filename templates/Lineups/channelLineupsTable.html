@@ -5,14 +5,14 @@
   <thead>
     <tr>
    
-      <th>Original No</th>
+      <th>Orig Channel #</th>
       <th>Callsign</th>
       <th>Name</th>
-      <th>StationID</th>
-      <th>LineupID</th>
+      <th class="hidden-xs">StationID</th>
+      <th class="hidden-xs">LineupID</th>
       <th>uctvNo</th>
-      <th>HD</th>
-      <th>Crestron</th>
+      <th class="hidden-xs">HD</th>
+      <th class="hidden-xs">Crestron</th>
    
     </tr>
     <tbody>
@@ -20,24 +20,24 @@
         <tr id="{{i['id']}}">
         </thead>
     
-        <td>  {{ i['channelNumber'] }}    </td>
+        <td >  {{ i['channelNumber'] }}    </td>
         <td> {{i['callsign']}}</td>
         <td class="channelName" contenteditable="true">  {{ i['channelName'] }}    </td>
-        <td>  {{ i['stationID'] }}    </td>
-        <td>  {{ i['lineupID'] }}    </td>
+        <td class="hidden-xs">  {{ i['stationID'] }}    </td>
+        <td class="hidden-xs">  {{ i['lineupID'] }}    </td>
         <td class="uctvNo" contenteditable="true"> {{ i['uctvNo']}}</td>
 
         {% if i['HD'] == 1  %}
-        <td><input type="checkbox" checked name="HD" id="{{i['id']}}"></td>
+        <td class="hidden-xs"><input type="checkbox" checked name="HD" id="{{i['id']}}"></td>
         {% else %}
-         <td><input type="checkbox"  name="HD" id="{{i['id']}}"></td>
+         <td class="hidden-xs"><input type="checkbox"  name="HD" id="{{i['id']}}"></td>
         {% endif %}
         
 
         {% if i['crestron'] == 1  %}
-          <td><input type="checkbox" checked name="crestron" id="{{i['id']}}"></td>
+          <td class="hidden-xs"><input type="checkbox" checked name="crestron" id="{{i['id']}}"></td>
         {% else %}
-          <td><input type="checkbox"  name="crestron" id="{{i['id']}}"></td>
+          <td class="hidden-xs"><input type="checkbox"  name="crestron" id="{{i['id']}}"></td>
           
         {% endif %}
                 

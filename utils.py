@@ -229,7 +229,7 @@ def combiner(listings):
 
 def get_live_sports(date,start,stop,cursor):
 
-		query = cursor.execute('''  SELECT uctvLineups.uctvNo,uctvLineups.channelName,listingID,HD,sport,event,startTime
+		query = cursor.execute('''  SELECT liveSports.id,uctvLineups.uctvNo,uctvLineups.channelName,listingID,HD,sport,event,startTime
 							FROM liveSports 
 							INNER JOIN uctvLineups
 							ON livesports.stationID = uctvLineups.stationID
@@ -239,12 +239,14 @@ def get_live_sports(date,start,stop,cursor):
 		liveSports = [dict(row) for row in query.fetchall()]
 
 
-
 		newListings = combiner(liveSports)
 		# for i in newListings:
 		# 	print i['listingID'], i['uctvNo'],i['event'],i['HD'],i['startTime'],i['SD']
 
 		sportslist = th.sort_by_time(newListings)
+
+		for i in sportslist:
+			print i
 
 		return sportslist
 	
@@ -261,61 +263,16 @@ def check_for_event(date,db):
 	query = db.execute('''SELECT * FROM ucEventCalendar WHERE date = ?''',(date,))
 	result = query.fetchone()
 
+
 	if result:
 		event_start = result[2]
 		event = result[3]
 		return event,event_start
 	else:
 		
-		return ("No Event","00:00")
-
-# def sort_live_sports(sportslist,date,event=None):
-
-# 	if event:
-			
-# 			if 'Chicago Bulls' in event[0]:
-# 				team = 'Chicago Bulls'
-# 			elif 'Chicago Blackhawks' in event[0]:
-# 				team = 'Chicago Blackhawks'
-# 			else:
-# 				team = 'Chicago'
-# 	else:
-		
-# 		team = 'Chicago'
-
-# 	# checks to make sure team exists in event if not then defaults to other_sport for all Crestron data
-# 	if team:
-
-	
-# 		if any (team in i['event'] for i in sportslist):
-		
-			
-# 			uc_team = [i for i in sportslist if team in i['event']]
-# 			# print uc_team
-# 			sport = uc_team[0]['sport']
-# 			# print sport
-
-# 			uc_sport = [i for i in sportslist if i['sport'] == sport and team not in i['event']]
-# 			# print uc_sport
-
-# 			uc_other_sport = [i for i in sportslist if i['sport'] != sport and team not in i['event']]
-# 			# print uc_other_sport
-
-# 			uc_team = sorted(uc_team,key=lambda x:x['startTime'])
-# 			uc_sport = sorted(uc_sport,key= lambda x:x['startTime'])
-# 			other_sport = sorted(uc_other_sport,key=lambda x:x['sport'])
-
-# 			crestronSorted = uc_team + uc_sport + other_sport
-		
-# 			return crestronSorted
-# 		else:
-		
-# 			return sportslist
+		return ("No Event")
 
 
-# 	else:
-	
-# 		return sportslist
 
 def updateUctvLineups(columnName,rowid,value):
 

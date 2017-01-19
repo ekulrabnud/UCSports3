@@ -44,8 +44,9 @@ def teardown_request(exception):
 # Index  ******************************************************************************************************
 @app.route('/')
 def index():
-	
-	return render_template('index.html')
+	event = utils.check_for_event(th.date_today(),g.db);
+	print event
+	return render_template('index.html',event=event)
 
 # Channel Guide **********************************************************************************************
 @app.route('/channelGuide',methods=['GET','POST'])
@@ -99,33 +100,68 @@ def edit():
 
 @app.route('/saveLiveSportsEdit',methods=['POST'])
 def save():
+		print "saving edits"
 
-		try:
-			for id,row in request.form.iterlists():
+		print request.form
+
+		for k,v in request.form.iterlists():
+			print k,v[0]
+
+		return "success"
 		
-				#this filters form data so that we ignore unwanted data
-				#len == 5 make sure delete's are ignored
-				if len(row) > 1:
-					#converts time to 24 hour clock
-					row[1] = th.convert_time_string(row[1])
-					#adds id to end of row list
-					row.append(id)
-					g.db.execute('''UPDATE liveSports SET event=?,startTime=?,channelName=?,HDNo=?,SDNo=? 
-					WHERE id = ?''',row)
+		# try:
+		# 	for id,row in request.form.iterlists():
+				
+		# 		#this filters form data so that we ignore unwanted data
+		# 		#len == 5 make sure delete's are ignored
+		# 		if len(row) > 1:
+		# 			#converts time to 24 hour clock
+		# 			print row[1]
+		# 			row[1] = th.convert_time_string(row[1])
+		# 			#adds id to end of row list
+		# 			row.append(id)
+					
+		# 			g.db.execute('''UPDATE liveSports SET event=?,startTime=?,channelName=?,HDNo=?,SDNo=? 
+		# 			WHERE id = ?''',row)
 
-			deletions = [(int(i),) for i in request.form.getlist('delete')]
-			g.db.executemany('''DELETE from liveSports where id = ?''',deletions)
-			g.db.commit()
+		# 	deletions = [(int(i),) for i in request.form.getlist('delete')]
+		# 	g.db.executemany('''DELETE from liveSports where id = ?''',deletions)
+		# 	g.db.connection.commit()
 		
-			sportslist = utils.getLiveSports(DATETODAY,START,STOP,g.db	)
+		# 	sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
 
-		
-			response = render_template('LiveSports/liveSportsTable.html',sportslist=sportslist)
-			return jsonify(html=response,error=0,message="Live Sports Updated");
+	
+		# 	response = render_template('LiveSports/liveSportsTable.html',sportslist=sportslist)
+		# 	return jsonify(html=response,error=0,message="Live Sports Updated");
 
-		except sqlite3.Error,e:
+		# except sqlite3.Error,e:
 
-			return jsonify(error=1,message="Error!! %s" % e.args[0]) 
+		# 	print "errie"
+
+		# 	return jsonify(error=1,message="Error!! %s" % e.args[0]) 
+
+@app.route('/add',methods=['GET','POST'])
+def add():
+	print "adding new event"
+	try:
+		r = request.form
+
+		print r
+		date = th.date_today()
+		time = th.convert_time_string(r['time'])
+		row = [r['channel'],r['uctvNo'],date,time,r['event'],r['sport']]
+		g.db.execute('''INSERT INTO liveSports (channelName,uctvNo,date,startTime,event,sport)
+						VALUES (?,?,?,?,?,?)''',row)
+
+		g.db.connection.commit()
+
+		return jsonify(error=0,message="Event added to Database")
+
+	except Exception as e:
+
+		print "Error" + e.args[0]
+		# return jsonify(error=1,message="Publish Infocast failed!!!: %s" % e.args[0])
+		return e.args[0]
 
 # Crestron Live Sports **********************************************************************************************
 @app.route('/crestronLiveSports')
@@ -277,17 +313,6 @@ def addLineup():
 		lineups = api.lineups(zipcode)
 		
 		return render_template('Lineups/availableLineups.html',lineups=lineups)
-	
-# # Sports Lineup **********************************************************************************************
-# @app.route('/sportsLineup',methods=['GET','POST'])
-# def sportsLineup():
-
-# 	if request.method == 'GET':
-
-# 		query = c.execute('select * from uctvLineupsSport')
-# 		sportsLineup = [dict(id=row[0], chName=row[1], lineupID=row[2], hdStationID=row[3], uctvHDNo=row[4],uctvSDNo=row[5],origHDChNo=row[6]) for row in query.fetchall() ]
-		
-# 		return render_template('sportsLineup.html',sportsLineup=sportsLineup)
 
 # Documentation **********************************************************************************************
 @app.route('/docs')
@@ -334,32 +359,16 @@ def publish_infocast():
 
 		return jsonify(error=1,message="Publish Infocast failed!!!: %s" % e.args[0])
 
-@app.route('/add',methods=['GET','POST'])
-def add():
-	try:
-		r = request.form
-		date = th.date_today()
-		time = th.convert_time_string(r['time'])
-		row = [r['channel'],r['hd'],r['sd'],date,time,r['event'],r['sport']]
-		c.execute('''INSERT INTO liveSports (channelName,HDNo,SDNo,date,startTime,event,sport)
-						VALUES (?,?,?,?,?,?,?)''',row)
-
-		conn.commit()
-
-		return jsonify(error=0,message="Event added to Database")
-
-	except Exception as e:
-		# return jsonify(error=1,message="Publish Infocast failed!!!: %s" % e.args[0])
-		return e.args[0]
 	
 # Reload database from API **********************************************************************************************
 @app.route('/reloadSports')
 def reloadSports():
 
 	try: 
-		start,stop = th.sevenDay_start_stop_time()
-		sds.get_sport_listings(start,stop)
-		sportslist = utils.getLiveSports(DATETODAY,START,STOP,g.db)
+
+		utils.get_lineup_listings(START,STOP,DATE_TODAY,config.LINEUPS,g.db)
+
+		sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
 	
 	
 		return render_template('LiveSports/liveSportsTable.html',sportslist=sportslist)

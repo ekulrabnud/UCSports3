@@ -1,45 +1,49 @@
 Basketball,,,,,
-,06:00 PM,St. John's at Georgetown,Fox Sports 1, 25.1,25
-,06:00 PM,Charlotte Hornets at Philadelphia 76ers,NBA League Pass 1, 18.2, 18.11
-,06:00 PM,Toledo at Central Michigan,CBS Sports Network, 53.2,
-,06:00 PM,Detroit at Oakland,ESPN U, 55.1,
-,06:00 PM,Charlotte Hornets at Philadelphia 76ers,NBA League Pass 2,, 18.12
-,06:30 PM,Brooklyn Nets at Toronto Raptors,NBA League Pass 3,,18.13
-,06:30 PM,Brooklyn Nets at Toronto Raptors,NBA League Pass 4,,18.14
-,07:00 PM,Boston Celtics at Atlanta Hawks,ESPN, 60.2,21
-,07:00 PM,Butler at DePaul,Comcast Sportsnet Plus, 54.1,
-,07:00 PM,Miami Heat at Milwaukee Bucks,NBA League Pass 5,,18.15
-,07:00 PM,Memphis Grizzlies at Houston Rockets,NBA League Pass 6,,18.16
-,07:00 PM,Oklahoma City Thunder at Minnesota Timberw..,NBA League Pass 7,,18.17
-,08:00 PM,Tournament of Champions,CBS Sports Network, 53.2,
-,08:00 PM,Rider at Manhattan,ESPN U, 55.1,
-,09:00 PM,Orlando Magic at Portland Trail Blazers,NBA League Pass 8,,18.18
-,09:30 PM,Detroit Pistons at Utah Jazz,ESPN, 60.2,21
-,09:30 PM,Cleveland Cavaliers at Sacramento Kings,NBA League Pass 1, 18.2, 18.11
-,09:30 PM,Cleveland Cavaliers at Sacramento Kings,NBA League Pass 9,,18.19
-Curling,,,,,
-,11:00 AM,Continental Cup ,TSN1, 23.1,23
-,03:30 PM,Continental Cup ,TSN1, 23.1,23
-,08:30 PM,Continental Cup ,TSN1, 23.1,23
+,11:30 AM,Grand Rapids Drive at Raptors 905,NBA TV, 18.1,18
+,02:00 PM,Greensboro Swarm at Erie Bayhawks,NBA TV, 18.1,18
+,06:00 PM,Oklahoma at West Virginia,ESPN2, 61.1,22
+,06:00 PM,Indiana at Penn State,Big Ten Network, 58.1,24
+,06:00 PM,Toronto Raptors at Philadelphia 76ers,NBA League Pass 1, 18.2, 18.11
+,06:00 PM,Toronto Raptors at Philadelphia 76ers,TSN1, 23.1,23
+,06:00 PM,St. Joseph's at Massachusetts,Comcast Sportsnet Plus, 54.1,
+,06:00 PM,Temple at Cincinnati,CBS Sports Network, 53.2,
+,06:00 PM,Missouri at Alabama,ESPN U, 55.1,
+,06:00 PM,Memphis Grizzlies at Washington Wizards,NBA League Pass 2,, 18.12
+,06:00 PM,Portland Trail Blazers at Charlotte Hornet..,NBA League Pass 3,,18.13
+,06:30 PM,New York Knicks at Boston Celtics,NBA League Pass 4,,18.14
+,07:00 PM,Milwaukee Bucks at Houston Rockets,ESPN, 60.2,21
+,07:00 PM,Loyola Chi. at Northern Iowa,Comcast Sportsnet, 60.1,17
+,07:00 PM,Orlando Magic at New Orleans Pelicans,NBA League Pass 5,,18.15
+,07:00 PM,Orlando Magic at New Orleans Pelicans,NBA League Pass 6,,18.16
+,07:00 PM,Atlanta Hawks at Detroit Pistons,NBA League Pass 7,,18.17
+,07:00 PM,Atlanta Hawks at Detroit Pistons,NBA League Pass 8,,18.18
+,08:00 PM,Ohio State at Nebraska,Big Ten Network, 58.1,24
+,08:00 PM,Illinois State at Bradley,CBS Sports Network, 53.2,
+,08:00 PM,Kansas State at Oklahoma State,ESPN U, 55.1,
+,09:30 PM,Oklahoma City Thunder at Golden State Warr..,ESPN, 60.2,21
+,09:30 PM,Indiana Pacers at Sacramento Kings,NBA League Pass 1, 18.2, 18.11
+,09:30 PM,Indiana Pacers at Sacramento Kings,NBA League Pass 9,,18.19
+,10:00 PM,Colorado State at Fresno State,CBS Sports Network, 53.2,
+,10:00 PM,Colorado at Washington,ESPN U, 55.1,
 Golf,,,,,
-,02:00 AM,South African Open,Golf Channel USA, 58.3,
-,12:30 PM,Diamond Resorts Invitational,Golf Channel USA, 58.3,
-,02:00 PM,Latin America Amateur Championship,ESPN2, 61.1,22
-,06:00 PM,Sony Open,Golf Channel USA, 58.3,
+,07:00 PM,Singapore Open,Golf Channel USA, 58.3,
+,09:30 PM,Abu Dhabi Championship,Golf Channel USA, 58.3,
 Hockey,,,,,
-,06:00 PM,Chicago Blackhawks at Washington Capitals,Comcast Sportsnet, 60.1,17
-,06:00 PM,Chicago Blackhawks at Washington Capitals,NHL Network, 19.1,19
-,06:00 PM,Toronto Maple Leafs at New York Rangers,NHL Center Ice 1 HD,19.2, 19.11
-,06:00 PM,New York Islanders at Florida Panthers,NHL Center Ice 4,, 19.14
-,06:00 PM,Buffalo Sabres at Carolina Hurricanes,NHL Center Ice 5,,  19.15
-,06:30 PM,Columbus Blue Jackets at Tampa Bay Lightni..,NHL Center Ice 3,, 19.13
-,07:30 PM,Winnipeg Jets at Arizona Coyotes,NHL Center Ice 2,, 19.12
-,07:30 PM,Winnipeg Jets at Arizona Coyotes,NHL Center Ice 8,,19.18
-,07:30 PM,Winnipeg Jets at Arizona Coyotes,NHL Center Ice 9,,19.19
-,08:00 PM,Michigan at Minnesota,Big Ten Network, 58.1,24
-,08:00 PM,New Jersey Devils at Calgary Flames,NHL Center Ice 6,,19.16
-,08:00 PM,New Jersey Devils at Calgary Flames,NHL Center Ice 7,,19.17
-Swimming,,,,,
-,06:00 PM,Austin  Texas,NBC Sports Network, 57.1,16
-Wrestling,,,,,
-,06:00 PM,Rutgers at Penn State,Big Ten Network, 58.1,24
+,06:00 PM,Arizona Coyotes at Winnipeg Jets,NHL Center Ice 3,, 19.13
+,06:00 PM,Arizona Coyotes at Winnipeg Jets,NHL Center Ice 4,, 19.14
+,06:30 PM,Pittsburgh Penguins at Montréal Canadiens,NHL Center Ice 1 HD,19.2, 19.11
+,06:30 PM,Pittsburgh Penguins at Montréal Canadiens,NHL Center Ice 2,, 19.12
+,07:00 PM,Boston Bruins at Detroit Red Wings,NBC Sports Network, 57.1,16
+,07:00 PM,All-Star Game,NHL Network, 19.1,19
+,08:00 PM,Florida Panthers at Edmonton Oilers,NHL Center Ice 6,,19.16
+,08:30 PM,Florida Panthers at Edmonton Oilers,NHL Center Ice 5,,  19.15
+,09:30 PM,San Jose Sharks at Los Angeles Kings,NBC Sports Network, 57.1,16
+Soccer,,,,,
+,01:30 PM,Liverpool at Plymouth Argyle,Fox Sports 1, 25.1,25
+Tennis,,,,,
+,02:00 AM,Australian Open,ESPN2, 61.1,22
+,02:00 AM,Australian Open,TSN1, 23.1,23
+,08:00 PM,Australian Open,ESPN2, 61.1,22
+,09:30 PM,Australian Open,TSN1, 23.1,23
+,09:30 PM,Australian Open,TSN1, 23.1,23
+,09:30 PM,Australian Open,TSN1, 23.1,23

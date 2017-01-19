@@ -5,21 +5,21 @@
         <tr>
             <th>Channel</th>
             <th>Name</th>
-            <th>Station ID</th>
-            <th>LineupID</th>           
+            <th class="hidden-xs">Station ID</th>
+            <th class="hidden-xs"> LineupID</th>           
         </tr>
     </thead>
         {% for i in channels %}
         {% if i['uctvNo'] != 'None' %}
         <tr id="{{i['id']}}">
-            <td class="uctvNo edit channelGuide" >   {{ i['uctvNo'] }}   </td>
+            <td class="uctvNo channelGuide" >   {{ i['uctvNo'] }}   </td>
             {% if i['HD'] == 1 %}
-            <td class="channelName edit channelGuide" > <strong> {{ i['channelName'] }} </strong>   </td>
+            <td class="channelName channelGuide" > <strong> {{ i['channelName'] }} </strong>   </td>
             {% else %}
-             <td class="channelName edit channelGuide" > {{ i['channelName'] }}   </td>
+             <td class="channelName channelGuide" > {{ i['channelName'] }}   </td>
              {% endif %}
-            <td> {{i['stationID']}} </td>
-            <td> {{i['lineupID']}} </td>
+            <td class="hidden-xs"> {{i['stationID']}} </td>
+            <td class="hidden-xs"> {{i['lineupID']}} </td>
         </tr>
         {% endif %}
         {% endfor %}

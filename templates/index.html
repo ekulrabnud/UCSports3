@@ -1,19 +1,34 @@
 {% extends "master.html" %}
 
 {% block navbar %}
-  <div class="container">
-    <nav class="navbar navbar-default" >
+  <div class="container" >
+    <nav class="navbar navbar-default" id="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
        
-        <ul class="nav nav" >
-          <li><a data-toggle="pill" class="active " href="#guide">Guides</a></li>
-          <li><a data-toggle="pill" href="#liveSports">LiveSports</a></li>
-          <li><a data-toggle="pill" href="#crestronLiveSports">Crestron LiveSports</a></li>
+   <a class="navbar-brand" href="/">UCTV</a></div>
+
+   <div>
+        <ul class="nav navbar-nav nav-pills " >
+
+          <li><a data-toggle="pill" class="active white" href="#guide">Guide</a></li>
+          <li><a data-toggle="pill" href="#liveSports">Live Sports</a></li>
+          <li><a data-toggle="pill" href="#crestronLiveSports">Crestron Live Sports</a></li>
           <li><a data-toggle="pill" href="#lineups">Lineups</a></li>
           <li><a data-toggle="pill" href="#docs">Docs</a></li>
-           <li><a  href="#docs">Docs</a></li>
+        
         </ul>
+        </div>
+
+        <div>
+
+        {% if event == "No Event" %}
+        <div></div>
+          {% else %}
+        <div id="eventInfo" class="pull-right">Event is {{event[0]}}: Starts at {{event[1]}} </div>
+        {% endif %}
+        </div>
+
       </div>
     </nav>
 

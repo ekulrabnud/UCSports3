@@ -2,18 +2,17 @@
 
 <!-- Crestron Live Sports Schedule Pane -->
 <div class="container">
-<div role="tabpanel" class="tab-pane controls" id="sports">
-  <form class="form-inline hidden-print" style="margin-top:10px;margin-left:20px;margin-right:10px;margin-bottom:10px;padding-bottom:20px;" id="sportsForm">
-
-    <div class="form-group hidden-print pull-right">
+<div class="row">
+    <div class="pull-right" id="crestronLiveButtons">
       <button class="btn btn-warning btn-sm hidden-xs" type="button" id="edit_crestron_live_sports" >Edit</button>
       <button class="btn btn-warning btn-sm hidden-xs" type="button" id="save_crestron_live_sports" >Save</button>
-      <button class="btn btn-info btn-sm hidden-xs" type="button" id="update_crestron_live_sports">Update Live.txt file</button>
+    
     </div>
-  </form>
+    </div>
+
   </div>
 
-  <h5><strong>Today's event is {{event[0]}}: Starts at {{event[1]}} </strong></h5>
+ 
 
 </div>
 <div id="crestronLiveSportsTable">{% include 'LiveSports/crestronLiveSportsTable.html' %}</div>

@@ -62,13 +62,15 @@ body{
 	
 	
 }
+
 .nav-pills a{
 	color:white !important;
 }
-.nav-pills a:hover{
+
+/*.nav-pills a:hover{
     color:red !important;
 }
-
+*/
 /*.nav-pills li:active{
     background-color:green !important;
 }*/
@@ -80,8 +82,16 @@ body{
     background-color: #337ab7 !important;
 }
 
+#crestronLiveButtons{
+	padding-right: 50px;
+	padding-bottom: 10px;
+	
+}
 
-
+#lineupsButtons{
+		padding-right: 40px;
+	
+}
 
 
 
@@ -95,12 +105,10 @@ body{
 
 }
 
-
 .thSports{
 	background-color:#87BC5E!important;
 
 }
-
 
 
 #index{
@@ -113,7 +121,6 @@ body{
 #info{
 	margin-left:20px;
 }
-
 
 #printHeading{
 	display: none;

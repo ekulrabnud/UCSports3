@@ -253,142 +253,57 @@ $(document).ready(function() {
 /**************************************************************************************/
 
     $.get("/crestronLiveSports", function(data) {
-       
+
         $("#crestronLiveSports").html(data);
 
-        $("#save_crestron_live_sports").prop('disabled',true);
+        $("#save_crestron_live_sports").prop('disabled', true);
 
-        $("#edit_crestron_live_sports").click(function(){
-            
-              $("#save_crestron_live_sports").prop('disabled',false);
+        $("#edit_crestron_live_sports").click(function() {
 
-                $.get('/editCrestronLiveSports',function(data){
+            $("#save_crestron_live_sports").prop('disabled', false);
+
+            $.get('/editCrestronLiveSports', function(data) {
 
                 $("#crestronLiveSportsTable").empty().html(data);
-          
+
             });
         });
 
 
-        $("#save_crestron_live_sports").click(function(){
-         
-            $.post('/editCrestronLiveSports',$('#crestron_live_sports_form').serialize(),function(data){
-               
+        $("#save_crestron_live_sports").click(function() {
+
+            $.post('/editCrestronLiveSports', $('#crestron_live_sports_form').serialize(), function(data) {
+
                 errorCheck(data);
                 $("#crestronLiveSportsTable").empty().html(data);
-                $("#save_crestron_live_sports").prop('disabled',true);
+                $("#save_crestron_live_sports").prop('disabled', true);
             });
         });
 
-        $("#reload_crestron_live_sports").click(function(){
+        $("#reload_crestron_live_sports").click(function() {
             console.log('reload_click');
 
-            $.get('/crestronLiveSportsReload',function(data){
+            $.get('/crestronLiveSportsReload', function(data) {
 
-                 $("#crestronLiveSportsTable").empty().html(data);
+                $("#crestronLiveSportsTable").empty().html(data);
             });
 
 
         });
 
-        $("#update_crestron_live_sports").click(function(){
+        $("#update_crestron_live_sports").click(function() {
             console.log('update');
-           
-            $.get('/crestronLiveSportsUpdate',function(data){
-                    console.log(data);
-                    errorCheck(data);  
+
+            $.get('/crestronLiveSportsUpdate', function(data) {
+                console.log(data);
+                errorCheck(data);
             });
 
         });
 
     });
-/**************************************************************************************/
-// var lineupedits = [];
 
-function tableEdit(table){
-
-    let origValue;
-    let edits = [];
-
-    cell = table.find('td');
-    checkbox = table.find('input[type="checkbox"]')
-
-    $("#save_lineups").on('click',function(){
-        save();
-    })
-
-    let save = function(){
-        console.log(edits)
-
-        params = {"edits":edits}
-
-        $.post('/lineups',params,function(data){
-
-        edits = [];
-           
-        })
-    }
-
-    cell.on('click',function(){
-        if($(this).attr("contentEditable")){
-           origValue = $(this).text();
-        }  
-    })
-
-    checkbox.on('change',function(){
-
-      
-
-        let checkbox;
-        let id = $(this).parent().parent().attr('id')
-        let col = $(this).attr('name')
-        console.log(col)
-
-        console.log(id,col)
-      
-        if ($(this).is(":checked")){
-            checkbox = 1;
-            row = {id:id,col:col,value:checkbox}
-            edits.push(JSON.stringify(row))
-
-            console.log('checked')
-        }
-        else{checkbox = 0;
-            row = {id:id,col:col,value:checkbox}
-            edits.push(JSON.stringify(row))
-            console.log('not checked')}
-         
-    })
-
-    cell.on('blur',function(){
-
-        let value = $(this).text();
-        let id = $(this).parent().attr('id')
-        let col = $(this).attr('class')
-
-        row = {id:id,col:col,value:value.trim()}
-
-        if (value === origValue){
-            console.log(value + ' has not changed')
-        }
-        else{
-            edits.push(JSON.stringify(row));
-            console.log(row)
-        }
-
-    
-    })
-
-
-
-
-
-
-}
-
-
-
-    $.get("/lineups", function(data) {
+       $.get("/lineups", function(data) {
 
                 $("#lineups").html(data);
 
@@ -431,28 +346,108 @@ function tableEdit(table){
                         
                     })
                 });
-
-
-
-     
-
-
-        $('#test_lineups').click(function(){
-
-
-            // $("#channelLineupsTable").find('tr').each(function(){
-            //     var row = $(this);
-            //     if (row.find('input[type="checkbox"]').is(':checked')){
-            //         console.log(row.find('td')[5]);
-            //     }
-            // })
-        })
     });
- /**************************************************************************************/
-   
-    $.get("/docs", function(data) {
+
+        $.get("/docs", function(data) {
         $("#docs").html(data);
     });
+/**************************************************************************************/
+// var lineupedits = [];
+
+    function tableEdit(table) {
+
+        let origValue;
+        let edits = [];
+
+        cell = table.find('td');
+        checkbox = table.find('input[type="checkbox"]')
+
+        $("#save_lineups").on('click', function() {
+            save();
+        })
+
+        let save = function() {
+            console.log(edits)
+
+            params = {
+                "edits": edits
+            }
+
+            $.post('/lineups', params, function(data) {
+
+                edits = [];
+
+            })
+        }
+
+        cell.on('click', function() {
+            if ($(this).attr("contentEditable")) {
+                origValue = $(this).text();
+            }
+        })
+
+        checkbox.on('change', function() {
+
+
+
+            let checkbox;
+            let id = $(this).parent().parent().attr('id')
+            let col = $(this).attr('name')
+            console.log(col)
+
+            console.log(id, col)
+
+            if ($(this).is(":checked")) {
+                checkbox = 1;
+                row = {
+                    id: id,
+                    col: col,
+                    value: checkbox
+                }
+                edits.push(JSON.stringify(row))
+
+                console.log('checked')
+            } else {
+                checkbox = 0;
+                row = {
+                    id: id,
+                    col: col,
+                    value: checkbox
+                }
+                edits.push(JSON.stringify(row))
+                console.log('not checked')
+            }
+
+        })
+
+        cell.on('blur', function() {
+
+            let value = $(this).text();
+            let id = $(this).parent().attr('id')
+            let col = $(this).attr('class')
+
+            row = {
+                id: id,
+                col: col,
+                value: value.trim()
+            }
+
+            if (value === origValue) {
+                console.log(value + ' has not changed')
+            } else {
+                edits.push(JSON.stringify(row));
+                console.log(row)
+            }
+
+        })
+    }
+
+
+
+ 
+ /**************************************************************************************/
+   
+
 
 
 });

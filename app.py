@@ -32,7 +32,7 @@ def before_request():
 @app.teardown_request
 def teardown_request(exception):
 	db = getattr(g, 'db', None)
-	print exception
+	
 	if db is not None:
 		db.close()
 
@@ -45,7 +45,7 @@ def teardown_request(exception):
 @app.route('/')
 def index():
 	event = utils.check_for_event(th.date_today(),g.db);
-	print event
+	
 	return render_template('index.html',event=event)
 
 # Channel Guide **********************************************************************************************
@@ -73,10 +73,9 @@ def channelGuide():
 def liveSports():
 
 	if request.method == 'GET':
-
-		# sportslist = utils.getLiveSports(DATETODAY,START,STOP,g.db)
+		print 'GETTING SPORTS ' + DATETODAY,START,STOP
 		sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
-		print "get livesports"
+		
 		return render_template('LiveSports/liveSports.html',sportslist=sportslist,request=request)
 
 	#submit new date time range for query
@@ -90,14 +89,12 @@ def liveSports():
 
 		
 		return render_template('LiveSports/liveSportsTable.html',sportslist=sportslist,request=request)
-
 @app.route('/editLiveSports',methods=['GET','POST'])
 def edit():
 
 	sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
 
 	return render_template('LiveSports/liveSportsEdit.html',sportslist=sportslist)
-
 @app.route('/saveLiveSportsEdit',methods=['POST'])
 def save():
 		print "saving edits"
@@ -139,7 +136,6 @@ def save():
 		# 	print "errie"
 
 		# 	return jsonify(error=1,message="Error!! %s" % e.args[0]) 
-
 @app.route('/add',methods=['GET','POST'])
 def add():
 	print "adding new event"
@@ -162,165 +158,7 @@ def add():
 		print "Error" + e.args[0]
 		# return jsonify(error=1,message="Publish Infocast failed!!!: %s" % e.args[0])
 		return e.args[0]
-
-# Crestron Live Sports **********************************************************************************************
-@app.route('/crestronLiveSports')
-def crestronLiveSports():
-
-	# liveSports = utils.getLiveSportsWithId(g.db)
-	liveSports = utils.getCrestronLiveSports(g.db)
-	event = utils.check_for_event(th.date_today(),g.db);
-
-	return render_template('LiveSports/crestronLiveSports.html',liveSports=liveSports,event=event)
-	
-@app.route('/editCrestronLiveSports',methods=['GET','POST'])
-def editCrestronLiveSports():
-
-	if request.method == 'GET':
-
-	
-		liveSports = utils.getCrestronLiveSports(g.db)
-
-		return render_template('LiveSports/crestronLiveSportsEdit.html',liveSports=liveSports,event='test')
-
-	try:
-
-		#hack to get delete thing working
-		for id,row in request.form.iterlists():
-			if id == 'delete':
-				continue
-		
-	 		row.append(id)
-	 	
-	 		g.db.execute('''UPDATE crestronLiveSports 
-	 				SET sport=?,
-	 					event=?,
-	 					date=?,
-	 					startTime=?,
-	 					duration=?,
-	 					stopTime=?,
-	 					channelName=?,
-	 					uctvNo=?
-	 					WHERE id = ?''',row)
-
-
-	 	deletions = [(int(i),) for i in request.form.getlist('delete')]
-	 	print request.form.getlist('delete')
-		g.db.executemany('''DELETE from crestronliveSports where id = ?''',deletions)
-		g.db.connection.commit()
-	except Exception as e:
-		
-		return jsonify(error=1,message="Error!! %s" % e.args[0]) 
-
-	liveSports = utils.getCrestronLiveSports(g.db)
-
-	return render_template('LiveSports/crestronLiveSportsTable.html',liveSports=liveSports)
-		
-@app.route('/crestronLiveSportsReload')
-def reload():
-	print g.db
-	utils.update_crestron_live_sports_db(g.db)
-
-	liveSports = utils.getCrestronLiveSports(g.db)
-
-	return render_template('LiveSports/crestronLiveSportsEdit.html',liveSports=liveSports,event='test')
-
-@app.route('/crestronLiveSportsUpdate')
-def crestronLiveSportsUpdate():
-
-	
-	# try:
-	# 	utils.make_crestron_live_sports_file(g.db)
-	# 	liveSports = utils.getCrestronLiveSports(g.db)
-	# 	return jsonify(error=0,message="Successfully updated Crestron Live Sports Text File")
-	# except Exception as e:
-	# 	print "error"
-	# 	return jsonify(error=1,message="Error!! %s" % e.args[0]) 
-
-	utils.make_crestron_live_sports_file(th.date_today(),g.db)
-	liveSports = utils.getCrestronLiveSports(g.db)
-	# 	return jsonify(error=0,message="Successfully updated Crestron Live Sports Text File")
-
-	return render_template('LiveSports/crestronLiveSportsTable.html',liveSports=liveSports,event="test")
-
-# Channel Lineup**********************************************************************************************
-@app.route('/lineups',methods=['GET','POST'])
-def channelLineup():
-
-	if request.method == 'GET':
-		query= g.db.execute('''SELECT * from uctvLineups ''')
-		channelLineups = [dict(row) for row in query.fetchall()]
-		return render_template('Lineups/channelLineups.html',channelLineups=channelLineups)
-
-
-	for i in request.form.getlist('edits[]'):
-		row = json.loads(i)
-		col = row['col']
-		val = row['value']
-		id = row['id']
-		print id,col,
-		g.db.execute('UPDATE uctvlineups SET ' + col + ' = ? WHERE id = ?',(val,id))
-	g.db.connection.commit()
-		
-
-
-	query= g.db.execute('''select * from uctvLineups ''')
-	channelLineups = [dict(row) for row in query.fetchall()]
-	return render_template('Lineups/channelLineups.html',channelLineups=channelLineups)
-
-@app.route('/addStation',methods=['POST'])
-def addStation():
-
-		if request.method == 'POST':
-
-			form = request.form
-
-		
-			channelName = form['channelName']
-			uctvNo = form['uctvNo']
-			lineupID = 1994
-
-			HD = 1 if 'HD' in form else 0
-			crestron = 1 if 'crestron' in form else 0
-			# print channelName,uctvNo,lineupID,crestron,HD
-
-			g.db.execute('''INSERT INTO uctvLineups (channelName,uctvNo,lineupID,HD,crestron)
-						VALUES (?,?,?,?,?)''',(channelName,uctvNo,lineupID,HD,crestron))
-
-			g.db.connection.commit()
-		
-
-			return 'success'
-
-		# g.db.execute('''INSERT INTO uctvLineups (callsign,channelName,stationID,lineupID,uctvNo,HD,crestron)
-		# 				VALUES (?,?,?,?,?,?,?)''',(form['callsign'],form['channelName'],form['stationID'],form['lineupID'],form['uctvNo'],HD,crestron))
-		
-		# try:
-		# 	print channelName,lineupID,uctvNo,str(HD),str(crestron)
-		# except Exception as e:
-		# 	print e
-
-			
-
-
-		return 'fail'
-
-@app.route('/findLineup',methods=['POST'])
-def addLineup():
-
-		zipcode = request.form['zipcode']
-		
-		lineups = api.lineups(zipcode)
-		
-		return render_template('Lineups/availableLineups.html',lineups=lineups)
-
-# Documentation **********************************************************************************************
-@app.route('/docs')
-def docs():
-
-	return render_template('Docs/docs.html')
-
-# Email. Formats email **********************************************************************************************
+# Email
 @app.route('/email',methods=['GET','POST'])
 def email():
 
@@ -341,41 +179,7 @@ def email():
 
 	
 	return render_template('LiveSports/email.html',sportslist=sportslist,date=request.form['date'])
-
-#Publishes infocaster text file **********************************************************************************************
-@app.route('/infocast',methods=['POST'])
-def publish_infocast():
-
-	try:
-		formDate = th.convert_date_string(request.form['date'])
-		formStart = th.convert_time_string(request.form['start'])
-		formStop = th.convert_time_string(request.form['stop']) 
-		# make_infocaster_file(START,STOP,DATETODAY,cursor)
-		utils.make_infocaster_file(formStart,formStop,formDate,g.db)
-
-		return jsonify(error=0,message="Infocaster Text File Updated at %s\\%s" % (config.DIR_INFOCASTER_TEXT,"uctvSportsSchedule.txt"))
-
-	except Exception as e:
-
-		return jsonify(error=1,message="Publish Infocast failed!!!: %s" % e.args[0])
-
-	
-# Reload database from API **********************************************************************************************
-@app.route('/reloadSports')
-def reloadSports():
-
-	try: 
-
-		utils.get_lineup_listings(START,STOP,DATE_TODAY,config.LINEUPS,g.db)
-
-		sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
-	
-	
-		return render_template('LiveSports/liveSportsTable.html',sportslist=sportslist)
-	except Exception as e:
-		return jsonify(error=1,message="Reload failed!!! %s" % e.args[0])
- 		
-# Make a PDF ***********************************************************************************************************
+#PDF
 @app.route('/pdf',methods=['POST'])
 def pdf():
 	pdfconfig = pdfkit.configuration(wkhtmltopdf=config.EXE_WKHTMLTOPDF)
@@ -420,6 +224,178 @@ def pdf():
 	pdfkit.from_file('pdf.html', out_pdf,configuration=pdfconfig,options=pdf_options)
 
 	return "Successfully created %s" % out_pdf
+# Reload database from API **********************************************************************************************
+@app.route('/reloadSports')
+def reloadSports():
+
+	try: 
+
+		utils.get_lineup_listings(START,STOP,DATE_TODAY,config.LINEUPS,g.db)
+
+		sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
+	
+	
+		return render_template('LiveSports/liveSportsTable.html',sportslist=sportslist)
+	except Exception as e:
+		return jsonify(error=1,message="Reload failed!!! %s" % e.args[0])
+
+
+# Crestron Live Sports **********************************************************************************************
+@app.route('/crestronLiveSports')
+def crestronLiveSports():
+
+	# liveSports = utils.getLiveSportsWithId(g.db)
+	liveSports = utils.getCrestronLiveSports(g.db)
+	event = utils.check_for_event(th.date_today(),g.db);
+
+	return render_template('LiveSports/crestronLiveSports.html',liveSports=liveSports,event=event)	
+@app.route('/editCrestronLiveSports',methods=['GET','POST'])
+def editCrestronLiveSports():
+
+	if request.method == 'GET':
+
+		liveSports = utils.getCrestronLiveSports(g.db)
+
+		return render_template('LiveSports/crestronLiveSportsEdit.html',liveSports=liveSports,event='test')
+
+	try:
+		#hack to get delete thing working
+		for id,row in request.form.iterlists():
+			if id == 'delete':
+				continue
+		
+	 		row.append(id)
+	 	
+	 		g.db.execute('''UPDATE crestronLiveSports 
+	 				SET sport=?,
+	 					event=?,
+	 					date=?,
+	 					startTime=?,
+	 					duration=?,
+	 					stopTime=?,
+	 					channelName=?,
+	 					uctvNo=?
+	 					WHERE id = ?''',row)
+
+
+	 	deletions = [(int(i),) for i in request.form.getlist('delete')]
+	 	print request.form.getlist('delete')
+		g.db.executemany('''DELETE from crestronliveSports where id = ?''',deletions)
+		g.db.connection.commit()
+		print 'commited changes'
+	except Exception as e:
+		
+		return jsonify(error=1,message="Error!! %s" % e.args[0]) 
+	utils.make_crestron_live_sports_file(th.date_today(),g.db)
+	
+	liveSports = utils.getCrestronLiveSports(g.db)
+
+	return render_template('LiveSports/crestronLiveSportsTable.html',liveSports=liveSports)		
+@app.route('/crestronLiveSportsReload')
+def reload():
+	print g.db
+	utils.update_crestron_live_sports_db(g.db)
+
+	liveSports = utils.getCrestronLiveSports(g.db)
+
+	return render_template('LiveSports/crestronLiveSportsEdit.html',liveSports=liveSports,event='test')
+
+
+# Channel Lineup**********************************************************************************************
+@app.route('/lineups',methods=['GET','POST'])
+def channelLineup():
+
+	if request.method == 'GET':
+		query= g.db.execute('''SELECT * from uctvLineups ''')
+		channelLineups = [dict(row) for row in query.fetchall()]
+		return render_template('Lineups/channelLineups.html',channelLineups=channelLineups)
+
+
+	for i in request.form.getlist('edits[]'):
+		row = json.loads(i)
+		col = row['col']
+		val = row['value']
+		id = row['id']
+		print id,col,
+		g.db.execute('UPDATE uctvlineups SET ' + col + ' = ? WHERE id = ?',(val,id))
+	g.db.connection.commit()
+		
+
+
+	query= g.db.execute('''select * from uctvLineups ''')
+	channelLineups = [dict(row) for row in query.fetchall()]
+	return render_template('Lineups/channelLineups.html',channelLineups=channelLineups)
+@app.route('/addStation',methods=['POST'])
+def addStation():
+
+		if request.method == 'POST':
+
+			form = request.form
+
+		
+			channelName = form['channelName']
+			uctvNo = form['uctvNo']
+			lineupID = 1994
+
+			HD = 1 if 'HD' in form else 0
+			crestron = 1 if 'crestron' in form else 0
+			# print channelName,uctvNo,lineupID,crestron,HD
+
+			g.db.execute('''INSERT INTO uctvLineups (channelName,uctvNo,lineupID,HD,crestron)
+						VALUES (?,?,?,?,?)''',(channelName,uctvNo,lineupID,HD,crestron))
+
+			g.db.connection.commit()
+		
+
+			return 'success'
+
+		# g.db.execute('''INSERT INTO uctvLineups (callsign,channelName,stationID,lineupID,uctvNo,HD,crestron)
+		# 				VALUES (?,?,?,?,?,?,?)''',(form['callsign'],form['channelName'],form['stationID'],form['lineupID'],form['uctvNo'],HD,crestron))
+		
+		# try:
+		# 	print channelName,lineupID,uctvNo,str(HD),str(crestron)
+		# except Exception as e:
+		# 	print e
+
+			
+
+
+		return 'fail'
+@app.route('/findLineup',methods=['POST'])
+def addLineup():
+
+		zipcode = request.form['zipcode']
+		
+		lineups = api.lineups(zipcode)
+		
+		return render_template('Lineups/availableLineups.html',lineups=lineups)
+
+# Documentation **********************************************************************************************
+@app.route('/docs')
+def docs():
+
+	return render_template('Docs/docs.html')
+
+
+#Publishes infocaster text file **********************************************************************************************
+@app.route('/infocast',methods=['POST'])
+def publish_infocast():
+
+	try:
+		formDate = th.convert_date_string(request.form['date'])
+		formStart = th.convert_time_string(request.form['start'])
+		formStop = th.convert_time_string(request.form['stop']) 
+		# make_infocaster_file(START,STOP,DATETODAY,cursor)
+		utils.make_infocaster_file(formStart,formStop,formDate,g.db)
+
+		return jsonify(error=0,message="Infocaster Text File Updated at %s\\%s" % (config.DIR_INFOCASTER_TEXT,"uctvSportsSchedule.txt"))
+
+	except Exception as e:
+
+		return jsonify(error=1,message="Publish Infocast failed!!!: %s" % e.args[0])
+	
+
+ 		
 
 @app.route('/sandbox')
 def sandbox():
@@ -428,3 +404,24 @@ def sandbox():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5005)
+
+
+
+
+# @app.route('/crestronLiveSportsUpdate')
+# def crestronLiveSportsUpdate():
+
+	
+# 	# try:
+# 	# 	utils.make_crestron_live_sports_file(g.db)
+# 	# 	liveSports = utils.getCrestronLiveSports(g.db)
+# 	# 	return jsonify(error=0,message="Successfully updated Crestron Live Sports Text File")
+# 	# except Exception as e:
+# 	# 	print "error"
+# 	# 	return jsonify(error=1,message="Error!! %s" % e.args[0]) 
+
+# 	utils.make_crestron_live_sports_file(th.date_today(),g.db)
+# 	liveSports = utils.getCrestronLiveSports(g.db)
+# 	# 	return jsonify(error=0,message="Successfully updated Crestron Live Sports Text File")
+
+# 	return render_template('LiveSports/crestronLiveSportsTable.html',liveSports=liveSports,event="test")

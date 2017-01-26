@@ -97,61 +97,50 @@ def edit():
 	return render_template('LiveSports/liveSportsEdit.html',sportslist=sportslist)
 @app.route('/saveLiveSportsEdit',methods=['POST'])
 def save():
-		print "saving edits"
-
-		print request.form
-
-		for k,v in request.form.iterlists():
-			print k,v[0]
-
-		return "success"
-		
-		# try:
-		# 	for id,row in request.form.iterlists():
-				
-		# 		#this filters form data so that we ignore unwanted data
-		# 		#len == 5 make sure delete's are ignored
-		# 		if len(row) > 1:
-		# 			#converts time to 24 hour clock
-		# 			print row[1]
-		# 			row[1] = th.convert_time_string(row[1])
-		# 			#adds id to end of row list
-		# 			row.append(id)
-					
-		# 			g.db.execute('''UPDATE liveSports SET event=?,startTime=?,channelName=?,HDNo=?,SDNo=? 
-		# 			WHERE id = ?''',row)
-
-		# 	deletions = [(int(i),) for i in request.form.getlist('delete')]
-		# 	g.db.executemany('''DELETE from liveSports where id = ?''',deletions)
-		# 	g.db.connection.commit()
-		
-		# 	sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
-
 	
-		# 	response = render_template('LiveSports/liveSportsTable.html',sportslist=sportslist)
-		# 	return jsonify(html=response,error=0,message="Live Sports Updated");
+		try:
+			for id,row in request.form.iterlists():
+				
+				if id != 'delete':
+				
+					row[1] = th.convert_time_string(row[1])
+					#adds id to end of row list
+					row.append(id)
+					print row
+					
+					g.db.execute('''UPDATE liveSports SET event=?,startTime=?
+					WHERE listingID = ?''',row)
 
-		# except sqlite3.Error,e:
+			deletions = [(int(i),) for i in request.form.getlist('delete')]
+			g.db.executemany('''DELETE from liveSports where listingID = ?''',deletions)
+			g.db.connection.commit()
+		
+			sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
+			response = render_template('LiveSports/liveSportsTable.html',sportslist=sportslist)
+			return jsonify(html=response,error=0,message="Live Sports Updated");
 
-		# 	print "errie"
+		except sqlite3.Error,e:
 
-		# 	return jsonify(error=1,message="Error!! %s" % e.args[0]) 
+			return jsonify(error=1,message="Error!! %s" % e.args[0]) 
+
 @app.route('/add',methods=['GET','POST'])
 def add():
 	print "adding new event"
 	try:
 		r = request.form
-
-		print r
+		import random
+		listingID = random.randint(1,100)
 		date = th.date_today()
 		time = th.convert_time_string(r['time'])
-		row = [r['channel'],r['uctvNo'],date,time,r['event'],r['sport']]
-		g.db.execute('''INSERT INTO liveSports (channelName,uctvNo,date,startTime,event,sport)
+		row = [date,time,r['event'],r['sport'],r['stationID'],listingID]
+		g.db.execute('''INSERT INTO liveSports (date,startTime,event,sport,stationID,listingID)
 						VALUES (?,?,?,?,?,?)''',row)
 
 		g.db.connection.commit()
 
-		return jsonify(error=0,message="Event added to Database")
+		sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
+		response = render_template('LiveSports/liveSportsTable.html',sportslist=sportslist)
+		return jsonify(html=response,error=0,message="Event Added");
 
 	except Exception as e:
 
@@ -228,15 +217,18 @@ def pdf():
 @app.route('/reloadSports')
 def reloadSports():
 
-	try: 
+	print "reload sports"
 
-		utils.get_lineup_listings(START,STOP,DATE_TODAY,config.LINEUPS,g.db)
+	try: 
+		print "trying"
+		utils.get_lineup_listings(START,STOP,DATETODAY,config.LINEUPS,g.db)
 
 		sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
 	
-	
+		print sportslist
 		return render_template('LiveSports/liveSportsTable.html',sportslist=sportslist)
 	except Exception as e:
+		print e.args
 		return jsonify(error=1,message="Reload failed!!! %s" % e.args[0])
 
 

@@ -94,7 +94,7 @@ $(document).ready(function() {
         })
 
         let save = function() {
-            console.log(edits)
+            
 
             params = {
                 "edits": edits
@@ -185,7 +185,7 @@ $(document).ready(function() {
 /**************************************************************************************/
 
     $.get("/liveSports", function(data) {
-        console.log(data)
+       
         $("#liveSports").html(data);
 
 
@@ -305,6 +305,7 @@ $(document).ready(function() {
                  errorCheck(data);
                  console.log(data);
                 $("#edit_schedule_popup").modal('hide');
+                $("#liveSportsTable").empty().append(data['html']);
 
             // $.post('/saveLiveSportsEdit',$('form').serialize(),function(data){
             //      errorCheck(data);
@@ -386,7 +387,7 @@ $(document).ready(function() {
             console.log('update');
 
             $.get('/crestronLiveSportsUpdate', function(data) {
-                console.log(data);
+                
                 errorCheck(data);
             });
 

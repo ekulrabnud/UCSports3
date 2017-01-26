@@ -185,6 +185,9 @@ def get_live_sports(date,start,stop,cursor):
 		newListings = combiner(liveSports)
 		sportslist = th.sort_by_time(newListings)
 
+		# for i in sportslist:
+		# 	print i
+
 		return sportslist
 
 def make_infocaster_file(startTime,stopTime,date,cursor):

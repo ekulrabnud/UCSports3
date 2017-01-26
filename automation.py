@@ -29,7 +29,7 @@ args = parser.parse_args()
 def do_it_early(start_time):
 	
 	try:
-		start,stop = th.sevenDay_start_stop_time()
+		# start,stop = th.sevenDay_start_stop_time()
 		
 		utils.get_lineup_listings(ALL_DAY_START,DAY_STOP,TODAY,config.LINEUPS,cursor)
 		print "Got Lineup Listings"

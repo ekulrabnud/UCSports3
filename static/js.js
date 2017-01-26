@@ -81,6 +81,95 @@ $(document).ready(function() {
         });
     }
 
+    function tableEdit(table) {
+
+        let origValue;
+        let edits = [];
+
+        cell = table.find('td');
+        checkbox = table.find('input[type="checkbox"]')
+
+        $("#save_lineups").on('click', function() {
+            save();
+        })
+
+        let save = function() {
+            console.log(edits)
+
+            params = {
+                "edits": edits
+            }
+
+            $.post('/lineups', params, function(data) {
+
+                edits = [];
+
+            })
+        }
+
+        cell.on('click', function() {
+            if ($(this).attr("contentEditable")) {
+                origValue = $(this).text();
+            }
+        })
+
+        checkbox.on('change', function() {
+
+
+
+            let checkbox;
+            let id = $(this).parent().parent().attr('id')
+            let col = $(this).attr('name')
+            console.log(col)
+
+            console.log(id, col)
+
+            if ($(this).is(":checked")) {
+                checkbox = 1;
+                row = {
+                    id: id,
+                    col: col,
+                    value: checkbox
+                }
+                edits.push(JSON.stringify(row))
+
+                console.log('checked')
+            } else {
+                checkbox = 0;
+                row = {
+                    id: id,
+                    col: col,
+                    value: checkbox
+                }
+                edits.push(JSON.stringify(row))
+                console.log('not checked')
+            }
+
+        })
+
+        cell.on('blur', function() {
+
+            let value = $(this).text();
+            let id = $(this).parent().attr('id')
+            let col = $(this).attr('class')
+
+            row = {
+                id: id,
+                col: col,
+                value: value.trim()
+            }
+
+            if (value === origValue) {
+                console.log(value + ' has not changed')
+            } else {
+                edits.push(JSON.stringify(row));
+                console.log(row)
+            }
+
+        })
+    }
+
+
  
 /**************************************************************************************/
 
@@ -96,12 +185,14 @@ $(document).ready(function() {
 /**************************************************************************************/
 
     $.get("/liveSports", function(data) {
-
+        console.log(data)
         $("#liveSports").html(data);
+
+
 
         $("#save").prop('disabled',true);
     
-        cellEdit();
+        // cellEdit();
 
         var initializeDatePicker = function() {
           
@@ -303,7 +394,7 @@ $(document).ready(function() {
 
     });
 
-       $.get("/lineups", function(data) {
+    $.get("/lineups", function(data) {
 
                 $("#lineups").html(data);
 
@@ -354,93 +445,6 @@ $(document).ready(function() {
 /**************************************************************************************/
 // var lineupedits = [];
 
-    function tableEdit(table) {
-
-        let origValue;
-        let edits = [];
-
-        cell = table.find('td');
-        checkbox = table.find('input[type="checkbox"]')
-
-        $("#save_lineups").on('click', function() {
-            save();
-        })
-
-        let save = function() {
-            console.log(edits)
-
-            params = {
-                "edits": edits
-            }
-
-            $.post('/lineups', params, function(data) {
-
-                edits = [];
-
-            })
-        }
-
-        cell.on('click', function() {
-            if ($(this).attr("contentEditable")) {
-                origValue = $(this).text();
-            }
-        })
-
-        checkbox.on('change', function() {
-
-
-
-            let checkbox;
-            let id = $(this).parent().parent().attr('id')
-            let col = $(this).attr('name')
-            console.log(col)
-
-            console.log(id, col)
-
-            if ($(this).is(":checked")) {
-                checkbox = 1;
-                row = {
-                    id: id,
-                    col: col,
-                    value: checkbox
-                }
-                edits.push(JSON.stringify(row))
-
-                console.log('checked')
-            } else {
-                checkbox = 0;
-                row = {
-                    id: id,
-                    col: col,
-                    value: checkbox
-                }
-                edits.push(JSON.stringify(row))
-                console.log('not checked')
-            }
-
-        })
-
-        cell.on('blur', function() {
-
-            let value = $(this).text();
-            let id = $(this).parent().attr('id')
-            let col = $(this).attr('class')
-
-            row = {
-                id: id,
-                col: col,
-                value: value.trim()
-            }
-
-            if (value === origValue) {
-                console.log(value + ' has not changed')
-            } else {
-                edits.push(JSON.stringify(row));
-                console.log(row)
-            }
-
-        })
-    }
 
 
 

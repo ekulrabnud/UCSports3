@@ -75,8 +75,8 @@ def liveSports():
 	if request.method == 'GET':
 		print 'GETTING SPORTS ' + DATETODAY,START,STOP
 		sportslist = utils.get_live_sports(DATETODAY,START,STOP,g.db)
-		
-		return render_template('LiveSports/liveSports.html',sportslist=sportslist,request=request)
+	
+		return render_template('LiveSports/liveSports.html',sportslist=sportslist)
 
 	#submit new date time range for query
 	elif request.method == 'POST':

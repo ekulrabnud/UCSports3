@@ -1,32 +1,26 @@
-/* Colors
-
-#2C4590 dark bl
-#7A95E7 background
-#123FC6 blue
-
- */
-/*/*
-/*body{
-	background-color:#D7DFF0;
-}*/
-
-/*#liveSportsControlPanel{
-border-radius: 10px;
-
-}
-*/
-/*.navbar{
-	background-color:#264AB7 ;
-	color:white !important;
-	border-radius:5px ;
-	height:100px ;
-}
-*/
-
 
 body{
-	background-color:#FFF;
+	background-color:#D7DFF0;
 }
+
+table{
+	background-color:#FFF;
+	border:5px solid black;
+	border-color:#264AB7 !important;
+	border-radius: 10px !important;
+	border-width:medium !important;
+}
+
+
+th{
+
+	border:5px solid black;
+
+}
+
+
+
+
 #liveSportsCalForm{
 	padding-bottom: 10px;
 
@@ -37,7 +31,6 @@ body{
 	padding-right: 5px;
 	padding-bottom: 10px;
 	padding-left:5px;
-
 	
 }
 #lineupsButtons{
@@ -55,25 +48,13 @@ body{
 .navbar-brand{
 	color:white !important;
 }
-
 .navbar{
-	background-color: blue;
-	border-radius: 10px;
-	
-	
+	background-color: #264AB7;
+	border-radius: 10px;		
 }
-
 .nav-pills a{
 	color:white !important;
 }
-
-/*.nav-pills a:hover{
-    color:red !important;
-}
-*/
-/*.nav-pills li:active{
-    background-color:green !important;
-}*/
 
 .nav-pills>li.active>a, 
 .nav-pills>li.active>a:focus, 
@@ -81,55 +62,34 @@ body{
     color: #fff !important;
     background-color: #337ab7 !important;
 }
-
 #crestronLiveButtons{
 	padding-right: 50px;
-	padding-bottom: 10px;
-	
+	padding-bottom: 10px;	
 }
-
 #lineupsButtons{
-		padding-right: 40px;
-	
+	padding-right: 40px;	
 }
-
-
-
-
-
-
-
 
 #mainContent{
 	padding-top:20px;
-
 }
-
 .thSports{
-	background-color:#87BC5E!important;
-
+	background-color:#87BC5E;
 }
 
 
-#index{
+/*#index{
 	border-style:solid;
 	border-color:#264AB7;
 	border-radius: 10px;
 	border-width:medium;
-}
+}*/
 
 #info{
 	margin-left:20px;
 }
 
-#printHeading{
-	display: none;
-}
-.printHeading{
-	display:none;
-}
-
-#channelLineup,#sportsLineup{
+/*#channelLineup,#sportsLineup{
 	margin-top:10px;
 	border-style:solid;
 	border-color:#264AB7;
@@ -137,9 +97,18 @@ body{
 	border-width:medium;
 	background-color: #FFFFFF;
 }
-
+*/
 #datePicker,#startTimePicker,#endTimePicker{
 	width:150px;
+}
+
+
+
+#printHeading{
+	display: none;
+}
+.printHeading{
+	display:none;
 }
 
 

@@ -54,8 +54,8 @@ def combiner(listings):
 def check_for_event(date,db):
 	
 	query = db.execute('''SELECT * FROM ucEventCalendar WHERE date = ?''',(date,))
-	# result = query.fetchone()
-	result = ('nothing','nothingh','7pm','testevent')
+	result = query.fetchone()
+	# result = ('nothing','nothingh','7pm','testevent')
 
 	if result:
 		event_start = result[2]

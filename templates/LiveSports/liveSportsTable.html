@@ -2,7 +2,7 @@
 
 <h3  id="pdfHeading" class="printHeading"> </h3>
 
-    <table role="table" class="table table-bordered table-condensed liveSportsTable ">
+    <table role="table" class="table table-bordered table-condensed">
         <tr>
             <th></th>
             <th>Time</th>
@@ -11,7 +11,7 @@
             <th>SD</th>
         </tr>
         {% for sport in sportslist|groupby('sport') %}
-            <th class="thSports">{{sport.grouper}}</th>
+            <tr><th class="thSports">{{sport.grouper}}</th><th></th><th></th><th></th><th></th></tr>
             {% for i in sport.list %}
                 {% if 'Chicago' in i['event']%}
                     <tr class="pdf">

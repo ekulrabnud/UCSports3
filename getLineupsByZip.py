@@ -7,4 +7,4 @@ zip = 60612
 
 
 for i in api.lineups(zip):
-	print i['providerName'],i['lineupID']
+	print i['providerName'],i['lineupID'],i['serviceArea']

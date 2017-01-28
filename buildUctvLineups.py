@@ -2,12 +2,12 @@ import sqlite3
 from tvMediaApi_dev import TvMedia
 import config
 
-conn = sqlite3.connect('uctvDb')
+conn = sqlite3.connect(config['DATABASE'])
 conn.row_factory = sqlite3.Row
 c = conn.cursor()
 
 
-lineupList = ['6305D','41487']
+lineupList = ['6305D','41487','21094']
 api = TvMedia(config.APIKEY,config.BASE_URL)
 
 for i in lineupList:
@@ -15,7 +15,7 @@ for i in lineupList:
 
 availableLineups = [api.lineup_details(id) for id in lineupList]
 
-c.execute('DELETE FROM uctvLineupsDemo')
+c.execute('DELETE FROM uctvLineups')
 
 conn.commit()
 
@@ -29,7 +29,7 @@ for lineup in availableLineups:
             # sql = '''INSERT INTO uctvLineups (lineupID,channelNumber,channelName,stationID)
             #         VALUES (?,?,?,?)''',(lineup['lineupID'],i['channelNumber'],i['name'],i['stationID'])
             # print sql
-            c.execute('''INSERT INTO uctvLineupsDemo(lineupID,channelNumber,callsign,channelName,stationID)
+            c.execute('''INSERT INTO uctvLineups(lineupID,channelNumber,callsign,channelName,stationID)
                     VALUES (?,?,?,?,?)''',(lineup['lineupID'],i['channelNumber'],i['callsign'],i['name'],i['stationID']))
 
 

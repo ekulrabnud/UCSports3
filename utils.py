@@ -132,7 +132,7 @@ def get_lineup_listings(start,stop,date,lineups,cursor):
 					GROUP BY stationID,channelName,date,startTime
 					HAVING COUNT(*) >1) ''')
 	#clean up live sport
-								
+	print " insert into crestron live sports"						
 	cursor.execute('''INSERT INTO crestronLiveSports (channelName,uctvNo,sport,date,startTime,stopTime,duration,event)
 			SELECT 	uctvLineups.channelName,
 					uctvLineups.uctvNo,
